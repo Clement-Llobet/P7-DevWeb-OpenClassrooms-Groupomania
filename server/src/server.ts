@@ -1,12 +1,20 @@
-import express, { Request, Response } from "express";
+import express, { Application, Request, Response } from 'express'
 
-const app = express();
+const app: Application = express();
+const port = process.env.PORT || 3000;
 
-app.get("/", (req: Request, res: Response) => {
-    return res.send("Hello world")
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.get("/", async(req: Request, res: Response): Promise<Response> => {
+    return res.send("Welcome to Groupomania!")
 })
 
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
-    
-})
+try {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    })
+} catch(error) {
+    console.log(`An error occured:${error}`);
+}
+
