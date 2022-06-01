@@ -1,9 +1,7 @@
 import Employees from "./models/Employees";
 
-const isDev = process.env.NODE_ENV === "development";
-
 const dataBaseInit = () => {
-    Employees.sync({ alter: isDev })
+    Employees.sync({ alter: true } )
 }
 
 export default dataBaseInit

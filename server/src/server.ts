@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express'
+import routes from './api/routes';
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
@@ -18,3 +19,4 @@ try {
     console.log(`An error occured:${error}`);
 }
 
+// app.use('api/', routes);

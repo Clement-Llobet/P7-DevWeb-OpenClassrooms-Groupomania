@@ -28,21 +28,11 @@ Employees.init({
         autoIncrement: true,
         primaryKey: true
     },
-    name: {
-        type: DataTypes.STRING
-    },
-    surname: {
-        type: DataTypes.STRING
-    },
-    email: {
-        type: DataTypes.STRING
-    },
-    password: {
-        type: DataTypes.STRING
-    },
-    moderation: {
-        type: DataTypes.TINYINT
-    }
+    name: { type: DataTypes.STRING },
+    surname: { type: DataTypes.STRING },
+    email: { type: DataTypes.STRING },
+    password: { type: DataTypes.STRING },
+    moderation: { type: DataTypes.TINYINT }
 }, {
     sequelize: sequelizeConnection,
     paranoid: true
