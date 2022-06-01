@@ -2,12 +2,12 @@ import * as employeesDal from "../../database/dal/employees";
 import { GetAllEmployeesFilters } from "../../database/dal/types";
 import { EmployeesInput, EmployeesOutput } from "../../database/models/Employees";
 
-export const create = (data: EmployeesInput): Promise<EmployeesOutput> => {
-    return employeesDal.createEmployee(data);
+export const create = (payload: EmployeesInput): Promise<EmployeesOutput> => {
+    return employeesDal.createEmployee(payload);
 }
 
-export const update = (id: number, data: Partial<EmployeesInput>): Promise<EmployeesOutput> => {
-    return employeesDal.updateEmployee(id, data);
+export const update = (id: number, payload: Partial<EmployeesInput>): Promise<EmployeesOutput> => {
+    return employeesDal.updateEmployee(id, payload);
 }
 
 export const getEmployeesById = (id: number): Promise<EmployeesOutput> => {

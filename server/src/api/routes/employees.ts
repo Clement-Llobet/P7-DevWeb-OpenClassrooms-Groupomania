@@ -6,4 +6,4 @@ const employeesController = require('../controllers/employees');
 router.post('/signup', employeesController.postSignUp);
 router.post('/auth', employeesController.postLogin);
 
-export default employeesController;
+export default router;

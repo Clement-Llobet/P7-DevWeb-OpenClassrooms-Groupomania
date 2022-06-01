@@ -1,5 +1,5 @@
-import { Employee } from "../interfaces/employees.interfaces";
-import { EmployeesOutput } from "../../database/models/Employees";
+import { Employee } from "../../interfaces/employees.interfaces"
+import { EmployeesOutput } from "../../../database/models/Employees";
 
 export const toEmployee = (employee: EmployeesOutput): Employee => {
     return {
@@ -9,5 +9,6 @@ export const toEmployee = (employee: EmployeesOutput): Employee => {
         email: employee.email,
         password: employee.password,
         moderation: employee.moderation
+        // profileImage: employee.profileImage
     }
 }

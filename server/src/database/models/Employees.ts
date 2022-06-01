@@ -20,6 +20,7 @@ class Employees extends Model<EmployeesAttributes, EmployeesInput> implements Em
     public email!: string;
     public password!: string;
     public moderation!: number;
+    // Ajouter avatarProfilePitcture
 }
 
 Employees.init({

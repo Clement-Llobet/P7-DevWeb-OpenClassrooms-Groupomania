@@ -1,8 +1,12 @@
+import dotenv from 'dotenv'
 import express, { Application, Request, Response } from 'express'
 import routes from './api/routes';
+import dataBaseInit from "./database/init";
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
+dotenv.config();
+dataBaseInit();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,4 +23,4 @@ try {
     console.log(`An error occured:${error}`);
 }
 
-// app.use('api/', routes);
+app.use('/api', routes);

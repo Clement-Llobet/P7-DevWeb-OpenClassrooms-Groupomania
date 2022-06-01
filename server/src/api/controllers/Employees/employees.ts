@@ -1,5 +1,6 @@
-import { CreateEmployeeDTO, updateEmployeeDTO, FilterEmployeeDTO } from '../../database/dto/employee.dto';
-import { Employee } from '../interfaces/employees.interfaces';
+import * as service from "../../services/EmployeesServices"
+import { CreateEmployeeDTO, updateEmployeeDTO, FilterEmployeeDTO } from '../../../database/dto/employee.dto';
+import { Employee } from '../../interfaces/employees.interfaces';
 import * as mapper from './mapper';
 import { NextFunction } from "express";
 
@@ -7,7 +8,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.postSignUp = (req: Request, res: Response, next: NextFunction) => {
-    // bcrypt.hash(req.body.password, 10)
+    console.log(req);
+    
+    // const { password } = req.body;
+    // bcrypt.hash(req.body, 10)
     //     .then(hash => {
     //         const user = new Users({
     //             email: req.body.email,
