@@ -1,0 +1,30 @@
+require('dotenv').config();
+
+const config = {
+    "development": {
+        "name": process.env.DB_NAME,
+        "username": process.env.DB_USERNAME,
+        "password": process.env.DB_PASSWORD,
+        "database": process.env.DB_DATABASE,
+        "host": process.env.DB_HOST,
+        "dialect": process.env.DB_DRIVER
+    },
+    "test": {
+        "name": process.env.DB_NAME,
+        "username": "Groupomania",
+        "password": "dev",
+        "database": "database_test",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    },
+    "production": {
+        "name": process.env.DB_NAME,
+        "username": "Groupomania",
+        "password": "dev",
+        "database": "database_production",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    }
+};
+
+export default config
