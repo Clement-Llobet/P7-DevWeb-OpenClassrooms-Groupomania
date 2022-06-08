@@ -18,8 +18,8 @@ const Login = () => {
                     <label>Mot de passe</label>
                     <input type="password" name="password" id="registration_password" required/>
 
-                    <label>Profession</label>
-                    <select name="profession" id="registration_profession" required>
+                    <label>Statut</label>
+                    <select name="status" id="registration_status" required>
                         <option value="executive">Cadre</option>
                         <option value="non-executive">Non-cadre</option>
                     </select>

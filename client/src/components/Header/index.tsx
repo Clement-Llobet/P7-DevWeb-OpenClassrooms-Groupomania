@@ -1,11 +1,19 @@
-import { Link } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 
-const Header = () => {
+const Header: React.FC = () => {
     return (
-        <nav>
-            <Link to="/">Accueil</Link>
-            <Link to="/login">Connexion</Link>
-        </nav>
+        <div>
+            <nav>
+                <li>
+                    <Link to="/">Accueil</Link>
+                </li>
+                <li>
+                    <Link to="/login">Connexion</Link>
+                </li>
+            </nav>
+            {/* <Outlet /> */}
+        </div>
+        
     )
 }
 
