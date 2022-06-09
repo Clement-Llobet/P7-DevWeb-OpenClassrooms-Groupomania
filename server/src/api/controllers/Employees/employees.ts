@@ -2,26 +2,28 @@ import * as service from "../../services/EmployeesServices"
 import { CreateEmployeeDTO, updateEmployeeDTO, FilterEmployeeDTO } from '../../../database/dto/employee.dto';
 import { Employee } from '../../interfaces/employees.interfaces';
 import * as mapper from './mapper';
-import { NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
+import Employees from "../../../database/models/Employees";
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.postSignUp = (req: Request, res: Response, next: NextFunction) => {
-    console.log(req);
-    
-    // const { password } = req.body;
-    // bcrypt.hash(req.body, 10)
-    //     .then(hash => {
-    //         const user = new Users({
-    //             email: req.body.email,
-    //             password: hash
-    //         });
-    //         user.save()
-    //             .then(() => res.status(201).json({ message: "Utilisateur créé !"}))
-    //             .catch(error => res.status(400).json({ error }));
-    //     })
-    //     .catch(error => res.status(500).json({ error }));
+    bcrypt.hash(req.body.password, 10)
+        .then((hash: string | HashAlgorithmIdentifier) => {
+            const user = new Employees({
+                name: req.body.name,
+                surname: req.body.surname,
+                email: req.body.email,
+                password: hash,
+                moderation: req.body.moderation,
+                profilePicture: req.body.profilePicture
+            });
+            user.save()
+                .then(() => res.status(201).json({ message: "Utilisateur créé !"}))
+                .catch((error: Error) => res.status(400).json({ error }));
+        })
+        .catch((error: Error) => res.status(500).json({ error }));
 };
 
 exports.postLogin = (req: Request, res: Response, next: NextFunction) => {

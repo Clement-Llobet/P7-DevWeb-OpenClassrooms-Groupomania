@@ -8,7 +8,7 @@ export const toEmployee = (employee: EmployeesOutput): Employee => {
         surname: employee.surname,
         email: employee.email,
         password: employee.password,
-        moderation: employee.moderation
-        // profileImage: employee.profileImage
+        moderation: employee.moderation,
+        profilePicture: employee.profilePicture
     }
 }

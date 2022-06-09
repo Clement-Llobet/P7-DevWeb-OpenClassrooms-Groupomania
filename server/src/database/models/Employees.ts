@@ -6,8 +6,9 @@ interface EmployeesAttributes {
     name: string;
     surname: string;
     email: string;
-    password: string;
+    password: string | HashAlgorithmIdentifier;
     moderation: number;
+    profilePicture: string;
 }
 
 export interface EmployeesInput extends Optional<EmployeesAttributes, 'id'>{}
@@ -20,7 +21,7 @@ class Employees extends Model<EmployeesAttributes, EmployeesInput> implements Em
     public email!: string;
     public password!: string;
     public moderation!: number;
-    // Ajouter avatarProfilePitcture
+    public profilePicture!: string;
 }
 
 Employees.init({
@@ -33,7 +34,8 @@ Employees.init({
     surname: { type: DataTypes.STRING },
     email: { type: DataTypes.STRING },
     password: { type: DataTypes.STRING },
-    moderation: { type: DataTypes.TINYINT }
+    moderation: { type: DataTypes.TINYINT },
+    profilePicture : { type: DataTypes.STRING }
 }, {
     sequelize: sequelizeConnection,
     paranoid: true

@@ -3,6 +3,7 @@ export interface Employee {
     name: string,
     surname: string,
     email: string,
-    password: string,
-    moderation: number
+    password: string | HashAlgorithmIdentifier,
+    moderation: number,
+    profilePicture: string
 }
