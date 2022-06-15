@@ -19,7 +19,7 @@ class Employees extends Model<EmployeesAttributes, EmployeesInput> implements Em
     public name!: string;
     public surname!: string;
     public email!: string;
-    public password!: string;
+    public password!: string | HashAlgorithmIdentifier;
     public moderation!: number;
     public profilePicture!: string;
 }
