@@ -1,6 +1,6 @@
 // Data access layer
 
-import { Op, DataType } from "sequelize/types";
+import { Op, DataType } from "sequelize";
 import Employees, { EmployeesInput, EmployeesOutput } from "../models/Employees";
 import { GetAllEmployeesFilters } from "./types";
 
