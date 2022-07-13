@@ -8,3 +8,5 @@ router.post('/', postsController.createPost)
 router.delete('/:id', postsController.deletePostById)
 router.get('/:id', postsController.getPostById);
 router.get('/', postsController.getAllPosts);
+
+export default router;
