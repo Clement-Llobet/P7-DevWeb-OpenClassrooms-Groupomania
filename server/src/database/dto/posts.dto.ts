@@ -4,10 +4,6 @@ export type createPostsDto = {
     text: string;
     urlImage: string;
     publishDate: string;
-    likes: number;
-    dislikes: number;
-    usersLiked: string[];
-    usersDisliked: string[];
 }
 
 export type updatePostsDto = Optional<createPostsDto, "text">

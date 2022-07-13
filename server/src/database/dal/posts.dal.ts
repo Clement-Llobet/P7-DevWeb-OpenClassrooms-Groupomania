@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import Posts, { PostsInput, PostsOutput } from "../models/Posts";
+import Posts, { PostsInput, PostsOutput } from "../models/Posts.model";
 import { GetAllPostsFilters } from "./types";
 
 export const createPosts = async (data: PostsInput): Promise<PostsOutput> => {

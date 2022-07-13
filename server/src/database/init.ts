@@ -1,5 +1,5 @@
 require('dotenv').config()
-import Employees from "./models/Employees";
+import Employees from "./models/Employees.model";
 
 const isDev = process.env.NODE_ENV === 'development'
 

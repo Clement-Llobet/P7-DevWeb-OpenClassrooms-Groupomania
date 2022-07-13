@@ -6,10 +6,6 @@ interface PostsAttributes {
     text: string;
     urlImage: string;
     publishDate: string;
-    likes: number;
-    dislikes: number;
-    usersLiked: string[];
-    usersDisliked: string[];
 }
 
 export interface PostsInput extends Optional<PostsAttributes, "id">{}
@@ -20,10 +16,6 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public text!: string;
     public urlImage!: string;
     public publishDate!: string;
-    public likes!: number;
-    public dislikes!: number;
-    public usersLiked!: string[];
-    public usersDisliked!: string[];
 }
 
 Posts.init({
@@ -34,11 +26,7 @@ Posts.init({
         },
         text: { type: DataTypes.STRING },
         urlImage: { type: DataTypes.STRING },
-        publishDate: { type: DataTypes.STRING },
-        likes: { type: DataTypes.INTEGER },
-        dislikes: { type: DataTypes.INTEGER },
-        usersLiked: { type: DataTypes.STRING }, // Tableau de string ici
-        usersDisliked: { type: DataTypes.STRING } // Tableau de string ici
+        publishDate: { type: DataTypes.STRING }
     }, {
         sequelize: sequelizeConnection,
         paranoid: true

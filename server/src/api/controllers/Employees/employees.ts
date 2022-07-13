@@ -1,24 +1,20 @@
-import * as service from "../../services/EmployeesServices"
+import * as service from "../../services/EmployeesServices";
 import { CreateEmployeeDTO } from '../../../database/dto/employee.dto';
 import { Employee } from '../../interfaces/employees.interfaces';
-import * as mapper from "./mappers";
+import * as mapper from "./employeesMappers";
 import { Request, Response, NextFunction } from "express";
-import Employees from "../../../database/models/Employees";
+import Employees from "../../../database/models/Employees.model";
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-const sendUserToDatabase = async(payload: CreateEmployeeDTO): Promise<Employee> => {
+const sendUserToDatabase = async (payload: CreateEmployeeDTO): Promise<Employee> => {
     const mapEmployee = await mapper.toEmployee(await service.create(payload));
     return mapEmployee
 }
 
-
-exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
-    
-    const data = { ...req.body }
-
+const hashPasswordAndSaveUser = async (data: CreateEmployeeDTO, req: Request, res: Response, next: NextFunction) => {
     try {
         const hash = await bcrypt.hash(req.body.password, 10);
         data.password = hash
@@ -29,7 +25,12 @@ exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
     catch(error) {
         return res.status(500).json( error );
     }
+}
 
+
+exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
+    const data = { ...req.body }
+    hashPasswordAndSaveUser(data, req, res, next);
 };
 
 

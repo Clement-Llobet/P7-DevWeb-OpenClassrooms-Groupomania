@@ -1,7 +1,7 @@
 // Data access layer
 
 import { Op, DataType } from "sequelize";
-import Employees, { EmployeesInput, EmployeesOutput } from "../models/Employees";
+import Employees, { EmployeesInput, EmployeesOutput } from "../models/Employees.model";
 import { GetAllEmployeesFilters } from "./types";
 
 export const createEmployee = async (data: EmployeesInput): Promise<EmployeesOutput> => {

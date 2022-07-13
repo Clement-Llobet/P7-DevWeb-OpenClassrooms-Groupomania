@@ -1,6 +1,6 @@
-import * as employeesDal from "../../database/dal/employees";
+import * as employeesDal from "../../database/dal/employees.dal";
 // import { GetAllEmployeesFilters } from "../../database/dal/types";
-import { EmployeesInput, EmployeesOutput } from "../../database/models/Employees";
+import { EmployeesInput, EmployeesOutput } from "../../database/models/Employees.model";
 
 export const create = (payload: EmployeesInput): Promise<EmployeesOutput> => {
     return employeesDal.createEmployee(payload);

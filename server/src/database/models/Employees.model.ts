@@ -32,7 +32,10 @@ Employees.init({
     },
     name: { type: DataTypes.STRING },
     surname: { type: DataTypes.STRING },
-    email: { type: DataTypes.STRING },
+    email: { 
+        type: DataTypes.STRING,
+        unique: true
+     },
     password: { type: DataTypes.STRING },
     moderation: { type: DataTypes.TINYINT },
     profilePicture : { type: DataTypes.STRING }
