@@ -1,6 +1,8 @@
-import dotenv from 'dotenv'
-import express, { Application, NextFunction, Request, Response } from 'express'
-import routes from './api/routes';
+import dotenv from 'dotenv';
+import path from 'path';
+import express, { Application, NextFunction, Request, Response } from 'express';
+import employeesRoutes from './api/routes/employees';
+import postsRoutes from './api/routes/posts'
 import dataBaseInit from "./database/init";
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
@@ -42,4 +44,6 @@ try {
     console.log(`An error occured:${error}`);
 }
 
-app.use('/api', apiLimiter, routes);
+app.use('/api/auth', apiLimiter, employeesRoutes);
+app.use('/api/posts', postsRoutes);
+app.use('/images', express.static(path.join(__dirname, 'images')));

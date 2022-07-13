@@ -4,7 +4,7 @@ import postsRouter from './posts';
 
 const router = express.Router();
 
-router.use('/employee', employeesRouter);
-router.use('/posts', postsRouter);
+router.use('/', employeesRouter);
+router.use('/post', postsRouter);
 
 export default router
