@@ -1,44 +1,54 @@
-const Login = () => {
-    return (
-        <section>
-            <h2>Connexion ou inscription à Groupomania</h2>
-            <form method="post" action="">
-                <fieldset>
-                    <legend>Inscription</legend>
+import { Link } from 'react-router-dom';
+import { FC, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-                    <label>Nom</label>
-                    <input type="text" name="name" id="registration_name" required />
-
-                    <label>Prénom</label>
-                    <input type="text" name="surname" id="registration_surname" required />
-
-                    <label>Email</label>
-                    <input type="email" id="registration_email" required />
-
-                    <label>Mot de passe</label>
-                    <input type="password" name="password" id="registration_password" required/>
-
-                    <label>Statut</label>
-                    <select name="status" id="registration_status" required>
-                        <option value="executive">Cadre</option>
-                        <option value="non-executive">Non-cadre</option>
-                    </select>
-
-                    <label>Avatar</label>
-                    <input type="text" id="registration_avatar"/>
-                </fieldset>
-                <fieldset>
-                    <legend>Connexion</legend>
-
-                    <label>Email</label>
-                    <input type="email" id="employee_email" required />
-
-                    <label>Mot de passe</label>
-                    <input type="password" name="password" id="employee_password" required/>
-                </fieldset>
-            </form>
-        </section>
-    )
+interface FormData {
+  email: string;
+  password: string;
 }
+
+const Login: FC = () => {
+  const [name, setName] = useState('Clément');
+  const { register, handleSubmit, setError } = useForm<FormData>();
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
+
+  return (
+    <section>
+      <h2>Connexion à Groupomania</h2>
+      <form action="" onSubmit={onSubmit}>
+        <fieldset>
+          <legend>Connexion</legend>
+
+          <label>Email</label>
+          <input
+            {...register('email', {
+              required: true,
+            })}
+            type="email"
+            name="email"
+            id="employee_email"
+          />
+
+          <label>Mot de passe</label>
+          <input
+            {...register('password')}
+            type="password"
+            name="password"
+            id="employee_password"
+            required
+          />
+        </fieldset>
+      </form>
+      <button>Valider</button>
+
+      <p>
+        Pas encore inscrit ? <Link to="/register">Connectez-vous ici</Link>
+      </p>
+    </section>
+  );
+};
 
 export default Login;
