@@ -1,24 +1,41 @@
 import { Link } from 'react-router-dom';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Error from '../components/Error';
 
 interface FormData {
   email: string;
   password: string;
 }
 
+const regex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 const Login: FC = () => {
   const [name, setName] = useState('Clément');
-  const { register, handleSubmit, setError } = useForm<FormData>();
+  const [isEmail, setIsEmail] = useState(false);
+  const { register, handleSubmit } = useForm<FormData>();
+  // const [authData, setAuthData] = useState({});
 
-  const onSubmit = handleSubmit((data) => {
+  // useEffect(() => {
+  //   fetch('https://localhost:8000/api/auth')
+  //     .then((response) => response.json())
+  //     .then(({ authData }) => console.log(authData))
+  //     .catch((error) => console.log(error));
+  // }, []);
+
+  const OnSubmit = (data: any) => {
     console.log(data);
-  });
+  };
+
+  const isFunction = (input: any) => {
+    console.log(input);
+  };
 
   return (
     <section>
       <h2>Connexion à Groupomania</h2>
-      <form action="" onSubmit={onSubmit}>
+      <form action="">
         <fieldset>
           <legend>Connexion</legend>
 
@@ -26,11 +43,14 @@ const Login: FC = () => {
           <input
             {...register('email', {
               required: true,
+              // validate: input => isFunction(input)
             })}
             type="email"
             name="email"
             id="employee_email"
+            onChange={OnSubmit}
           />
+          <p id="invalid-email-text"></p>
 
           <label>Mot de passe</label>
           <input
@@ -40,6 +60,7 @@ const Login: FC = () => {
             id="employee_password"
             required
           />
+          <p id="invalid-password-text"></p>
         </fieldset>
       </form>
       <button>Valider</button>
