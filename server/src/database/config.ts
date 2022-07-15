@@ -12,5 +12,6 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: dbDriver as Dialect
 })
 
+
 export default sequelizeConnection
 

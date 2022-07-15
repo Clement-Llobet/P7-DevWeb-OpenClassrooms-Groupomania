@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelizeConnection from "../config";
+import Likes from "./Likes.model";
 
 interface EmployeesAttributes {
     id: number;
@@ -24,24 +25,30 @@ class Employees extends Model<EmployeesAttributes, EmployeesInput> implements Em
     public profilePicture!: string;
 }
 
-Employees.init({
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true
-    },
-    name: { type: DataTypes.STRING },
-    surname: { type: DataTypes.STRING },
-    email: { 
-        type: DataTypes.STRING,
-        unique: true
-     },
-    password: { type: DataTypes.STRING },
-    moderation: { type: DataTypes.TINYINT },
-    profilePicture : { type: DataTypes.STRING }
-}, {
-    sequelize: sequelizeConnection,
-    paranoid: true
-})
+Employees
+    .init({
+        id: {
+            type: DataTypes.INTEGER.UNSIGNED,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        name: { type: DataTypes.STRING },
+        surname: { type: DataTypes.STRING },
+        email: {
+            type: DataTypes.STRING,
+            unique: true
+        },
+        password: { type: DataTypes.STRING },
+        moderation: { type: DataTypes.TINYINT },
+        profilePicture : { type: DataTypes.STRING }
+    }, {
+        sequelize: sequelizeConnection,
+        paranoid: true
+    })
+    .belongsToMany(Likes, {
+        through: "Posts",
+        as: "Likes",
+        foreignKey: "Employees_id"
+    })
 
 export default Employees

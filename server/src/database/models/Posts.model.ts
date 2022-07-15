@@ -18,19 +18,19 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public publishDate!: string;
 }
 
-Posts.init({
+Posts
+    .init({
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
             primaryKey: true
-        },
+            },
         text: { type: DataTypes.STRING },
         urlImage: { type: DataTypes.STRING },
         publishDate: { type: DataTypes.STRING }
     }, {
         sequelize: sequelizeConnection,
         paranoid: true
-    }
-)
+    })
 
 export default Posts
