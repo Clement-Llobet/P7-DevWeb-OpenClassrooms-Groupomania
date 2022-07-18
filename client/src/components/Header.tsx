@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   return (
@@ -9,10 +9,9 @@ const Header: React.FC = () => {
           <Link to="/">Accueil</Link>
         </li>
         <li>
-          <Link to="/login">Connexion</Link>
+          <Link to="#">Déconnexion</Link>
         </li>
       </nav>
-      {/* <Outlet /> */}
     </div>
   );
 };

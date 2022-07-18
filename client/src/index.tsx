@@ -5,8 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Error from './components/Error';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import CreatePost from './pages/CreatePost';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,14 +13,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Header />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/createpost" element={<CreatePost />} />
         <Route path="/error" element={<Error />} />
       </Routes>
-      <Footer />
     </BrowserRouter>
   </React.StrictMode>
 );
