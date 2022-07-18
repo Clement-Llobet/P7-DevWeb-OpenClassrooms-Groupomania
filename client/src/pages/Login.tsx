@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FC, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Error from '../components/Error';
 
 interface FormData {
   email: string;

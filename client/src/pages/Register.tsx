@@ -4,29 +4,27 @@ const Register: React.FC = () => {
   const [register, isRegister] = useState(false);
 
   useEffect(() => {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: 'Bidule',
-        surname: 'MachinChouette',
-        email: 'machinchouettebidule@mail.com',
-        password: ',kjfhfbwdf,sdjfkn!è§',
-        moderation: 0,
-        profilePicture:
-          'https://upload.chien.com/img_global/24-comportement-education-du-chien/les-problemes-comportementaux-du-chien/_light-17621-pourquoi-les-chiens-ont-plus-de-problemes-de-comportement-de-nos-jours.jpg',
-      }),
-    };
-
-    const signUp = () => {
-      fetch(`https://localhost:3000/api/signup`, requestOptions)
-        .then((response) => response.json())
-        .then(({ data }) => console.log(data))
-        .catch((error) => console.log(error));
-    };
-
-    signUp();
-  });
+    // const requestOptions = {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({
+    //     name: 'Bidule',
+    //     surname: 'MachinChouette',
+    //     email: 'machinchouettebidule@mail.com',
+    //     password: ',kjfhfbwdf,sdjfkn!è§',
+    //     moderation: 0,
+    //     profilePicture:
+    //       'https://upload.chien.com/img_global/24-comportement-education-du-chien/les-problemes-comportementaux-du-chien/_light-17621-pourquoi-les-chiens-ont-plus-de-problemes-de-comportement-de-nos-jours.jpg',
+    //   }),
+    // };
+    // const signUp = () => {
+    //   fetch(`https://localhost:8000/api/signup`, requestOptions)
+    //     .then((response) => response.json())
+    //     .then(({ data }) => console.log(data))
+    //     .catch((error) => console.log(error));
+    // };
+    // signUp();
+  }, []);
 
   return (
     <section>
@@ -58,6 +56,7 @@ const Register: React.FC = () => {
 
           <label>Statut</label>
           <select name="status" id="registration_status" required>
+            <option value="executive">Votre statut</option>
             <option value="executive">Cadre</option>
             <option value="non-executive">Non-cadre</option>
           </select>
