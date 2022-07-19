@@ -37,10 +37,10 @@ Likes
         sequelize: sequelizeConnection,
         paranoid: true
     })
-    // .belongsToMany(Employees, {
-    //     through: "Posts",
-    //     as: "Employees",
-    //     foreignKey: "Posts_id"
-    // })
+    .belongsToMany(Employees, {
+        through: "Posts",
+        as: "Employees",
+        foreignKey: "Posts_id"
+    })
 
 export default Likes
