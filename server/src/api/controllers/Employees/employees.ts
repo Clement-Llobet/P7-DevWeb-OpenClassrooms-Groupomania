@@ -14,23 +14,17 @@ const sendUserToDatabase = async (payload: CreateEmployeeDTO): Promise<Employee>
     return mapEmployee
 }
 
-const hashPasswordAndSaveUser = async (data: CreateEmployeeDTO, req: Request, res: Response, next: NextFunction) => {
+exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
+    const data = { ...req.body }
     try {
         const hash = await bcrypt.hash(req.body.password, 10);
         data.password = hash
-        const employee = await sendUserToDatabase(data);
-        console.log(employee);
+        await sendUserToDatabase(data);
         return res.status(201).json({ message: "Utilisateur créé !"});
     }
     catch(error) {
         return res.status(500).json( error );
     }
-}
-
-
-exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
-    const data = { ...req.body }
-    hashPasswordAndSaveUser(data, req, res, next);
 };
 
 
