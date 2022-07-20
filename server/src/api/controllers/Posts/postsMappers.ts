@@ -5,6 +5,5 @@ export const toPost = (post: PostsOutput): Post => {
     return {
         text: post.text,
         urlImage: post.urlImage,
-        publishDate: post.publishDate
     }
 }

@@ -5,7 +5,6 @@ interface PostsAttributes {
     id: number;
     text: string;
     urlImage: string;
-    publishDate: string;
 }
 
 export interface PostsInput extends Optional<PostsAttributes, "id">{}
@@ -15,7 +14,6 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public id!: number;
     public text!: string;
     public urlImage!: string;
-    public publishDate!: string;
 }
 
 Posts
@@ -26,8 +24,7 @@ Posts
             primaryKey: true
             },
         text: { type: DataTypes.STRING },
-        urlImage: { type: DataTypes.STRING },
-        publishDate: { type: DataTypes.STRING }
+        urlImage: { type: DataTypes.STRING }
     }, {
         sequelize: sequelizeConnection,
         paranoid: true
