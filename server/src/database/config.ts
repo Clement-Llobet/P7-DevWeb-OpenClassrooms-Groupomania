@@ -9,7 +9,11 @@ const dbDriver = process.env.DB_DRIVER
 
 const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
   host: dbHost,
-  dialect: dbDriver as Dialect
+  dialect: dbDriver as Dialect,
+  retry: {
+    match: [/Deadlock/i],
+    max: 3
+  }
 })
 
 

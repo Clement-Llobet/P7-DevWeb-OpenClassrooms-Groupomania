@@ -45,10 +45,5 @@ Employees
         sequelize: sequelizeConnection,
         paranoid: true
     })
-    // .belongsToMany(Likes, {
-    //     through: "Posts",
-    //     as: "Likes",
-    //     foreignKey: "Employees_id"
-    // })
 
 export default Employees

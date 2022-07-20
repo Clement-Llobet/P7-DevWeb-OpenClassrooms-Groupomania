@@ -4,8 +4,9 @@ import sequelizeConnection from "../config";
 class Likes extends Model {}
 
 Likes
-    .init({
-    }, {
+    .init(
+    { }, 
+    {
         sequelize: sequelizeConnection,
         paranoid: true,
         timestamps: false
