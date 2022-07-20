@@ -5,7 +5,6 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Error from './components/Error';
-import CreatePost from './pages/CreatePost';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -17,7 +16,6 @@ root.render(
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/createpost" element={<CreatePost />} />
         <Route path="/error" element={<Error />} />
       </Routes>
     </BrowserRouter>
