@@ -4,23 +4,54 @@ import { Post } from "../../interfaces/posts.interface";
 import * as mapper from "./postsMappers";
 import { Request, Response, NextFunction } from "express";
 
-export const createPost = async (payload: createPostsDto): Promise<Post> => {
-    return mapper.toPost(await service.create(payload));
+
+const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => {
+    const mapNewPost = mapper.toPost(await service.create(payload))
+    return mapNewPost
 }
 
-export const updatePost = async (id: number, payload: updatePostsDto): Promise<Post> => {
-    return mapper.toPost(await service.update(id, payload));
+exports.createPost = async (req: Request, res: Response, next: NextFunction) => {
+    const data = { ...req.body }
+    try {
+        await sendNewPostToDatabase(data)
+        return res.status(201).json({ message: "Nouveau post créé !"});
+    }
+    catch (error) {
+        return res.status(500).json( error );
+    }
 }
 
-export const getPostById = async (id: number): Promise<Post> =>  {
-    return mapper.toPost(await service.getPostsById(id));
+const sendUpdatedPost = async (id: number, payload: updatePostsDto): Promise<Post> => {
+    const mapUpdatedPost = mapper.toPost(await service.update(id, payload));
+    return mapUpdatedPost
 }
 
-export const deletePostById = async (id: number): Promise<Boolean> => {
+exports.updatePost = async () => {
+
+}
+
+const SelectSpecificPost = async (id: number): Promise<Post> =>  {
+    const mapSelectSpecificPost = mapper.toPost(await service.getPostsById(id));
+    return mapSelectSpecificPost
+}
+
+exports.getPostById = async () => {
+
+}
+
+const sendDeletionOrder = async (id: number): Promise<Boolean> => {
     const isDeleted = await service.deletePostById(id);
     return isDeleted
 }
 
-export const getAllPosts = async (filters: FilterPostsDto): Promise<Post[]> => {
+exports.deletePostById = async () => {
+
+}
+
+const selectAllPosts = async (filters: FilterPostsDto): Promise<Post[]> => {
     return (await service.getAllPosts((filters))).map(mapper.toPost);
+}
+
+exports.getAllPosts = async () => {
+
 }
