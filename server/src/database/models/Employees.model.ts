@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelizeConnection from "../config";
-import Likes from "./Likes.model";
+// import Likes from "./Likes.model";
 
 interface EmployeesAttributes {
     id: number;
@@ -45,10 +45,10 @@ Employees
         sequelize: sequelizeConnection,
         paranoid: true
     })
-    .belongsToMany(Likes, {
-        through: "Posts",
-        as: "Likes",
-        foreignKey: "Employees_id"
-    })
+    // .belongsToMany(Likes, {
+    //     through: "Posts",
+    //     as: "Likes",
+    //     foreignKey: "Employees_id"
+    // })
 
 export default Employees
