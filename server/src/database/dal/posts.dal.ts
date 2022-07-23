@@ -12,7 +12,7 @@ export const updatePosts = async (id: number, data: Partial<PostsInput>): Promis
     if (!post) {
         throw new Error("An error occured : post was not found")
     }
-    return post
+    return post.update(data)
 }
 
 export const getPostsById = async (id: number): Promise<PostsOutput> => {

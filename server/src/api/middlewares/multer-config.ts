@@ -8,10 +8,10 @@ const MIME_TYPES: any = {
 };
 
 const storage = multer.diskStorage({
-    destination: (req: Request, file: any, callback: (arg0: null, arg1: string) => void) => {
+    destination: (req: Request, file: Express.Multer.File, callback: any) => {
         callback(null, 'images')
     },
-    filename: (req: Request, file: any, callback: (arg0: null, arg1: string) => void) => {
+    filename: (req: Request, file: Express.Multer.File, callback: any) => {
         const name = file.originalname.split('').join('_');
         const extension = MIME_TYPES[file.mimetype];
         callback(null, name + Date.now() + '.' + extension);

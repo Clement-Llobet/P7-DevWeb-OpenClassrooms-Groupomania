@@ -13,7 +13,8 @@ const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => 
 exports.createPost = async (req: Request, res: Response, next: NextFunction) => {
     const data = { ...req.body }
     try {
-        await sendNewPostToDatabase(data)
+        const newPost = await sendNewPostToDatabase(data);
+        // newPost.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`
         return res.status(201).json({ message: "Nouveau post créé !"});
     }
     catch (error) {
@@ -26,8 +27,16 @@ const sendUpdatedPost = async (id: number, payload: updatePostsDto): Promise<Pos
     return mapUpdatedPost
 }
 
-exports.updatePost = async () => {
-
+exports.updatePost = async (req: Request, res: Response, next: NextFunction) => {
+    const data = { ...req.body }
+    const postId = parseInt(req.params.id)
+    try {
+        await sendUpdatedPost(postId, data);
+        return res.status(201).json({ message: `Le post ayant l'identifiant ${req.params.id} a bien été modifié.`}); 
+    }
+    catch (error) {
+        return res.status(500).json( error );
+    }
 }
 
 const SelectSpecificPost = async (id: number): Promise<Post> =>  {
