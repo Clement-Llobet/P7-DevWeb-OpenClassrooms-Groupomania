@@ -4,6 +4,7 @@ import { Post } from "../../interfaces/posts.interface";
 import * as mapper from "./postsMappers";
 import { Request, Response, NextFunction } from "express";
 
+const imageAbsoluteUrl = `http://${process.env.PORT}/images/`;
 
 const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => {
     const mapNewPost = mapper.toPost(await service.create(payload))
@@ -14,7 +15,7 @@ exports.createPost = async (req: Request, res: Response, next: NextFunction) => 
     const data = { ...req.body }
     try {
         const newPost = await sendNewPostToDatabase(data);
-        // newPost.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`
+        newPost.urlImage = imageAbsoluteUrl + `${req.file?.filename}`
         return res.status(201).json({ message: "Nouveau post créé !"});
     }
     catch (error) {
@@ -28,8 +29,11 @@ const sendUpdatedPost = async (id: number, payload: updatePostsDto): Promise<Pos
 }
 
 exports.updatePost = async (req: Request, res: Response, next: NextFunction) => {
-    const data = { ...req.body }
-    const postId = parseInt(req.params.id)
+    const data = { ...req.body };
+
+    data.file && (data.urlImage = imageAbsoluteUrl + `${data.file.filename}`);
+    const postId = parseInt(req.params.id);
+
     try {
         await sendUpdatedPost(postId, data);
         return res.status(201).json({ message: `Le post ayant l'identifiant ${req.params.id} a bien été modifié.`}); 

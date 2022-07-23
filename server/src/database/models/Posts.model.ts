@@ -27,7 +27,10 @@ Posts
         urlImage: { type: DataTypes.STRING }
     }, {
         sequelize: sequelizeConnection,
-        paranoid: true
+        paranoid: true,
+        indexes: [
+            {unique: true, fields:['text', 'urlImage']},
+        ]
     })
 
 export default Posts
