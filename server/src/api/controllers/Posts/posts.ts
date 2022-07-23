@@ -48,8 +48,15 @@ const SelectSpecificPost = async (id: number): Promise<Post> =>  {
     return mapSelectSpecificPost
 }
 
-exports.getPostById = async () => {
-
+exports.getPostById = async (req: Request, res: Response, next: NextFunction) => {
+//     const postId = parseInt(req.params.id);
+    
+//     try {
+//         const specificPost = await SelectSpecificPost(postId)
+//         return res.status(201).json(specificPost);
+//     } catch (error) {
+//         return res.status(500).json( error );
+//     }
 }
 
 const sendDeletionOrder = async (id: number): Promise<Boolean> => {
@@ -57,8 +64,13 @@ const sendDeletionOrder = async (id: number): Promise<Boolean> => {
     return isDeleted
 }
 
-exports.deletePostById = async () => {
-
+exports.deletePostById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await sendDeletionOrder(parseInt(req.params.id))
+        return res.status(200).json({ message: `Le post ayant l'identifiant ${req.params.id} a bien été supprimé.`}); 
+    } catch (error) {
+        return res.status(500).json( error );
+    }
 }
 
 const selectAllPosts = async (filters: FilterPostsDto): Promise<Post[]> => {
