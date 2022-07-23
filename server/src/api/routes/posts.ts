@@ -5,10 +5,10 @@ const router = express.Router();
 
 const postsController = require('../controllers/Posts/posts');
 
-router.get('/', auth, postsController.getAllPosts);
-router.get('/:id', auth, postsController.getPostById);
+router.get('/', postsController.getAllPosts);
+router.get('/:id', postsController.getPostById);
 router.post('/', postsController.createPost);
 router.put('/:id', postsController.updatePost);
-router.delete('/:id', auth, postsController.deletePostById);
+router.delete('/:id', postsController.deletePostById);
 
 export default router;
