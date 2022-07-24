@@ -3,6 +3,7 @@ import { createPostsDto, FilterPostsDto, updatePostsDto } from "../../../databas
 import { Post } from "../../interfaces/posts.interface";
 import * as mapper from "./postsMappers";
 import { Request, Response, NextFunction } from "express";
+import { GetAllPostsFilters } from "../../../database/dal/types";
 
 const imageAbsoluteUrl = `http://${process.env.PORT}/images/`;
 
@@ -19,7 +20,7 @@ exports.createPost = async (req: Request, res: Response, next: NextFunction) => 
         return res.status(201).json({ message: "Nouveau post créé !"});
     }
     catch (error) {
-        return res.status(500).json( error );
+        return res.status(500).json(error);
     }
 }
 
@@ -36,10 +37,10 @@ exports.updatePost = async (req: Request, res: Response, next: NextFunction) => 
 
     try {
         await sendUpdatedPost(postId, data);
-        return res.status(201).json({ message: `Le post ayant l'identifiant ${req.params.id} a bien été modifié.`}); 
+        return res.status(200).json({ message: `Le post ayant l'identifiant ${req.params.id} a bien été modifié.`}); 
     }
     catch (error) {
-        return res.status(500).json( error );
+        return res.status(500).json(error);
     }
 }
 
@@ -49,14 +50,14 @@ const SelectSpecificPost = async (id: number): Promise<Post> =>  {
 }
 
 exports.getPostById = async (req: Request, res: Response, next: NextFunction) => {
-//     const postId = parseInt(req.params.id);
+    const postId = parseInt(req.params.id);
     
-//     try {
-//         const specificPost = await SelectSpecificPost(postId)
-//         return res.status(201).json(specificPost);
-//     } catch (error) {
-//         return res.status(500).json( error );
-//     }
+    try {
+        const specificPost = await SelectSpecificPost(postId)
+        return res.status(200).send(specificPost);
+    } catch (error) {
+        return res.status(500).json(error);
+    }
 }
 
 const sendDeletionOrder = async (id: number): Promise<Boolean> => {
@@ -74,9 +75,16 @@ exports.deletePostById = async (req: Request, res: Response, next: NextFunction)
 }
 
 const selectAllPosts = async (filters: FilterPostsDto): Promise<Post[]> => {
-    return (await service.getAllPosts((filters))).map(mapper.toPost);
+    return await service.getAllPosts(filters).then((posts) => posts.map(mapper.toPost))       
 }
 
-exports.getAllPosts = async () => {
+exports.getAllPosts = async (req: Request, res: Response, next: NextFunction) => {
+    const filters: GetAllPostsFilters = req.query;
 
+    try {
+        const allPosts = await selectAllPosts(filters);
+        return res.status(200).send(allPosts);
+    } catch (error) {
+        return res.status(500).json( error );
+    }
 }
