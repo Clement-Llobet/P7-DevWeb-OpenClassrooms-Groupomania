@@ -56,3 +56,19 @@ exports.postLogin = (req: Request, res: Response, next: NextFunction) => {
         })
         .catch((error: Error) => res.status(500).json( error ))
 };
+
+exports.updateEmployee = () => {
+
+}
+
+exports.deleteEmployee = () => {
+
+}
+
+exports.getAllEmployees = () => {
+
+}
+
+exports.getEmployeeById = () => {
+    
+}

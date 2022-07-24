@@ -44,6 +44,6 @@ try {
     console.log(`An error occured:${error}`);
 }
 
-app.use('/api/auth', apiLimiter, employeesRoutes);
+app.use('/api/employees', apiLimiter, employeesRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
