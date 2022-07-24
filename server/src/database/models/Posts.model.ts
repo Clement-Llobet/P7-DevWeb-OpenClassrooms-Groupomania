@@ -29,7 +29,7 @@ Posts
         sequelize: sequelizeConnection,
         paranoid: true,
         indexes: [
-            {unique: true, fields:['text', 'urlImage']},
+            {unique: true, fields:['text', 'urlImage']}
         ]
     })
 
