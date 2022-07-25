@@ -43,10 +43,10 @@ Employees
         profilePicture : { type: DataTypes.STRING }
     }, {
         sequelize: sequelizeConnection,
-        paranoid: true,
-        indexes: [
-            {unique: true, fields:['name', 'surname', 'email']}
-        ]
+        paranoid: true
+        // indexes: [
+        //     {unique: true, fields:['email']}
+        // ]
     })
 
 export default Employees

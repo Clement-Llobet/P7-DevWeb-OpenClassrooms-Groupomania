@@ -28,9 +28,9 @@ Posts
     }, {
         sequelize: sequelizeConnection,
         paranoid: true,
-        indexes: [
-            {unique: true, fields:['text', 'urlImage']}
-        ]
+        // indexes: [
+        //     {unique: true, fields:['text', 'urlImage']}
+        // ]
     })
 
 export default Posts

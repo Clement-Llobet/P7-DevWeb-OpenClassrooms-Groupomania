@@ -17,7 +17,7 @@ const jwt = require('jsonwebtoken');
         }
         return req
     } catch (error) {
-        res.status(401).json({ error: error});
+        res.status(400).json({ error: error});
         return error
     }
 }

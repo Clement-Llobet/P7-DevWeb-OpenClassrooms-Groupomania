@@ -8,25 +8,27 @@ import { GetAllPostsFilters } from "../../../database/dal/types";
 const imageAbsoluteUrl = `http://${process.env.PORT}/images/`;
 
 const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => {
-    const mapNewPost = mapper.toPost(await service.create(payload))
-    return mapNewPost
+    return mapper.toPost(await service.create(payload))
 }
 
 exports.createPost = async (req: Request, res: Response, next: NextFunction) => {
+
     const data = { ...req.body }
-    try {
-        const newPost = await sendNewPostToDatabase(data);
-        newPost.urlImage = imageAbsoluteUrl + `${req.file?.filename}`
-        return res.status(201).json({ message: "Nouveau post créé !"});
-    }
-    catch (error) {
-        return res.status(500).json(error);
-    }
+    console.log(data.file);
+    
+    
+    // try {
+    //     const newPost = await sendNewPostToDatabase(data);
+    //     newPost.urlImage = imageAbsoluteUrl + `${req.file?.filename}`
+    //     return res.status(201).json({ message: "Nouveau post créé !"});
+    // }
+    // catch (error) {
+    //     return res.status(500).json(error);
+    // }
 }
 
 const sendUpdatedPost = async (id: number, payload: updatePostsDto): Promise<Post> => {
-    const mapUpdatedPost = mapper.toPost(await service.update(id, payload));
-    return mapUpdatedPost
+    return mapper.toPost(await service.update(id, payload));
 }
 
 exports.updatePost = async (req: Request, res: Response, next: NextFunction) => {
@@ -45,8 +47,7 @@ exports.updatePost = async (req: Request, res: Response, next: NextFunction) => 
 }
 
 const SelectSpecificPost = async (id: number): Promise<Post> =>  {
-    const mapSelectSpecificPost = mapper.toPost(await service.getPostsById(id));
-    return mapSelectSpecificPost
+    return mapper.toPost(await service.getPostsById(id));
 }
 
 exports.getPostById = async (req: Request, res: Response, next: NextFunction) => {
