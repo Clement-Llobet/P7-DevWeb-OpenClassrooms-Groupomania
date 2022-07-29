@@ -30,7 +30,8 @@ Employees
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
+            unique: true
         },
         name: { type: DataTypes.STRING },
         surname: { type: DataTypes.STRING },
@@ -44,9 +45,6 @@ Employees
     }, {
         sequelize: sequelizeConnection,
         paranoid: true
-        // indexes: [
-        //     {unique: true, fields:['email']}
-        // ]
     })
 
 export default Employees

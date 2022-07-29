@@ -21,16 +21,14 @@ Posts
         id: {
             type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
-            primaryKey: true
-            },
+            primaryKey: true,
+            unique: true
+        },
         text: { type: DataTypes.STRING },
         urlImage: { type: DataTypes.STRING }
     }, {
         sequelize: sequelizeConnection,
-        paranoid: true,
-        // indexes: [
-        //     {unique: true, fields:['text', 'urlImage']}
-        // ]
+        paranoid: true
     })
 
 export default Posts
