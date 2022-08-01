@@ -1,5 +1,10 @@
 const Post = () => {
-  return <h1>Post</h1>
-}
+  return (
+    <div className="specific-post">
+      <h1>Nom du post</h1>
+      <div style={{ display: 'flex', flexDirection: 'column' }}></div>
+    </div>
+  );
+};
 
-export default Post
+export default Post;
