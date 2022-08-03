@@ -5,6 +5,8 @@ interface PostsAttributes {
     id: number;
     text: string;
     urlImage: string;
+    likes: number;
+    // employeeId: number;
 }
 
 export interface PostsInput extends Optional<PostsAttributes, "id">{}
@@ -14,6 +16,8 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public id!: number;
     public text!: string;
     public urlImage!: string;
+    public likes!: number;
+    // public employeeId!: number;
 }
 
 Posts
@@ -25,7 +29,12 @@ Posts
             unique: true
         },
         text: { type: DataTypes.STRING },
-        urlImage: { type: DataTypes.STRING }
+        urlImage: { type: DataTypes.STRING },
+        likes: { type: DataTypes.INTEGER },
+        // employeeId: { 
+        //     type: DataTypes.INTEGER,
+        //     allowNull: false
+        // }
     }, {
         sequelize: sequelizeConnection,
         paranoid: true
