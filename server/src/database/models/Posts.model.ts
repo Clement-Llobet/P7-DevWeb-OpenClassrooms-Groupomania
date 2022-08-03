@@ -37,7 +37,11 @@ Posts
         // }
     }, {
         sequelize: sequelizeConnection,
-        paranoid: true
+        paranoid: true,
+        indexes: [{
+            unique: true,
+            fields: ['text', 'urlImage', 'likes']
+        }]
     })
 
 export default Posts

@@ -35,16 +35,17 @@ Employees
         },
         name: { type: DataTypes.STRING },
         surname: { type: DataTypes.STRING },
-        email: {
-            type: DataTypes.STRING,
-            unique: true
-        },
+        email: { type: DataTypes.STRING },
         password: { type: DataTypes.STRING },
         moderation: { type: DataTypes.TINYINT },
         profilePicture : { type: DataTypes.STRING }
     }, {
         sequelize: sequelizeConnection,
-        paranoid: true
+        paranoid: true,
+        indexes: [{
+            unique: true,
+            fields: ['email']
+        }]
     })
 
 export default Employees
