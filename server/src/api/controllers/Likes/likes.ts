@@ -1,6 +1,6 @@
 import * as service from '../../services/LikesService';
 import { NextFunction, Response } from "express";
-import { createLikeDTO } from "../../../database/dto/likes.dto";
+import { createLikeDTO, updateLikeDTO } from "../../../database/dto/likes.dto";
 import { Like } from "../../interfaces/likes.interface";
 import * as mapper from './likesMapper';
 import Posts from '../../../database/models/Posts.model';
@@ -9,103 +9,118 @@ import { Employee } from '../../interfaces/employees.interfaces';
 import Likes from '../../../database/models/Likes.model';
 
 
-// const createNewLike = async (payload: createLikeDTO): Promise<Like> => {
-//     return await mapper.toLike(await service.create(payload))
-// }
+const createNewLike = async (payload: createLikeDTO): Promise<Like> => {
+    return mapper.toLike(await service.create(payload))
+}
 
-const waterfall = (req: Request, res: Response, next: NextFunction) => {[
-    // Vérifies dans BDD si le post existe
-    async (done: any) => {
+let postIdFound: number;
+let employeeIdFound: number;
+let ifAlreadyCliked: boolean = false;
+
+const waterfall = (req: Request, res: Response, next: NextFunction, payload: any) => {
+
+    console.log("===== La fonction commence ici =====")
+    
+    const checkIfPostExist = async () => {
         try {
             await Posts.findOne({
-                where: { id: 'postId' } // Passer ici le postId sans guillemets
+                where: { id: payload.PostId }
             })  
         } catch (error) {
             return res.status(500).json({'error': `unable to verify post: error`})
         } finally {
-            (postFound: Posts) => {
-                done(null, postFound);
-            }
+            postIdFound = payload.PostId;
         }
-    },
+    }
+
     // Vérifie si le message a été trouvé, si oui on récupère l'objet utilisateur
-    async (postFound: Posts, done: any) => {
+    const checkEmployeeId = async (postIdFound: number) => {
+        console.log("========== " + postIdFound + " ==========");
+
         try {
-            if (postFound) {
-            Employees.findOne({
-                where: { id: 'EmployeeId' } // Passer ici le employeeId sans guillemets
-            })
-        }
-        } catch (error) {
-            
-        } finally {
-            (employeeIdFound: number) => {
-                done(null, postFound, employeeIdFound);
-            }
-        }   
-    },
-    // Vérifie si l'utilisateur a été trouvé, si oui, vérifie dans les likes si une entrée correspond à l'EmployeeId et au PostId
-    async (postFound: Posts, employeeIdFound: number, done: any) => {
-        if(employeeIdFound) {
-            try {
-                Likes.findOne({
-                    where: {
-                        EmployeeId: "EmployeeId", // Passer ici le employeeId sans guillemets
-                        PostId: "PostId" // Passer ici le postId sans guillemets
-                    }
+            if (postIdFound) {
+                await Employees.findOne({
+                    where: { id: payload.EmployeeId }
                 })
-            } catch (error) {
-                return res.status(500).json({ 'error' : 'unable to verify is employee already liked'})
-            } finally {
-                (isEmployeeAlreadyClicked: Boolean) => {
-                    done(null, postFound, employeeIdFound, isEmployeeAlreadyClicked)
-                }
-            }   
-        } else {
-            res.status(404).json({ 'error': "user doesn't exist"})
-        }
-    },
-    // Vérifie que l'utilisateur n'a pas déjà liké le message, si non on ajoute la relation qui unit le message et l'utilisateur
-    (postFound: Posts, employeeIdFound: number, isEmployeeAlreadyClicked: Boolean, done: any) => {
-        if(!isEmployeeAlreadyClicked) {
+            }
+        } catch (error) {
+            return res.status(500).json({'error': `unable to find post`})
+        } finally {
+            employeeIdFound = payload.EmployeeId;
+        }   
+    }
+
+    // =============== FONCTION A RETRAVAILLER ===============
+    // Vérifie si l'utilisateur a été trouvé, si oui, vérifie dans les likes si une entrée correspond à l'EmployeeId et au PostId
+    // const checkIfAlreadyCliked = async (postIdFound: number, employeeIdFound: number) => {
+    //     if(employeeIdFound) {
+    //         try {
+    //             await Likes.findOne({
+    //                 where: {
+    //                     EmployeeId: employeeIdFound,
+    //                     PostId: postIdFound
+    //                 }
+    //             })
+    //         } 
+    //         // catch (error) {
+    //         //     return res.status(500).json({ 'error' : 'unable to verify if employee already clicked'})
+    //         // } 
+    //         finally {
+    //             console.log(ifAlreadyCliked);
+    //         }   
+    //     } else {
+    //         res.status(404).json({ 'error': "user doesn't exist"})
+    //     }
+    // }
+
+    // // Vérifie que l'utilisateur n'a pas déjà liké le message, si non on créee la relation Like qui unit le message et l'utilisateur
+    const sendOrderToCreateLike = async (ifAlreadyCliked: boolean) => {
+        if(!ifAlreadyCliked) {
             try {
-                // On créé une entrée dans la table like
-                // postFound.addUser(employeeIdFound)
+                await createNewLike(payload);
             } catch (error) {
                 return res.status(500).json({ 'error' : 'unable to set user like'})
-            }
-            finally {
-                (isEmployeeAlreadyClicked: Boolean) => {
-                    done(null, postFound, employeeIdFound, isEmployeeAlreadyClicked)
-                }
             }
         } else {
             res.status(409).json({ 'error' : 'message already liked'})
         }
-    },
+    }
+
     // Met à jour le message en implémentant de 1 le nombre de likes
-    (postFound: Posts, employeeIdFound: number, done: any) => {
+    const addLikeToPostFound = (postIdFound: number) => {
         try {
-            postFound.update({
-                likes: postFound.likes + 1
+            Posts.update({
+                likes: + 1
+            }, {
+                where: { id: postIdFound }
             })  
         } catch (error) {
             res.status(500).json({'error' : 'cannot update message like counter'})
-        } finally {
-            () => {
-                done(postFound);
-            }
-        }   
+        } 
     }
-]
-    
+
+    checkIfPostExist();
+    console.log("========== " + postIdFound + " ==========");
+    checkEmployeeId(postIdFound);
+    // checkIfAlreadyCliked(postIdFound, employeeIdFound);
+    sendOrderToCreateLike(ifAlreadyCliked);
+    // console.log("========== " + postIdFound + " ==========");
+
+    // addLikeToPostFound(postIdFound);
+
+    console.log("===== La fonction s'arrête ici =====")
 }
 
 exports.createLike = async (req: Request, res: Response, next: NextFunction) => {
+
+    const data: any = { ...req.body }
+
+    waterfall(req, res, next, data);
+
     // const headerAuth = req.headers.get('authorization'); // Récupère l'en-tête d'autorisation
     // Il faut ensuite récupérer le userId --> req.params.id
 
-    // const postId = parseInt(req.query.PostId)
+    // const postId = parseInt(req.params.PostId)
     //On récupère dans l'URL l'identifiant du message et on s'assure qu'il correspond à un post dans la BDD
 
     // if (postId <= 0) {

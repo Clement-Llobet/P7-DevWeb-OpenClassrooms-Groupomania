@@ -14,7 +14,6 @@ const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => 
 exports.createPost = async (req: Request, res: Response, next: NextFunction) => {
 
     const data = { ...req.body }
-    console.log(data.file);
     
     try {
         data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
