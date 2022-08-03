@@ -8,7 +8,7 @@ const likesController = require('../controllers/Likes/likes');
 
 router.get('/', postsController.getAllPosts);
 router.get('/:id', postsController.getPostById);
-router.post('/', postsController.createPost);
+router.post('/', multer, auth, postsController.createPost);
 router.put('/:id', postsController.updatePost);
 router.delete('/:id', postsController.deletePostById);
 

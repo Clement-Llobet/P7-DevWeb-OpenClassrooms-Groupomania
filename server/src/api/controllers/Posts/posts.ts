@@ -17,8 +17,8 @@ exports.createPost = async (req: Request, res: Response, next: NextFunction) => 
     console.log(data.file);
     
     try {
-        const newPost = await sendNewPostToDatabase(data);
-        newPost.urlImage = imageAbsoluteUrl + `${req.file?.filename}`
+        data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+        await sendNewPostToDatabase(data);
         return res.status(201).json({ message: "Nouveau post créé !"});
     }
     catch (error) {

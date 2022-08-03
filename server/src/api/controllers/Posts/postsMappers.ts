@@ -5,5 +5,7 @@ export const toPost = (post: PostsOutput): Post => {
     return {
         text: post.text,
         urlImage: post.urlImage,
+        likes: post.likes,
+        // EmployeeId: post
     }
 }

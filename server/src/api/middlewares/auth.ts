@@ -9,17 +9,20 @@ const jwt = require('jsonwebtoken');
         const userId = decodedToken.userId;
         req.auth = { userId };
 
-        if (req.body._id && req.body._id !== userId) {
+        console.log(req.body);
+
+
+        
+        if (parseInt(req.body.EmployeeId) !== userId) {
             throw 'UserId non valable !'
         }
         else {
             next();
         }
-        return req
     } catch (error) {
         res.status(400).json({ error: error});
         return error
     }
 }
 
-export default auth;
+module.exports = auth;
