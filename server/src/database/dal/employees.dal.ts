@@ -5,8 +5,6 @@ import Employees, { EmployeesInput, EmployeesOutput } from "../models/Employees.
 import { GetAllEmployeesFilters } from "./types";
 
 export const createEmployee = async (data: EmployeesInput): Promise<EmployeesOutput> => {
-    console.log("createEmployee", data);
-    
     const employee = await Employees.create(data)
     return employee
 }

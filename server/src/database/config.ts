@@ -12,7 +12,7 @@ const sequelizeConnection = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: dbDriver as Dialect,
   retry: {
     match: [/Deadlock/i],
-    max: 3
+    max: 10
   }
 })
 

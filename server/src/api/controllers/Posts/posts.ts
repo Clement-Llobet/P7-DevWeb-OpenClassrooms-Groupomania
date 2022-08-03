@@ -16,15 +16,14 @@ exports.createPost = async (req: Request, res: Response, next: NextFunction) => 
     const data = { ...req.body }
     console.log(data.file);
     
-    
-    // try {
-    //     const newPost = await sendNewPostToDatabase(data);
-    //     newPost.urlImage = imageAbsoluteUrl + `${req.file?.filename}`
-    //     return res.status(201).json({ message: "Nouveau post créé !"});
-    // }
-    // catch (error) {
-    //     return res.status(500).json(error);
-    // }
+    try {
+        const newPost = await sendNewPostToDatabase(data);
+        newPost.urlImage = imageAbsoluteUrl + `${req.file?.filename}`
+        return res.status(201).json({ message: "Nouveau post créé !"});
+    }
+    catch (error) {
+        return res.status(500).json(error);
+    }
 }
 
 const sendUpdatedPost = async (id: number, payload: updatePostsDto): Promise<Post> => {
