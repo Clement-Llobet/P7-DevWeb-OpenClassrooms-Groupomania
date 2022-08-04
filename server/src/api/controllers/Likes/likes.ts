@@ -13,19 +13,19 @@ const createNewLike = async (payload: createLikeDTO): Promise<Like> => {
     return mapper.toLike(await service.create(payload))
 }
 
-let postIdFound: number;
-let employeeIdFound: number;
-let ifAlreadyCliked: boolean = false;
+
 
 const waterfall = (req: Request, res: Response, next: NextFunction, payload: any) => {
 
-    console.log("===== La fonction commence ici =====")
+    let postIdFound: number = 0;
+    let employeeIdFound: number = 0;
+    let ifAlreadyCliked: boolean = false;
     
     const checkIfPostExist = async () => {
         try {
             await Posts.findOne({
                 where: { id: payload.PostId }
-            })  
+            })
         } catch (error) {
             return res.status(500).json({'error': `unable to verify post: error`})
         } finally {
@@ -50,34 +50,33 @@ const waterfall = (req: Request, res: Response, next: NextFunction, payload: any
         }   
     }
 
-    // =============== FONCTION A RETRAVAILLER ===============
     // Vérifie si l'utilisateur a été trouvé, si oui, vérifie dans les likes si une entrée correspond à l'EmployeeId et au PostId
-    // const checkIfAlreadyCliked = async (postIdFound: number, employeeIdFound: number) => {
-    //     if(employeeIdFound) {
-    //         try {
-    //             await Likes.findOne({
-    //                 where: {
-    //                     EmployeeId: employeeIdFound,
-    //                     PostId: postIdFound
-    //                 }
-    //             })
-    //         } 
-    //         // catch (error) {
-    //         //     return res.status(500).json({ 'error' : 'unable to verify if employee already clicked'})
-    //         // } 
-    //         finally {
-    //             console.log(ifAlreadyCliked);
-    //         }   
-    //     } else {
-    //         res.status(404).json({ 'error': "user doesn't exist"})
-    //     }
-    // }
+    const checkIfAlreadyCliked = async (postIdFound: number, employeeIdFound: number) => {
+        if(employeeIdFound) {
+            try {
+                await Likes.findOne({
+                    where: {
+                        EmployeeId: employeeIdFound,
+                        PostId: postIdFound
+                    }
+                })
+                ifAlreadyCliked = false;
+            } 
+            catch (error) {
+                ifAlreadyCliked = true;                
+                return res.status(500).json({ 'error' : 'unable to verify if employee already clicked'})
+            }  
+        } else {
+            return res.status(404).json({ 'error': "employee doesn't exist"})
+        }
+    }
 
     // // Vérifie que l'utilisateur n'a pas déjà liké le message, si non on créee la relation Like qui unit le message et l'utilisateur
     const sendOrderToCreateLike = async (ifAlreadyCliked: boolean) => {
-        if(!ifAlreadyCliked) {
+        if(ifAlreadyCliked === false) {
             try {
                 await createNewLike(payload);
+                return res.status(200).json({ message: `The post number ${payload.PostId} is now liked by user ${payload.EmployeeId}` })
             } catch (error) {
                 return res.status(500).json({ 'error' : 'unable to set user like'})
             }
@@ -87,28 +86,23 @@ const waterfall = (req: Request, res: Response, next: NextFunction, payload: any
     }
 
     // Met à jour le message en implémentant de 1 le nombre de likes
-    const addLikeToPostFound = (postIdFound: number) => {
-        try {
-            Posts.update({
-                likes: + 1
-            }, {
-                where: { id: postIdFound }
-            })  
-        } catch (error) {
-            res.status(500).json({'error' : 'cannot update message like counter'})
-        } 
-    }
+    // const addLikeToPostFound = (postIdFound: number) => {
+    //     try {
+    //         Posts.update({
+    //             likes: + 1
+    //         }, {
+    //             where: { id: postIdFound }
+    //         })  
+    //     } catch (error) {
+    //         res.status(500).json({'error' : 'cannot update message like counter'})
+    //     } 
+    // }
 
     checkIfPostExist();
-    console.log("========== " + postIdFound + " ==========");
     checkEmployeeId(postIdFound);
-    // checkIfAlreadyCliked(postIdFound, employeeIdFound);
+    checkIfAlreadyCliked(postIdFound, employeeIdFound);
     sendOrderToCreateLike(ifAlreadyCliked);
-    // console.log("========== " + postIdFound + " ==========");
-
     // addLikeToPostFound(postIdFound);
-
-    console.log("===== La fonction s'arrête ici =====")
 }
 
 exports.createLike = async (req: Request, res: Response, next: NextFunction) => {
