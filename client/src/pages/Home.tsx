@@ -3,10 +3,11 @@ import Footer from '../components/Footer';
 import PostsList from '../components/PostsList';
 import { useEffect, useState } from 'react';
 import { PostsData } from '../interfaces';
-import { ApiService } from '../service/api.service.posts';
+import { ApiService } from '../service/api.service';
+import Login from './Login';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
-console.log(api);
+console.log(api.apiGetAllPosts);
 
 const Home: React.FC = () => {
   const [allPosts, setAllPosts] = useState<PostsData[] | null>(null);
