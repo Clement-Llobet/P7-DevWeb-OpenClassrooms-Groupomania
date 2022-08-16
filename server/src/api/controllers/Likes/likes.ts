@@ -15,17 +15,19 @@ const createNewLike = async (payload: createLikeDTO): Promise<Like> => {
 
 
 
-const waterfall = (req: Request, res: Response, next: NextFunction, payload: any) => {
+const likeManager = (req: Request, res: Response, next: NextFunction, payload: any) => {
 
     let postIdFound: number = 0;
     let employeeIdFound: number = 0;
     let ifAlreadyCliked: boolean = false;
+    let postToLike;
     
     const checkIfPostExist = async () => {
         try {
-            await Posts.findOne({
+            postToLike = await Posts.findOne({
                 where: { id: payload.PostId }
             })
+            return res.status(200).json({ message: `Post to like is this one : ${postToLike}` })
         } catch (error) {
             return res.status(500).json({'error': `unable to verify post: error`})
         } finally {
@@ -86,22 +88,22 @@ const waterfall = (req: Request, res: Response, next: NextFunction, payload: any
     }
 
     // Met à jour le message en implémentant de 1 le nombre de likes
-    // const addLikeToPostFound = (postIdFound: number) => {
-    //     try {
-    //         Posts.update({
-    //             likes: + 1
-    //         }, {
-    //             where: { id: postIdFound }
-    //         })  
-    //     } catch (error) {
-    //         res.status(500).json({'error' : 'cannot update message like counter'})
-    //     } 
-    // }
+    const addLikeToPostFound = (postIdFound: number) => {
+        try {
+            Posts.update({
+                likes: + 1
+            }, {
+                where: { id: postIdFound }
+            })  
+        } catch (error) {
+            res.status(500).json({'error' : 'cannot update message like counter'})
+        } 
+    }
 
     checkIfPostExist();
-    checkEmployeeId(postIdFound);
-    checkIfAlreadyCliked(postIdFound, employeeIdFound);
-    sendOrderToCreateLike(ifAlreadyCliked);
+    // checkEmployeeId(postIdFound);
+    // checkIfAlreadyCliked(postIdFound, employeeIdFound);
+    // sendOrderToCreateLike(ifAlreadyCliked);
     // addLikeToPostFound(postIdFound);
 }
 
@@ -109,7 +111,7 @@ exports.createLike = async (req: Request, res: Response, next: NextFunction) => 
 
     const data: any = { ...req.body }
 
-    waterfall(req, res, next, data);
+    likeManager(req, res, next, data);
 
     // const headerAuth = req.headers.get('authorization'); // Récupère l'en-tête d'autorisation
     // Il faut ensuite récupérer le userId --> req.params.id
