@@ -3,7 +3,10 @@ import Footer from '../components/Footer';
 import PostsList from '../components/PostsList';
 import { useEffect, useState } from 'react';
 import { PostsData } from '../interfaces';
-// import { getAllPosts } from '../service/api.service.posts';
+import { ApiService } from '../service/api.service.posts';
+
+const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+console.log(api);
 
 const Home: React.FC = () => {
   const [allPosts, setAllPosts] = useState<PostsData[] | null>(null);
@@ -14,13 +17,14 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const getAllPosts = async () => {
-      const response = await fetch(
-        // `https://jsonplaceholder.typicode.com/posts?_limit=${getPostCount}`
-        `http://localhost:8000/api/posts/?_limit=${getPostCount}`
-      );
+      // const response = await fetch(
+      //   `http://localhost:8000/api/posts/?_limit=${getPostCount}`
+      // );
 
-      const data: PostsData[] = await response.json();
-      setAllPosts(data);
+      const response = await api.apiGetAllPosts();
+
+      // const data: PostsData[] = await response.json();
+      // setAllPosts(data);
     };
     getAllPosts();
   }, [getPostCount]);
