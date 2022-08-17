@@ -4,28 +4,20 @@ import PostsList from '../components/PostsList';
 import { useEffect, useState } from 'react';
 import { PostsData } from '../interfaces';
 import { ApiService } from '../service/api.service';
-import Login from './Login';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
-console.log(api.apiGetAllPosts);
 
 const Home: React.FC = () => {
   const [allPosts, setAllPosts] = useState<PostsData[] | null>(null);
-  const [postCount, setPostCount] = useState<number>(5);
+  const [postCount, setPostCount] = useState<number>();
 
   const postCountOrigin = () => localStorage.getItem('number') || postCount;
   const getPostCount = postCountOrigin();
 
   useEffect(() => {
     const getAllPosts = async () => {
-      // const response = await fetch(
-      //   `http://localhost:8000/api/posts/?_limit=${getPostCount}`
-      // );
-
-      const response = await api.apiGetAllPosts();
-
-      // const data: PostsData[] = await response.json();
-      // setAllPosts(data);
+      const data = await api.apiGetAllPosts();
+      setAllPosts(data);
     };
     getAllPosts();
   }, [getPostCount]);

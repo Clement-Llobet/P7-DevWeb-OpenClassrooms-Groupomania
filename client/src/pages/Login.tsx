@@ -3,43 +3,42 @@ import React, { FC, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ApiService } from '../service/api.service';
 
-// interface FormData {
-//   email: string;
-//   password: string;
-// }
+interface loginData {
+  email: string;
+  password: string;
+}
+
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
-const regex =
+const regexEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // const { register, handleSubmit } = useForm<FormData>();
-
-  useEffect(() => {
-    const employeeLogin = async () => {
-      const response = await api.apiEmployeesLogin();
-      console.log(response);
-    };
-    employeeLogin();
-  }, []);
-
-  const checkEmail = (data: any) => {
-    if (!regex.exec(data)) {
-      console.log("Le format de l'email n'est pas bon");
+  const checkEmail = (data: string) => {
+    if (!regexEmail.exec(data)) {
+      return Error;
     } else {
       setEmail(data);
     }
   };
 
-  const checkPassword = (data: any) => {
+  const checkPassword = (data: string) => {
     if (!data) {
-      console.log('Le format du mot de passe est invalide');
+      return Error;
     } else {
       setPassword(data);
     }
+  };
+
+  const handleSubmit = async () => {
+    let data: loginData = {
+      email: email,
+      password: password,
+    };
+    await api.apiEmployeesLogin(data);
   };
 
   return (
@@ -70,7 +69,13 @@ const Login: FC = () => {
           <p id="invalid-password-text"></p>
         </fieldset>
       </form>
-      <button>Valider</button>
+      <button
+        onClick={() => {
+          handleSubmit();
+        }}
+      >
+        Valider
+      </button>
 
       <p>
         Pas encore inscrit ? <Link to="/register">Connectez-vous ici</Link>
