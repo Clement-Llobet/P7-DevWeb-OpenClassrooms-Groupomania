@@ -5,7 +5,6 @@ interface PostsAttributes {
     id: number;
     text: string;
     urlImage: string;
-    likes: number;
     // employeeId: number;
 }
 
@@ -16,7 +15,6 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public id!: number;
     public text!: string;
     public urlImage!: string;
-    public likes!: number;
     // public employeeId!: number;
 }
 
@@ -29,12 +27,7 @@ Posts
             unique: true
         },
         text: { type: DataTypes.STRING },
-        urlImage: { type: DataTypes.STRING },
-        likes: { type: DataTypes.INTEGER },
-        // employeeId: { 
-        //     type: DataTypes.INTEGER,
-        //     allowNull: false
-        // }
+        urlImage: { type: DataTypes.STRING }
     }, {
         sequelize: sequelizeConnection,
         paranoid: true,

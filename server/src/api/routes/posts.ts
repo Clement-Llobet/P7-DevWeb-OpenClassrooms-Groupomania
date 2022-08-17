@@ -13,6 +13,6 @@ router.put('/:id', postsController.updatePost);
 router.delete('/:id', postsController.deletePostById);
 
 router.post('/:id/like', likesController.createLike);
-router.put('/:id/like', likesController.updateLike);
+router.delete('/:id/like', likesController.deleteLike);
 
 export default router;

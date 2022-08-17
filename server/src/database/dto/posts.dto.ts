@@ -3,7 +3,6 @@ import { Optional } from "sequelize/types";
 export type createPostsDto = {
     text: string;
     urlImage: string;
-    likes: number;
     publishDate: string;
 }
 
