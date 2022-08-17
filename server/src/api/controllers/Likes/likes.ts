@@ -16,29 +16,25 @@ const createNewLike = async (payload: createLikeDTO): Promise<Like> => {
 
 
 const likeManager = (req: Request, res: Response, next: NextFunction, payload: any) => {
-
     let postIdFound: number = 0;
     let employeeIdFound: number = 0;
     let ifAlreadyCliked: boolean = false;
-    let postToLike;
     
     const checkIfPostExist = async () => {
         try {
-            postToLike = await Posts.findOne({
+            await Posts.findOne({
                 where: { id: payload.PostId }
             })
-            return res.status(200).json({ message: `Post to like is this one : ${postToLike}` })
         } catch (error) {
             return res.status(500).json({'error': `unable to verify post: error`})
         } finally {
-            postIdFound = payload.PostId;
+            postIdFound = payload.PostId
+            return postIdFound
         }
     }
 
     // Vérifie si le message a été trouvé, si oui on récupère l'objet utilisateur
-    const checkEmployeeId = async (postIdFound: number) => {
-        console.log("========== " + postIdFound + " ==========");
-
+    const checkEmployeeId = async (postIdFound: number) => {        
         try {
             if (postIdFound) {
                 await Employees.findOne({
@@ -49,6 +45,7 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
             return res.status(500).json({'error': `unable to find post`})
         } finally {
             employeeIdFound = payload.EmployeeId;
+            return employeeIdFound
         }   
     }
 
@@ -78,7 +75,6 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
         if(ifAlreadyCliked === false) {
             try {
                 await createNewLike(payload);
-                return res.status(200).json({ message: `The post number ${payload.PostId} is now liked by user ${payload.EmployeeId}` })
             } catch (error) {
                 return res.status(500).json({ 'error' : 'unable to set user like'})
             }
@@ -89,22 +85,29 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
 
     // Met à jour le message en implémentant de 1 le nombre de likes
     const addLikeToPostFound = (postIdFound: number) => {
-        try {
-            Posts.update({
-                likes: + 1
-            }, {
-                where: { id: postIdFound }
-            })  
-        } catch (error) {
-            res.status(500).json({'error' : 'cannot update message like counter'})
-        } 
+        // console.log(postIdFound);
+        
+        // try {
+        //     Posts.update({
+        //         likes: + 1
+        //     }, {
+        //         where: { id: postIdFound }
+        //     })  
+        // } catch (error) {
+        //     res.status(500).json({'error' : 'cannot update message like counter'})
+        // } 
     }
 
-    checkIfPostExist();
-    // checkEmployeeId(postIdFound);
-    // checkIfAlreadyCliked(postIdFound, employeeIdFound);
-    // sendOrderToCreateLike(ifAlreadyCliked);
-    // addLikeToPostFound(postIdFound);
+    checkIfPostExist()
+    .then(
+        postId => {
+            checkEmployeeId(postIdFound);
+            checkIfAlreadyCliked(postIdFound, employeeIdFound);
+            sendOrderToCreateLike(ifAlreadyCliked);
+            addLikeToPostFound(postIdFound);
+        }
+    )
+    
 }
 
 exports.createLike = async (req: Request, res: Response, next: NextFunction) => {
@@ -128,7 +131,7 @@ exports.createLike = async (req: Request, res: Response, next: NextFunction) => 
     
 }
 
-exports.updateLike = async (req: Request, res: Response, next: NextFunction) => {
+exports.deleteLike = async (req: Request, res: Response, next: NextFunction) => {
     // try {
         
     // } catch (error) {

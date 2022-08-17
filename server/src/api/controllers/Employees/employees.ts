@@ -17,10 +17,9 @@ const sendUserToDatabase = async (payload: CreateEmployeeDTO): Promise<Employee>
 }
 
 exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
-    // console.log(req);
-    
 
     const data = { ...req.body }
+    
     try {
         const hash = await bcrypt.hash(req.body.password, 10);
         console.log(hash);
@@ -31,7 +30,7 @@ exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
     }
     catch(error) {
         console.log(error);
-        return res.status(500).json( error );
+        return res.status(500).json({message: `L'erreur suivante est survenue : ${error}`});
     }
 };
 
