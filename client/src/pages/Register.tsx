@@ -1,30 +1,79 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { Url, URL } from 'url';
+import { ApiService } from '../service/api.service';
+
+interface registerData {
+  name: string;
+  surname: string;
+  email: string;
+  password: string | HashAlgorithmIdentifier;
+  moderation: boolean;
+  profilePicture: string;
+}
+
+const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+
+const regexEmail =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const Register: React.FC = () => {
-  const [register, isRegister] = useState(false);
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [moderation, setModeration] = useState(false);
+  const [profilePicture, setProfilePicture] = useState('');
 
-  useEffect(() => {
-    // const requestOptions = {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     name: 'Bidule',
-    //     surname: 'MachinChouette',
-    //     email: 'machinchouettebidule@mail.com',
-    //     password: ',kjfhfbwdf,sdjfkn!è§',
-    //     moderation: 0,
-    //     profilePicture:
-    //       'https://upload.chien.com/img_global/24-comportement-education-du-chien/les-problemes-comportementaux-du-chien/_light-17621-pourquoi-les-chiens-ont-plus-de-problemes-de-comportement-de-nos-jours.jpg',
-    //   }),
-    // };
-    // const signUp = () => {
-    //   fetch(`https://localhost:8000/api/signup`, requestOptions)
-    //     .then((response) => response.json())
-    //     .then(({ data }) => console.log(data))
-    //     .catch((error) => console.log(error));
-    // };
-    // signUp();
-  }, []);
+  const checkEmail = (data: string) => {
+    if (!regexEmail.exec(data)) {
+      setEmail('');
+      console.log(email);
+    } else {
+      setEmail(data);
+    }
+  };
+
+  const checkPassword = (data: string) => {
+    if (data.length <= 3) {
+      setPassword('');
+    } else {
+      setPassword(data);
+    }
+  };
+
+  const checkModeration = (data: any) => {
+    console.log(data.value);
+
+    if (data.value === 'executive') {
+      setModeration(true);
+      console.log(moderation);
+    } else if (data.value === 'non-executive') {
+      setModeration(false);
+      console.log(moderation);
+    } else {
+      return Error;
+    }
+  };
+
+  const manageProfilePicture = (e: any) => {
+    // setProfilePicture(URL.createObjectURL(e.target.files[0]));
+  };
+
+  const handleSubmit = async () => {
+    if (email === '' || password === '') {
+      return Error;
+    } else {
+      let data: registerData = {
+        name: name,
+        surname: surname,
+        email: email,
+        password: password,
+        moderation: moderation,
+        profilePicture: profilePicture,
+      };
+      await api.apiEmployeesLogin(data);
+    }
+  };
 
   return (
     <section>
@@ -44,7 +93,12 @@ const Register: React.FC = () => {
           />
 
           <label>Email</label>
-          <input type="email" id="registration_email" required />
+          <input
+            type="email"
+            id="registration_email"
+            required
+            onBlur={(e) => checkEmail(e.target.value)}
+          />
 
           <label>Mot de passe</label>
           <input
@@ -52,17 +106,41 @@ const Register: React.FC = () => {
             name="password"
             id="registration_password"
             required
+            onBlur={(e) => checkPassword(e.target.value)}
           />
 
           <label>Statut</label>
           <select name="status" id="registration_status" required>
-            <option value="executive">Votre statut</option>
-            <option value="executive">Cadre</option>
-            <option value="non-executive">Non-cadre</option>
+            <option
+              value="choose-status"
+              onClick={(e) => checkModeration(e.target)}
+            >
+              Votre statut
+            </option>
+            <option
+              value="executive"
+              onClick={(e) => checkModeration(e.target)}
+            >
+              Cadre
+            </option>
+            <option
+              value="non-executive"
+              onClick={(e) => checkModeration(e.target)}
+            >
+              Non-cadre
+            </option>
           </select>
 
           <label>Avatar</label>
-          <input type="text" id="registration_avatar" />
+          <legend>Type d'images acceptées : JPEG, JPG, PNG, WEBP</legend>
+          <input
+            type="file"
+            id="registration_avatar"
+            multiple={false}
+            accept=".jpeg, .jpg, .png, .webp"
+            onChange={(e) => manageProfilePicture(e)}
+          />
+          <img src={profilePicture} alt="" />
         </fieldset>
       </form>
       <button>Valider</button>

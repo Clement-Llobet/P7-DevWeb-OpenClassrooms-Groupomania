@@ -2,7 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PostsList from '../components/PostsList';
 import { useEffect, useState } from 'react';
-import { PostsData } from '../interfaces';
+import { PostsData } from '../interfaces/index';
 import { ApiService } from '../service/api.service';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);

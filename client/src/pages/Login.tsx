@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import React, { FC, SetStateAction, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FC, useState } from 'react';
 import { ApiService } from '../service/api.service';
 
 interface loginData {
@@ -19,26 +18,31 @@ const Login: FC = () => {
 
   const checkEmail = (data: string) => {
     if (!regexEmail.exec(data)) {
-      return Error;
+      setEmail('');
+      console.log(email);
     } else {
       setEmail(data);
     }
   };
 
   const checkPassword = (data: string) => {
-    if (!data) {
-      return Error;
+    if (data.length <= 3) {
+      setPassword('');
     } else {
       setPassword(data);
     }
   };
 
   const handleSubmit = async () => {
-    let data: loginData = {
-      email: email,
-      password: password,
-    };
-    await api.apiEmployeesLogin(data);
+    if (email === '' || password === '') {
+      return Error;
+    } else {
+      let data: loginData = {
+        email: email,
+        password: password,
+      };
+      await api.apiEmployeesLogin(data);
+    }
   };
 
   return (
