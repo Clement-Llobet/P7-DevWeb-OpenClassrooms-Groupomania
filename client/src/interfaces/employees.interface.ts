@@ -1,10 +1,9 @@
 export interface EmployeesData {
-  id: number;
   name: string;
   surname: string;
   email: string;
   password: string | HashAlgorithmIdentifier;
-  moderation: number;
+  moderation: boolean;
   profilePicture: string;
 }
 

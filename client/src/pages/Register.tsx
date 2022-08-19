@@ -1,15 +1,6 @@
-import { useState } from 'react';
-import { Url, URL } from 'url';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import { EmployeesData } from '../interfaces';
 import { ApiService } from '../service/api.service';
-
-interface registerData {
-  name: string;
-  surname: string;
-  email: string;
-  password: string | HashAlgorithmIdentifier;
-  moderation: boolean;
-  profilePicture: string;
-}
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -21,58 +12,121 @@ const Register: React.FC = () => {
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [moderation, setModeration] = useState(false);
+  const [moderation, setModeration] = useState<boolean | null>(null);
   const [profilePicture, setProfilePicture] = useState('');
 
-  const checkEmail = (data: string) => {
-    if (!regexEmail.exec(data)) {
-      setEmail('');
-      console.log(email);
+  const checkAndSetName = (input: HTMLInputElement) => {
+    if (input.value.length < 2) {
+      setName('');
     } else {
-      setEmail(data);
+      setName(input.value);
     }
+    console.log(name);
   };
 
-  const checkPassword = (data: string) => {
-    if (data.length <= 3) {
+  const checkAndSetSurname = (input: HTMLInputElement) => {
+    if (input.value.length < 2) {
+      setSurname('');
+    } else {
+      setSurname(input.value);
+    }
+    console.log(surname);
+  };
+
+  const checkAndSetEmail = (input: string) => {
+    if (!regexEmail.exec(input)) {
+      setEmail('');
+    } else {
+      setEmail(input);
+    }
+    console.log(email);
+  };
+
+  const checkAndSetPassword = (input: HTMLInputElement) => {
+    if (input.value.length < 3) {
       setPassword('');
     } else {
-      setPassword(data);
+      setPassword(input.value);
     }
+    console.log(password);
   };
 
-  const checkModeration = (data: any) => {
-    console.log(data.value);
-
-    if (data.value === 'executive') {
+  const checkAndSetModeration = async (option: HTMLSelectElement) => {
+    if (option.value === 'executive') {
       setModeration(true);
-      console.log(moderation);
-    } else if (data.value === 'non-executive') {
+    } else if (option.value === 'non-executive') {
       setModeration(false);
-      console.log(moderation);
     } else {
-      return Error;
+      setModeration(null);
     }
+
+    console.log(moderation);
   };
 
-  const manageProfilePicture = (e: any) => {
-    // setProfilePicture(URL.createObjectURL(e.target.files[0]));
+  const manageProfilePicture = async (data: HTMLInputElement) => {
+    const file: FileList | null = data.files;
+
+    if (file === null) {
+      setProfilePicture('');
+      return;
+    }
+
+    setProfilePicture(URL.createObjectURL(file[0]));
+    console.log(profilePicture);
   };
 
   const handleSubmit = async () => {
-    if (email === '' || password === '') {
-      return Error;
-    } else {
-      let data: registerData = {
-        name: name,
-        surname: surname,
-        email: email,
-        password: password,
-        moderation: moderation,
-        profilePicture: profilePicture,
-      };
-      await api.apiEmployeesLogin(data);
-    }
+    console.log(
+      name +
+        ' === ' +
+        surname +
+        ' === ' +
+        email +
+        ' === ' +
+        password +
+        ' === ' +
+        moderation +
+        ' === ' +
+        profilePicture
+    );
+
+    // if (
+    //   name === '' ||
+    //   surname === '' ||
+    //   email === '' ||
+    //   password === '' ||
+    //   moderation === null
+    // ) {
+    //   console.log('Il y a une erreur');
+    //   return Error;
+    // } else {
+    //   console.log("Pas d'erreur. Création de l'objet en cours.");
+
+    // let data: registerData = {
+    //   name: name,
+    //   surname: surname,
+    //   email: email,
+    //   password: password,
+    //   moderation: moderation,
+    //   profilePicture: profilePicture,
+    // };
+
+    let data: EmployeesData = {
+      name: 'Test',
+      surname: 'Ceci est un',
+      email: 'ceciestuntest@mail.com',
+      password: 'dev',
+      moderation: false,
+      profilePicture:
+        'blob:http://localhost:3000/f347cae0-2c97-4461-929b-a6d557704be1',
+    };
+
+    console.log(
+      "L'objet a les caractéristiques suivantes : ========== " + data
+    );
+
+    await api.apiEmployeesSignUp(data);
+    // }
   };
 
   return (
@@ -82,7 +136,15 @@ const Register: React.FC = () => {
         <fieldset>
           <legend>Inscription</legend>
           <label>Nom</label>
-          <input type="text" name="name" id="registration_name" required />
+          <input
+            type="text"
+            name="name"
+            id="registration_name"
+            required
+            onBlur={(e: SyntheticEvent) =>
+              checkAndSetName(e.currentTarget as HTMLInputElement)
+            }
+          />
 
           <label>Prénom</label>
           <input
@@ -90,6 +152,9 @@ const Register: React.FC = () => {
             name="surname"
             id="registration_surname"
             required
+            onBlur={(e: SyntheticEvent) =>
+              checkAndSetSurname(e.currentTarget as HTMLInputElement)
+            }
           />
 
           <label>Email</label>
@@ -97,7 +162,7 @@ const Register: React.FC = () => {
             type="email"
             id="registration_email"
             required
-            onBlur={(e) => checkEmail(e.target.value)}
+            onBlur={(e) => checkAndSetEmail(e.target.value)}
           />
 
           <label>Mot de passe</label>
@@ -106,29 +171,23 @@ const Register: React.FC = () => {
             name="password"
             id="registration_password"
             required
-            onBlur={(e) => checkPassword(e.target.value)}
+            onBlur={(e: SyntheticEvent) =>
+              checkAndSetPassword(e.currentTarget as HTMLInputElement)
+            }
           />
 
           <label>Statut</label>
-          <select name="status" id="registration_status" required>
-            <option
-              value="choose-status"
-              onClick={(e) => checkModeration(e.target)}
-            >
-              Votre statut
-            </option>
-            <option
-              value="executive"
-              onClick={(e) => checkModeration(e.target)}
-            >
-              Cadre
-            </option>
-            <option
-              value="non-executive"
-              onClick={(e) => checkModeration(e.target)}
-            >
-              Non-cadre
-            </option>
+          <select
+            name="status"
+            id="registration_status"
+            required
+            onChange={(e: SyntheticEvent) =>
+              checkAndSetModeration(e.currentTarget as HTMLSelectElement)
+            }
+          >
+            <option value="choose-status">Votre statut</option>
+            <option value="executive">Cadre</option>
+            <option value="non-executive">Non-cadre</option>
           </select>
 
           <label>Avatar</label>
@@ -138,12 +197,14 @@ const Register: React.FC = () => {
             id="registration_avatar"
             multiple={false}
             accept=".jpeg, .jpg, .png, .webp"
-            onChange={(e) => manageProfilePicture(e)}
+            onChange={(e: SyntheticEvent) =>
+              manageProfilePicture(e.currentTarget as HTMLInputElement)
+            }
           />
           <img src={profilePicture} alt="" />
         </fieldset>
       </form>
-      <button>Valider</button>
+      <button onClick={handleSubmit}>Valider</button>
     </section>
   );
 };
