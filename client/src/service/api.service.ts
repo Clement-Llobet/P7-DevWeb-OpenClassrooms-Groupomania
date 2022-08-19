@@ -81,7 +81,7 @@ export class ApiService {
     return employeeByIdData;
   };
 
-  apiCreatePost = async (data: types.PostsData) => {
+  apiCreatePost = async (data: any) => {
     let url = this.urlBase + 'api/posts/';
 
     const response = await fetch(url, {
@@ -95,8 +95,8 @@ export class ApiService {
     return postData;
   };
 
-  apiUpdatePost = async (data: string) => {
-    let url = this.urlBase + `api/posts/${data}`;
+  apiUpdatePost = async (data: types.PostsData) => {
+    let url = this.urlBase + `api/posts/${data.id}`;
 
     const response = await fetch(url, {
       method: 'PUT',
@@ -132,7 +132,7 @@ export class ApiService {
   };
 
   apiGetAllPosts = async () => {
-    let url = this.urlBase + 'api/posts/';
+    let url = this.urlBase + `api/posts/`;
 
     const response = await fetch(url);
     const postData = response.json();

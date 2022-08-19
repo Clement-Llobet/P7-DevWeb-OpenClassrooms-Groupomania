@@ -28,9 +28,9 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div>
+    <main>
       <Header />
-      <div className="post-container">
+      <section className="post-container">
         <h1>Communiquez.</h1>
         <input
           type="range"
@@ -41,9 +41,9 @@ const Home: React.FC = () => {
         />
         <h2>{getPostCount} posts</h2>
         <PostsList allPosts={allPosts} />
-      </div>
+      </section>
       <Footer />
-    </div>
+    </main>
   );
 };
 

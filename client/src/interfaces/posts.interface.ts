@@ -1,6 +1,6 @@
 export interface PostsData {
   id: number;
-  text: string;
-  urlImage: string;
+  text: string | undefined;
+  urlImage: string | undefined;
   EmployeeId: number;
 }

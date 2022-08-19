@@ -10,12 +10,20 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts }) => {
 
   return (
     <ul className="Posts">
-      {allPosts?.map((post) => (
-        <li key={post.id} onClick={() => navigate(`/${post.id}`)}>
-          <p>{post.text}</p>
-          <img src={post.urlImage} alt="" />
-        </li>
-      ))}
+      {allPosts?.map(
+        (post) => (
+          <li>
+            <p>${post.text}</p>
+            {post.urlImage && <img src={post.urlImage} alt="" />}
+          </li>
+        )
+        // (
+        //   <li key={post.id} onClick={() => navigate(`/${post.id}`)}>
+        //     <p>{post.text}</p>
+        //     <img src={post.urlImage} alt="" />
+        //   </li>
+        // )
+      )}
     </ul>
   );
 };
