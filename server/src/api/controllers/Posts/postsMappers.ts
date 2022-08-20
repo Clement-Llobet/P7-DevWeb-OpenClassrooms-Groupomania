@@ -3,9 +3,8 @@ import { PostsOutput } from "../../../database/models/Posts.model";
 
 export const toPost = (post: PostsOutput): Post => {
     return {
+        id: post.id,
         text: post.text,
         urlImage: post.urlImage,
-        likes: post.likes,
-        // EmployeeId: post
     }
 }
