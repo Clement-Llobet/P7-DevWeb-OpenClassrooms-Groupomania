@@ -17,6 +17,7 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
 }) => {
   const [text, updateText] = useState(defaultValueText);
   const [urlImage, updateUrlImage] = useState(defaultValueUrlImage);
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const handleUpdateSubmit = async (postId?: number) => {
     let updatedObject: PostsData = {
@@ -27,7 +28,7 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
 
     await api.apiUpdatePost(updatedObject);
 
-    // Modifier le state de updateModal dans PostDetails à false
+    setSuccessMessage(true);
   };
 
   return (
@@ -59,6 +60,9 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
         </fieldset>
       </form>
       <button onClick={() => handleUpdateSubmit(postId)}>Valider</button>
+      {successMessage && (
+        <div>Vos modifications ont bien été prises en compte.</div>
+      )}
     </div>
   );
 };

@@ -10,27 +10,40 @@ interface PostDetailProps {
 }
 
 const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
-  const { isOpen } = useContext(AllModalsContext);
+  // const { setModalOpening, isOpen } = useContext(AllModalsContext);
 
+  const [modal, setModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
   const showUpdatePostModal = async () => {
+    setModal(true);
     setUpdateModal(true);
+    setDeleteModal(false);
   };
 
   const showDeleteModal = async () => {
+    setModal(true);
     setDeleteModal(true);
+    setUpdateModal(false);
   };
 
   return (
-    <div>
-      <h1>Post n°{singlePost?.id}</h1>
+    <section>
+      <div>
+        <h2>Post n°{singlePost?.id}</h2>
+        {modal && updateModal && (
+          <i onClick={() => setUpdateModal(false)}>Fermer</i>
+        )}
+        {modal && deleteModal && (
+          <i onClick={() => setDeleteModal(false)}>Fermer</i>
+        )}
+      </div>
 
       <p onClick={showUpdatePostModal}>Modifier le post</p>
       <p onClick={showDeleteModal}>Supprimer le post</p>
 
-      {updateModal ? (
+      {modal && updateModal ? (
         <UpdatePostModal
           defaultValueText={singlePost?.text}
           defaultValueUrlImage={singlePost?.urlImage}
@@ -43,10 +56,10 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
         </div>
       )}
 
-      <div>{deleteModal && <DeleteModal />}</div>
+      {modal && deleteModal && <DeleteModal />}
 
       <Link to="/home">Accueil</Link>
-    </div>
+    </section>
   );
 };
 
