@@ -136,6 +136,7 @@ export class ApiService {
 
     const response = await fetch(url);
     const postData = response.json();
+
     return postData;
   };
 
