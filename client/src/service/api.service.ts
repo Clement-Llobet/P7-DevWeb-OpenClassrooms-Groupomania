@@ -37,7 +37,7 @@ export class ApiService {
     return userData;
   };
 
-  apiUpdateEmployees = async (data: string) => {
+  apiUpdateEmployees = async (data?: string) => {
     let url = this.urlBase + `api/employees/${data}`;
 
     const response = await fetch(url, {
@@ -51,7 +51,7 @@ export class ApiService {
     return updateEmployeeData;
   };
 
-  apiDeleteEmployees = async (data: string) => {
+  apiDeleteEmployees = async (data?: string) => {
     let url = this.urlBase + `api/employees/${data}`;
 
     const response = await fetch(url, {
@@ -73,7 +73,7 @@ export class ApiService {
     return employeesData;
   };
 
-  apiGetEmployeeById = async (data: string) => {
+  apiGetEmployeeById = async (data?: string) => {
     let url = this.urlBase + `api/employees/${data}`;
 
     const response = await fetch(url);
@@ -109,7 +109,7 @@ export class ApiService {
     return updatePostData;
   };
 
-  apiDeletePost = async (data: string) => {
+  apiDeletePost = async (data?: string) => {
     let url = this.urlBase + `api/posts/${data}`;
 
     const response = await fetch(url, {
@@ -123,7 +123,7 @@ export class ApiService {
     return deletePostData;
   };
 
-  apiGetPostById = async (data: string) => {
+  apiGetPostById = async (data?: string) => {
     let url = this.urlBase + `api/posts/${data}`;
 
     const response = await fetch(url);
