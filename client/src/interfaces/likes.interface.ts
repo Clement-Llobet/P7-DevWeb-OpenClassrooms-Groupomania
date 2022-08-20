@@ -1,5 +1,5 @@
 export interface LikesData {
-  likesId: number;
+  likesId?: number;
   EmployeeId: number;
   PostId: number;
 }

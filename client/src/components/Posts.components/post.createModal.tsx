@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ApiService } from '../service/api.service';
+import { ApiService } from '../../service/api.service';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 

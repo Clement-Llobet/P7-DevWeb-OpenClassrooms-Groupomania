@@ -1,6 +1,6 @@
 import { SyntheticEvent, useState } from 'react';
-import { EmployeesData } from '../interfaces';
-import { ApiService } from '../service/api.service';
+import { EmployeesData } from '../../interfaces';
+import { ApiService } from '../../service/api.service';
 import DeleteEmployeeModal from './employee.deleteModal';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);

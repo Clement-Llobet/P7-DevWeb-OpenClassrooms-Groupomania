@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import PostsList from '../components/PostsList';
+import PostsList from '../components/Posts.components/PostsList';
 import { useEffect, useState } from 'react';
 import { PostsData } from '../interfaces/index';
 import { ApiService } from '../service/api.service';

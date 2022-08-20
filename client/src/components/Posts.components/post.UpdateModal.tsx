@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { PostsData } from '../interfaces';
-import { ApiService } from '../service/api.service';
+import { PostsData } from '../../interfaces';
+import { ApiService } from '../../service/api.service';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 

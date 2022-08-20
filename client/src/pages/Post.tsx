@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import PostDetail from '../components/PostDatas';
+import PostDetail from '../components/Posts.components/PostDetails';
 import { PostsData } from '../interfaces';
 import { ApiService } from '../service/api.service';
-import DeleteModal from '../components/post.DeleteModal';
-import UpdatePostModal from '../components/post.UpdateModal';
+import DeleteModal from '../components/Posts.components/post.DeleteModal';
+import UpdatePostModal from '../components/Posts.components/post.UpdateModal';
 
 type PostParams = {
   id: string;

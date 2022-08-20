@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { PostsData } from '../interfaces';
+import { PostsData } from '../../interfaces';
 
 interface PostDetailProps {
   singlePost: PostsData | null;

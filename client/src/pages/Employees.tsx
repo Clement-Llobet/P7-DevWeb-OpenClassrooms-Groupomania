@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import EmployeesList from '../components/EmployeesList';
+import EmployeesList from '../components/Employees.components/EmployeesList';
 import Header from '../components/Header';
 import { EmployeesData } from '../interfaces';
 import { ApiService } from '../service/api.service';
@@ -24,7 +24,7 @@ const Employees = () => {
       <Header />
       <section>
         <h2>Les employés de Groupomania :</h2>
-        <EmployeesList />
+        <EmployeesList allEmployees={null} />
       </section>
     </main>
   );

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { PostsData } from '../interfaces';
+import { PostsData } from '../../interfaces';
 
 interface PostsListProps {
   allPosts: PostsData[] | null;
