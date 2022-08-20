@@ -4,19 +4,30 @@ import { ApiService } from '../../service/api.service';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
-const UpdatePostModal = () => {
-  const [text, updateText] = useState('');
-  const [image, updateImage] = useState('');
+interface PostDefaultValuesProps {
+  defaultValueText?: string;
+  defaultValueUrlImage?: string;
+  postId?: number;
+}
 
-  const handleUpdateSubmit = async () => {
+const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
+  defaultValueText,
+  defaultValueUrlImage,
+  postId,
+}) => {
+  const [text, updateText] = useState(defaultValueText);
+  const [urlImage, updateUrlImage] = useState(defaultValueUrlImage);
+
+  const handleUpdateSubmit = async (postId?: number) => {
     let updatedObject: PostsData = {
-      id: 2, // post.id
+      id: postId,
       text: text,
-      urlImage: image,
-      EmployeeId: 2, // post.employeeId
+      urlImage: urlImage,
     };
 
     await api.apiUpdatePost(updatedObject);
+
+    // Modifier le state de updateModal dans PostDetails à false
   };
 
   return (
@@ -24,22 +35,30 @@ const UpdatePostModal = () => {
       <h2>Modifier le post</h2>
       <form>
         <fieldset>
-          <input
-            type="text"
-            name="text"
-            className="post-text__update"
-            onBlur={(e) => updateText(e.target.value)}
-          />
-          <input
-            type="file"
-            className="post-image"
-            multiple={false}
-            accept=".jpeg, .jpg, .png, .webp"
-            onChange={(e) => updateImage(e.target.value)}
-          />
+          <div>
+            <label>Modifier le texte : </label>
+            <input
+              type="text"
+              name="text"
+              defaultValue={text}
+              className="post-text__update"
+              onBlur={(e) => updateText(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label>Modifier l'image : </label>
+            <input
+              type="file"
+              className="post-image"
+              multiple={false}
+              accept=".jpeg, .jpg, .png, .webp"
+              onChange={(e) => updateUrlImage(e.target.value)}
+            />
+          </div>
         </fieldset>
       </form>
-      <button onClick={handleUpdateSubmit}>Valider</button>
+      <button onClick={() => handleUpdateSubmit(postId)}>Valider</button>
     </div>
   );
 };

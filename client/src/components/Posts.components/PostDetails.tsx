@@ -23,15 +23,24 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
   return (
     <div>
       <h1>Post n°{singlePost?.id}</h1>
-      <p>{singlePost?.text}</p>
-      <img src={singlePost?.urlImage} alt="" />
 
-      <div>
-        <p onClick={showUpdatePostModal}>Modifier le post</p>
-        <p onClick={showDeleteModal}>Supprimer le post</p>
-        {updateModal && <UpdatePostModal />}
-        {deleteModal && <DeleteModal />}
-      </div>
+      <p onClick={showUpdatePostModal}>Modifier le post</p>
+      <p onClick={showDeleteModal}>Supprimer le post</p>
+
+      {updateModal ? (
+        <UpdatePostModal
+          defaultValueText={singlePost?.text}
+          defaultValueUrlImage={singlePost?.urlImage}
+          postId={singlePost?.id}
+        />
+      ) : (
+        <div>
+          <p>{singlePost?.text}</p>
+          <img src={singlePost?.urlImage} alt="" />
+        </div>
+      )}
+
+      <div>{deleteModal && <DeleteModal />}</div>
 
       <Link to="/home">Accueil</Link>
     </div>

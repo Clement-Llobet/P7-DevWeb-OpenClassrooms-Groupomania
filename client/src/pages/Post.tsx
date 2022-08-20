@@ -11,17 +11,17 @@ type PostParams = {
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const Post = () => {
-  const params = useParams<PostParams>();
+  const { id } = useParams<PostParams>();
 
   const [singlePost, setSinglePost] = useState<PostsData | null>(null);
 
-  // useEffect(() => {
-  //   const getSinglePost = async () => {
-  //     const data = await api.apiGetPostById(id);
-  //     setSinglePost(data);
-  //   };
-  //   getSinglePost();
-  // }, [id]);
+  useEffect(() => {
+    const getSinglePost = async () => {
+      const data = await api.apiGetPostById(id);
+      setSinglePost(data);
+    };
+    getSinglePost();
+  }, [id]);
   return <PostDetails singlePost={singlePost} />;
 };
 
