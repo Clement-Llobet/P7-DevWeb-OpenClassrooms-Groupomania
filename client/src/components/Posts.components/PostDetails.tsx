@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import AllModalsContext from '../../utils/context';
 import { Link } from 'react-router-dom';
 import { PostsData } from '../../interfaces';
 import DeleteModal from './post.DeleteModal';
@@ -9,6 +10,8 @@ interface PostDetailProps {
 }
 
 const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
+  const { isOpen } = useContext(AllModalsContext);
+
   const [updateModal, setUpdateModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
