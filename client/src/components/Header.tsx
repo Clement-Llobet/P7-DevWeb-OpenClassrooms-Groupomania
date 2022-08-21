@@ -1,16 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
   return (
     <div>
       <img src={''} alt="Logo Groupomania" />
       <nav>
         <li>
-          <Link to="/">Accueil</Link>
+          <Link to="/Home">Accueil</Link>
         </li>
-        <li>
-          <Link to="#">Déconnexion</Link>
-        </li>
+        <li onClick={handleLogOut}>Déconnexion</li>
       </nav>
     </div>
   );

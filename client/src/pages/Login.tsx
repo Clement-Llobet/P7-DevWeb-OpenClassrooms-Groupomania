@@ -1,11 +1,7 @@
-import { Link } from 'react-router-dom';
-import { FC, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FC, useEffect, useState } from 'react';
 import { ApiService } from '../service/api.service';
-
-interface loginData {
-  email: string;
-  password: string;
-}
+import { EmployeesLoginData } from '../interfaces';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -16,32 +12,51 @@ const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+
+  let employeeToLogin: EmployeesLoginData = {
+    email: email,
+    password: password,
+  };
+
   const checkEmail = (data: string) => {
     if (!regexEmail.exec(data)) {
       setEmail('');
-      console.log(email);
     } else {
       setEmail(data);
     }
   };
 
   const checkPassword = (data: string) => {
-    if (data.length <= 3) {
+    if (data.length < 3) {
       setPassword('');
     } else {
       setPassword(data);
     }
   };
 
-  const handleSubmit = async () => {
+  useEffect(() => {
+    employeeToLogin.email = email;
+    employeeToLogin.password = password;
+  });
+
+  const handleSubmit = async (employee: EmployeesLoginData) => {
     if (email === '' || password === '') {
+      console.log('Il y a une erreur');
+
       return Error;
     } else {
-      let data: loginData = {
-        email: email,
-        password: password,
-      };
-      await api.apiEmployeesLogin(data);
+      const loginResult = await api.apiEmployeesLogin(employee);
+      handleRedirect(loginResult.token);
+    }
+  };
+
+  const handleRedirect = (res: any) => {
+    if (res) {
+      navigate(`/Home`);
+    } else {
+      console.log(Error);
+      return Error;
     }
   };
 
@@ -73,16 +88,10 @@ const Login: FC = () => {
           <p id="invalid-password-text"></p>
         </fieldset>
       </form>
-      <button
-        onClick={() => {
-          handleSubmit();
-        }}
-      >
-        Valider
-      </button>
+      <button onClick={() => handleSubmit(employeeToLogin)}>Valider</button>
 
       <p>
-        Pas encore inscrit ? <Link to="/register">Connectez-vous ici</Link>
+        Pas encore inscrit ? <Link to="/register">Faites-le ici</Link>
       </p>
     </section>
   );

@@ -1,4 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { EmployeesData } from '../interfaces';
 import { ApiService } from '../service/api.service';
 
@@ -14,6 +15,8 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [moderation, setModeration] = useState<boolean | null>(null);
   const [profilePicture, setProfilePicture] = useState<string>('');
+
+  const navigate = useNavigate();
 
   const checkAndSetName = (input: HTMLInputElement) => {
     if (input.value.length < 2) {
@@ -115,8 +118,17 @@ const Register: React.FC = () => {
         employeeToCreate
     );
 
-    await api.apiEmployeesSignUp(employeeToCreate);
-    // }
+    const signupResult = await api.apiEmployeesSignUp(employeeToCreate);
+    handleRedirect(signupResult.token);
+  };
+
+  const handleRedirect = (res: any) => {
+    if (res) {
+      navigate(`/Home`);
+    } else {
+      console.log(Error);
+      return Error;
+    }
   };
 
   return (
