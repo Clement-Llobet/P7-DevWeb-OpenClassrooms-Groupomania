@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PostDetails from '../components/Posts.components/PostDetails';
 import { PostsData } from '../interfaces';
 import { ApiService } from '../service/api.service';
+import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
 
 type PostParams = {
   id: string;
@@ -14,6 +15,12 @@ const Post = () => {
   const { id } = useParams<PostParams>();
 
   const [singlePost, setSinglePost] = useState<PostsData | null>(null);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    forbidAccessWithoutToken(navigate);
+  });
 
   useEffect(() => {
     const getSinglePost = async () => {

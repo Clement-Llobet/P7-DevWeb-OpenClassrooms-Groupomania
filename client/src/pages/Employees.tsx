@@ -3,6 +3,8 @@ import EmployeesList from '../components/Employees.components/EmployeesList';
 import Header from '../components/Header';
 import { EmployeesData } from '../interfaces';
 import { ApiService } from '../service/api.service';
+import { useNavigate } from 'react-router-dom';
+import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -11,6 +13,12 @@ const Employees = () => {
     null
   );
   const [employeesList, setEmployeesList] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    forbidAccessWithoutToken(navigate);
+  });
 
   useEffect(() => {
     const getAllEmployees = async () => {

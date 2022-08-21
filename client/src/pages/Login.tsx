@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FC, useEffect, useState } from 'react';
 import { ApiService } from '../service/api.service';
 import { EmployeesLoginData } from '../interfaces';
+import { forbidAccessWithToken } from '../service/checkLocalStorage';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -13,6 +14,10 @@ const Login: FC = () => {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    forbidAccessWithToken(navigate);
+  });
 
   let employeeToLogin: EmployeesLoginData = {
     email: email,
@@ -51,7 +56,7 @@ const Login: FC = () => {
     }
   };
 
-  const handleRedirect = (res: any) => {
+  const handleRedirect = (res: string) => {
     if (res) {
       navigate(`/Home`);
     } else {

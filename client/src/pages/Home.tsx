@@ -4,12 +4,20 @@ import PostsList from '../components/Posts.components/PostsList';
 import { useEffect, useState } from 'react';
 import { PostsData } from '../interfaces/index';
 import { ApiService } from '../service/api.service';
+import { useNavigate } from 'react-router-dom';
+import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const Home: React.FC = () => {
   const [allPosts, setAllPosts] = useState<PostsData[] | null>(null);
   const [postCount, setPostCount] = useState<number>();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    forbidAccessWithoutToken(navigate);
+  });
 
   const postCountOrigin = () => localStorage.getItem('number') || postCount;
   const getPostCount = postCountOrigin();

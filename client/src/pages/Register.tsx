@@ -2,6 +2,7 @@ import { SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EmployeesData } from '../interfaces';
 import { ApiService } from '../service/api.service';
+import { forbidAccessWithToken } from '../service/checkLocalStorage';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -18,13 +19,16 @@ const Register: React.FC = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    forbidAccessWithToken(navigate);
+  });
+
   const checkAndSetName = (input: HTMLInputElement) => {
     if (input.value.length < 2) {
       setName('');
     } else {
       setName(input.value);
     }
-    console.log(name);
   };
 
   const checkAndSetSurname = (input: HTMLInputElement) => {
@@ -33,7 +37,6 @@ const Register: React.FC = () => {
     } else {
       setSurname(input.value);
     }
-    console.log(surname);
   };
 
   const checkAndSetEmail = (input: string) => {
@@ -42,7 +45,6 @@ const Register: React.FC = () => {
     } else {
       setEmail(input);
     }
-    console.log(email);
   };
 
   const checkAndSetPassword = (input: HTMLInputElement) => {
@@ -51,7 +53,6 @@ const Register: React.FC = () => {
     } else {
       setPassword(input.value);
     }
-    console.log(password);
   };
 
   const checkAndSetModeration = async (option: HTMLSelectElement) => {
@@ -62,8 +63,6 @@ const Register: React.FC = () => {
     } else {
       setModeration(null);
     }
-
-    console.log(moderation);
   };
 
   const manageProfilePicture = async (data: HTMLInputElement) => {
@@ -75,7 +74,6 @@ const Register: React.FC = () => {
     }
 
     setProfilePicture(URL.createObjectURL(file[0]));
-    console.log(profilePicture);
   };
 
   let employeeToCreate: EmployeesData = {
@@ -94,30 +92,9 @@ const Register: React.FC = () => {
     employeeToCreate.password = password;
     employeeToCreate.moderation = moderation;
     employeeToCreate.profilePicture = profilePicture;
-
-    console.log(employeeToCreate);
   });
 
   const handleSubmit = async () => {
-    console.log(
-      name +
-        ' === ' +
-        surname +
-        ' === ' +
-        email +
-        ' === ' +
-        password +
-        ' === ' +
-        moderation +
-        ' === ' +
-        profilePicture
-    );
-
-    console.log(
-      "L'objet a les caractéristiques suivantes : ========== " +
-        employeeToCreate
-    );
-
     const signupResult = await api.apiEmployeesSignUp(employeeToCreate);
     handleRedirect(signupResult.token);
   };
@@ -126,7 +103,6 @@ const Register: React.FC = () => {
     if (res) {
       navigate(`/Home`);
     } else {
-      console.log(Error);
       return Error;
     }
   };
