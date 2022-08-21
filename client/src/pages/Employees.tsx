@@ -10,21 +10,23 @@ const Employees = () => {
   const [allEmployees, setAllEmployees] = useState<EmployeesData[] | null>(
     null
   );
+  const [employeesList, setEmployeesList] = useState(false);
 
   useEffect(() => {
     const getAllEmployees = async () => {
       const data = await api.apiGetAllEmployees();
       setAllEmployees(data);
+      setEmployeesList(true);
     };
     getAllEmployees();
-  }, [allEmployees]);
+  }, [employeesList]);
 
   return (
     <main>
       <Header />
       <section>
         <h2>Les employés de Groupomania :</h2>
-        <EmployeesList allEmployees={null} />
+        <EmployeesList allEmployees={allEmployees} />
       </section>
     </main>
   );

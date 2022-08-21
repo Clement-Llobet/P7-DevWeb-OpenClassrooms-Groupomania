@@ -8,12 +8,12 @@ const regexEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const Register: React.FC = () => {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState<string>('');
+  const [surname, setSurname] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [moderation, setModeration] = useState<boolean | null>(null);
-  const [profilePicture, setProfilePicture] = useState('');
+  const [profilePicture, setProfilePicture] = useState<string>('');
 
   const checkAndSetName = (input: HTMLInputElement) => {
     if (input.value.length < 2) {
@@ -75,6 +75,26 @@ const Register: React.FC = () => {
     console.log(profilePicture);
   };
 
+  let employeeToCreate: EmployeesData = {
+    name: name,
+    surname: surname,
+    email: email,
+    password: password,
+    moderation: moderation,
+    profilePicture: profilePicture,
+  };
+
+  useEffect(() => {
+    employeeToCreate.name = name;
+    employeeToCreate.surname = surname;
+    employeeToCreate.email = email;
+    employeeToCreate.password = password;
+    employeeToCreate.moderation = moderation;
+    employeeToCreate.profilePicture = profilePicture;
+
+    console.log(employeeToCreate);
+  });
+
   const handleSubmit = async () => {
     console.log(
       name +
@@ -90,42 +110,12 @@ const Register: React.FC = () => {
         profilePicture
     );
 
-    // if (
-    //   name === '' ||
-    //   surname === '' ||
-    //   email === '' ||
-    //   password === '' ||
-    //   moderation === null
-    // ) {
-    //   console.log('Il y a une erreur');
-    //   return Error;
-    // } else {
-    //   console.log("Pas d'erreur. Création de l'objet en cours.");
-
-    // let data: registerData = {
-    //   name: name,
-    //   surname: surname,
-    //   email: email,
-    //   password: password,
-    //   moderation: moderation,
-    //   profilePicture: profilePicture,
-    // };
-
-    let data: EmployeesData = {
-      name: 'Test',
-      surname: 'Ceci est un',
-      email: 'ceciestuntest@mail.com',
-      password: 'dev',
-      moderation: false,
-      profilePicture:
-        'blob:http://localhost:3000/f347cae0-2c97-4461-929b-a6d557704be1',
-    };
-
     console.log(
-      "L'objet a les caractéristiques suivantes : ========== " + data
+      "L'objet a les caractéristiques suivantes : ========== " +
+        employeeToCreate
     );
 
-    await api.apiEmployeesSignUp(data);
+    await api.apiEmployeesSignUp(employeeToCreate);
     // }
   };
 

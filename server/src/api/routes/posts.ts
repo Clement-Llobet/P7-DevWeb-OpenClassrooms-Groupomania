@@ -9,7 +9,7 @@ const likesController = require('../controllers/Likes/likes');
 router.get('/', postsController.getAllPosts);
 router.get('/:id', postsController.getPostById);
 router.post('/', multer, auth, postsController.createPost);
-router.put('/:id', postsController.updatePost);
+router.put('/:id', multer, postsController.updatePost);
 router.delete('/:id', postsController.deletePostById);
 
 router.post('/:id/like', likesController.createLike);

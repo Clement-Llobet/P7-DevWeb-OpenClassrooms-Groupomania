@@ -3,6 +3,7 @@ import { EmployeesOutput } from "../../../database/models/Employees.model";
 
 export const toEmployee = (employee: EmployeesOutput): Employee => {
     return {
+        id: employee.id,
         name: employee.name,
         surname: employee.surname,
         email: employee.email,

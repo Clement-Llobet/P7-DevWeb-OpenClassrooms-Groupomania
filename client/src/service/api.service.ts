@@ -37,8 +37,8 @@ export class ApiService {
     return userData;
   };
 
-  apiUpdateEmployees = async (data?: string) => {
-    let url = this.urlBase + `api/employees/${data}`;
+  apiUpdateEmployees = async (data?: types.EmployeesData) => {
+    let url = this.urlBase + `api/employees/${data?.id}`;
 
     const response = await fetch(url, {
       method: 'PUT',

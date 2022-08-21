@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { PostsData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 
@@ -16,17 +16,40 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
   postId,
 }) => {
   const [text, updateText] = useState(defaultValueText);
-  const [urlImage, updateUrlImage] = useState(defaultValueUrlImage);
+  const [urlImage, setUrlImage] = useState(defaultValueUrlImage);
   const [successMessage, setSuccessMessage] = useState(false);
 
-  const handleUpdateSubmit = async (postId?: number) => {
-    let updatedObject: PostsData = {
-      id: postId,
-      text: text,
-      urlImage: urlImage,
-    };
+  const manageUpdateUrlImage = (data: HTMLInputElement) => {
+    const file: FileList | null = data.files;
 
-    await api.apiUpdatePost(updatedObject);
+    if (file === null) {
+      setUrlImage('');
+      return;
+    }
+
+    console.log(file);
+
+    setUrlImage(URL.createObjectURL(file[0]));
+    console.log(urlImage);
+  };
+
+  let objectToUpdate: PostsData = {
+    id: postId,
+    text: text,
+    urlImage: urlImage,
+  };
+
+  useEffect(() => {
+    objectToUpdate.id = postId;
+    objectToUpdate.text = text;
+    objectToUpdate.urlImage = urlImage;
+  });
+
+  const handleUpdateSubmit = async (
+    objectToUpdate: PostsData,
+    postId?: number
+  ) => {
+    await api.apiUpdatePost(objectToUpdate);
 
     setSuccessMessage(true);
   };
@@ -54,12 +77,17 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
               className="post-image"
               multiple={false}
               accept=".jpeg, .jpg, .png, .webp"
-              onChange={(e) => updateUrlImage(e.target.value)}
+              onChange={(e: SyntheticEvent) =>
+                manageUpdateUrlImage(e.currentTarget as HTMLInputElement)
+              }
             />
+            <img src={urlImage} alt="" />
           </div>
         </fieldset>
       </form>
-      <button onClick={() => handleUpdateSubmit(postId)}>Valider</button>
+      <button onClick={() => handleUpdateSubmit(objectToUpdate, postId)}>
+        Valider
+      </button>
       {successMessage && (
         <div>Vos modifications ont bien été prises en compte.</div>
       )}
