@@ -33,15 +33,31 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
       <div>
         <h2>Post n°{singlePost?.id}</h2>
         {modal && updateModal && (
-          <i onClick={() => setUpdateModal(false)}>Fermer</i>
+          <button
+            onClick={() => {
+              setUpdateModal(false);
+              setModal(false);
+            }}
+          >
+            Fermer
+          </button>
         )}
         {modal && deleteModal && (
-          <i onClick={() => setDeleteModal(false)}>Fermer</i>
+          <button
+            onClick={() => {
+              setDeleteModal(false);
+              setModal(false);
+            }}
+          >
+            Fermer
+          </button>
         )}
       </div>
 
-      <p onClick={showUpdatePostModal}>Modifier le post</p>
-      <p onClick={showDeleteModal}>Supprimer le post</p>
+      {!modal && (
+        <button onClick={showUpdatePostModal}>Modifier le post</button>
+      )}
+      {!modal && <button onClick={showDeleteModal}>Supprimer le post</button>}
 
       {modal && updateModal ? (
         <UpdatePostModal
