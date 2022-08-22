@@ -4,6 +4,7 @@ import PostDetails from '../components/Posts.components/PostDetails';
 import { PostsData } from '../interfaces';
 import { ApiService } from '../service/api.service';
 import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
+import { currentToken } from '../service/getCurrentToken';
 import { PostIdParams } from '../types/postId.type';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
@@ -21,7 +22,7 @@ const Post = () => {
 
   useEffect(() => {
     const getSinglePost = async () => {
-      const data = await api.apiGetPostById(id);
+      const data = await api.apiGetPostById(currentToken, id);
       setSinglePost(data);
     };
     getSinglePost();

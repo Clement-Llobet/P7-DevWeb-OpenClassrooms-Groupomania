@@ -1,6 +1,7 @@
 import { SyntheticEvent, useRef, useState } from 'react';
 import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
+import { currentToken } from '../../service/getCurrentToken';
 import DeleteEmployeeModal from './employee.deleteModal';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
@@ -38,7 +39,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
 
       return;
     }
-    await api.apiUpdateEmployees(employeeToUpdate);
+    await api.apiUpdateEmployees(currentToken, employeeToUpdate);
   };
 
   return (

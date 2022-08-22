@@ -1,6 +1,7 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { PostsData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
+import { currentToken } from '../../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -49,7 +50,7 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
     objectToUpdate: PostsData,
     postId?: number
   ) => {
-    await api.apiUpdatePost(objectToUpdate);
+    await api.apiUpdatePost(currentToken, objectToUpdate);
 
     setSuccessMessage(true);
   };

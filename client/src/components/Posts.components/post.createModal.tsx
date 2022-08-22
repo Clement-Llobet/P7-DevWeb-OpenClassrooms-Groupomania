@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { PostsData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
+import { currentToken } from '../../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const CreatePostModal = () => {
   const [text, setText] = useState('');
   const [image, setImage] = useState('');
-
-  const currentToken = localStorage.getItem('token');
 
   const handleCreateSubmit = async () => {
     let createPostObject: PostsData = {
@@ -17,7 +16,7 @@ const CreatePostModal = () => {
       EmployeeId: currentToken,
     };
 
-    await api.apiCreatePost(createPostObject);
+    await api.apiCreatePost(currentToken, createPostObject);
   };
 
   return (

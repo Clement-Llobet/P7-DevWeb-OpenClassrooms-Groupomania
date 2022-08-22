@@ -5,6 +5,7 @@ import { EmployeesData } from '../interfaces';
 import { ApiService } from '../service/api.service';
 import { useNavigate } from 'react-router-dom';
 import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
+import { currentToken } from '../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -22,7 +23,7 @@ const Employees = () => {
 
   useEffect(() => {
     const getAllEmployees = async () => {
-      const data = await api.apiGetAllEmployees();
+      const data = await api.apiGetAllEmployees(currentToken);
       setAllEmployees(data);
       setEmployeesList(true);
     };

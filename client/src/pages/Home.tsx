@@ -7,6 +7,7 @@ import { ApiService } from '../service/api.service';
 import { useNavigate } from 'react-router-dom';
 import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
 import CreatePostModal from '../components/Posts.components/post.createModal';
+import { currentToken } from '../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -26,7 +27,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const getAllPosts = async () => {
-      const data = await api.apiGetAllPosts();
+      const data = await api.apiGetAllPosts(currentToken);
       setAllPosts(data);
     };
     getAllPosts();

@@ -1,20 +1,21 @@
 import { useState, useContext } from 'react';
-import AllModalsContext from '../../utils/context';
 import { Link } from 'react-router-dom';
 import { PostsData } from '../../interfaces';
 import DeleteModal from './post.DeleteModal';
 import UpdatePostModal from './post.UpdateModal';
+import { ApiService } from '../../service/api.service';
 
 interface PostDetailProps {
   singlePost: PostsData | null;
 }
 
-const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
-  // const { setModalOpening, isOpen } = useContext(AllModalsContext);
+const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
+const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
   const [modal, setModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [like, setLike] = useState(false);
 
   const showUpdatePostModal = async () => {
     setModal(true);
@@ -26,6 +27,13 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
     setModal(true);
     setDeleteModal(true);
     setUpdateModal(false);
+  };
+
+  const handleLike = async () => {
+    like
+      ? setLike(false)
+      : // await api.apiCreateLike();
+        setLike(true);
   };
 
   return (
@@ -67,8 +75,13 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
         />
       ) : (
         <div>
-          <p>{singlePost?.text}</p>
-          <img src={singlePost?.urlImage} alt="" />
+          <div>
+            <p>{singlePost?.text}</p>
+            <img src={singlePost?.urlImage} alt="" />
+          </div>
+          <div>
+            <button onClick={() => handleLike()}>Like</button>
+          </div>
         </div>
       )}
 

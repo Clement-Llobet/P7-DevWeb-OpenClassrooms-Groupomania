@@ -37,13 +37,17 @@ export class ApiService {
     return userData;
   };
 
-  apiUpdateEmployees = async (data?: types.EmployeesData) => {
+  apiUpdateEmployees = async (
+    token: string | null,
+    data?: types.EmployeesData
+  ) => {
     let url = this.urlBase + `api/employees/${data?.id}`;
 
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
@@ -51,13 +55,14 @@ export class ApiService {
     return updateEmployeeData;
   };
 
-  apiDeleteEmployees = async (data?: string) => {
+  apiDeleteEmployees = async (token: string | null, data?: string) => {
     let url = this.urlBase + `api/employees/${data}`;
 
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
@@ -65,23 +70,37 @@ export class ApiService {
     return deleteEmployeeData;
   };
 
-  apiGetAllEmployees = async () => {
+  apiGetAllEmployees = async (token: string | null) => {
     let url = this.urlBase + 'api/employees/';
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     const employeesData = response.json();
     return employeesData;
   };
 
-  apiGetEmployeeById = async (data?: string) => {
+  apiGetEmployeeById = async (token: string | null, data?: string) => {
     let url = this.urlBase + `api/employees/${data}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     const employeeByIdData = response.json();
     return employeeByIdData;
   };
 
-  apiCreatePost = async (data: types.PostsData) => {
+  apiCreatePost = async (token: string | null, data: types.PostsData) => {
     let url = this.urlBase + 'api/posts/';
 
     const response = await fetch(url, {
@@ -89,19 +108,21 @@ export class ApiService {
       body: JSON.stringify(data),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
+        Authorization: `Bearer ${token}`,
       },
     });
     const postData = await response.json();
     return postData;
   };
 
-  apiUpdatePost = async (data: types.PostsData) => {
+  apiUpdatePost = async (token: string | null, data: types.PostsData) => {
     let url = this.urlBase + `api/posts/${data.id}`;
 
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
@@ -109,13 +130,14 @@ export class ApiService {
     return updatePostData;
   };
 
-  apiDeletePost = async (id?: string) => {
+  apiDeletePost = async (token: string | null, id?: string) => {
     let url = this.urlBase + `api/posts/${id}`;
 
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(id),
     });
@@ -123,24 +145,38 @@ export class ApiService {
     return deletePostData;
   };
 
-  apiGetPostById = async (data?: string) => {
+  apiGetPostById = async (token: string | null, data?: string) => {
     let url = this.urlBase + `api/posts/${data}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     const postByIdData = response.json();
     return postByIdData;
   };
 
-  apiGetAllPosts = async () => {
+  apiGetAllPosts = async (token: string | null) => {
     let url = this.urlBase + `api/posts/`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     const postData = response.json();
 
     return postData;
   };
 
-  apiCreateLike = async (data: types.LikesData) => {
+  apiCreateLike = async (token: string | null, data: types.LikesData) => {
     let url = this.urlBase + `api/posts/${data.likesId}/like`;
 
     const response = await fetch(url, {
@@ -148,19 +184,21 @@ export class ApiService {
       body: JSON.stringify(data),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
+        Authorization: `Bearer ${token}`,
       },
     });
     const likeData = response.json();
     return likeData;
   };
 
-  apiDeleteLike = async (data: string) => {
+  apiDeleteLike = async (token: string | null, data: string) => {
     let url = this.urlBase + `api/posts/${data}/like`;
 
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
