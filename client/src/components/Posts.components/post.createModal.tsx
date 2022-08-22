@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PostsData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
@@ -7,13 +8,16 @@ const CreatePostModal = () => {
   const [text, setText] = useState('');
   const [image, setImage] = useState('');
 
+  const currentToken = localStorage.getItem('token');
+
   const handleCreateSubmit = async () => {
-    let updatedObject = {
+    let createPostObject: PostsData = {
       text: text,
       urlImage: image,
+      EmployeeId: currentToken,
     };
 
-    await api.apiCreatePost(updatedObject);
+    await api.apiCreatePost(createPostObject);
   };
 
   return (
@@ -24,7 +28,7 @@ const CreatePostModal = () => {
         <label>Qu'allez-vous partager aujourd'hui ?</label>
         <input
           type="texte"
-          placeholder="Votre titre"
+          placeholder="Qu'allez-vous partager ?"
           className="post-text__create"
           onBlur={(e) => setText(e.target.value)}
         />

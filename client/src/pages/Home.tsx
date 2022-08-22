@@ -6,12 +6,14 @@ import { PostsData } from '../interfaces/index';
 import { ApiService } from '../service/api.service';
 import { useNavigate } from 'react-router-dom';
 import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
+import CreatePostModal from '../components/Posts.components/post.createModal';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const Home: React.FC = () => {
   const [allPosts, setAllPosts] = useState<PostsData[] | null>(null);
   const [postCount, setPostCount] = useState<number>();
+  const [createPost, setCreatePost] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -40,6 +42,16 @@ const Home: React.FC = () => {
       <Header />
       <section className="post-container">
         <h1>Communiquez.</h1>
+
+        <button onClick={() => setCreatePost(true)}>Créer un post</button>
+        {createPost && (
+          <div>
+            <CreatePostModal />
+            <button onClick={() => setCreatePost(false)}>Annuler</button>
+          </div>
+        )}
+
+        <p>Derniers posts publiés</p>
         <input
           type="range"
           min={1}

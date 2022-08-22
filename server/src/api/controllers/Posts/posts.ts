@@ -6,6 +6,7 @@ import { Request, Response, NextFunction } from "express";
 import { GetAllPostsFilters } from "../../../database/dal/types";
 
 const imageAbsoluteUrl = `http://${process.env.PORT}/images/`;
+const jwt = require('jsonwebtoken');
 
 const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => {
     return mapper.toPost(await service.create(payload))
@@ -14,6 +15,11 @@ const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => 
 exports.createPost = async (req: Request, res: Response, next: NextFunction) => {
 
     const data = { ...req.body }
+
+    const decodedToken = jwt.verify(data.EmployeeId, process.env.TOKEN_SECRET);
+    const decodedEmployeeId = decodedToken.userId;
+
+    data.EmployeeId = decodedEmployeeId;    
     
     try {
         data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;

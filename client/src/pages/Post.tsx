@@ -4,15 +4,12 @@ import PostDetails from '../components/Posts.components/PostDetails';
 import { PostsData } from '../interfaces';
 import { ApiService } from '../service/api.service';
 import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
-
-type PostParams = {
-  id: string;
-};
+import { PostIdParams } from '../types/postId.type';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const Post = () => {
-  const { id } = useParams<PostParams>();
+  const { id } = useParams<PostIdParams>();
 
   const [singlePost, setSinglePost] = useState<PostsData | null>(null);
 

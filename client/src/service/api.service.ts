@@ -81,7 +81,7 @@ export class ApiService {
     return employeeByIdData;
   };
 
-  apiCreatePost = async (data: any) => {
+  apiCreatePost = async (data: types.PostsData) => {
     let url = this.urlBase + 'api/posts/';
 
     const response = await fetch(url, {
@@ -109,15 +109,15 @@ export class ApiService {
     return updatePostData;
   };
 
-  apiDeletePost = async (data?: string) => {
-    let url = this.urlBase + `api/posts/${data}`;
+  apiDeletePost = async (id?: string) => {
+    let url = this.urlBase + `api/posts/${id}`;
 
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(id),
     });
     const deletePostData = response.json();
     return deletePostData;
