@@ -4,7 +4,7 @@ import Posts from "./models/Posts.model";
 import Likes from "./models/Likes.model";
 
 const isDev = process.env.NODE_ENV === 'development';
-Employees.hasMany(Posts, { as: "posts"} );
+Employees.hasMany(Posts, { as: "posts"});
 Posts.belongsTo(Employees, { foreignKey: 'EmployeeId', as: 'authors' });
 
 Employees.belongsToMany(Posts, { 

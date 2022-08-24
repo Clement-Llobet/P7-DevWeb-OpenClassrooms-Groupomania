@@ -7,7 +7,7 @@ interface PostsAttributes {
     text: string;
     urlImage: string;
     likers: Employees[],
-    author: Employees[]
+    author: string | Employees[];
 }
 
 export interface PostsInput extends Optional<PostsAttributes, "id">{}
@@ -18,7 +18,7 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public text!: string;
     public urlImage!: string;
     public likers!: Employees[];
-    public author!: Employees[];
+    public author!: string | Employees[];
     
 }
 
@@ -32,25 +32,10 @@ Posts
         },
         text: { type: DataTypes.STRING },
         urlImage: { type: DataTypes.STRING },
-        likers: { 
-            type: DataTypes.STRING ,
-            get() {
-                return this.getDataValue('likers')
-            },
-            set(value: any) {
-                this.setDataValue('likers', value.join(";"))
-            }
-        },
-        author: { 
-            type: DataTypes.STRING,
-            get() {
-                return this.getDataValue('author')
-            },
-            set(value: any) {
-                this.setDataValue('author', value.join(";"))
-            }
-        }
-    }, {
+        likers: { type: DataTypes.JSON },
+        author: { type: DataTypes.STRING }
+    },
+     {
         sequelize: sequelizeConnection,
         paranoid: true,
         indexes: [{

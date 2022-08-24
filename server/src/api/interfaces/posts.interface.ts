@@ -5,5 +5,5 @@ export interface Post {
     text: string;
     urlImage: string;
     likers: Employees[],
-    author: Employees[]
+    author: string | Employees[]
 }

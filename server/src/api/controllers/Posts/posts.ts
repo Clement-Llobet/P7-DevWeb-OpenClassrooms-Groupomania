@@ -90,6 +90,8 @@ exports.getAllPosts = async (req: Request, res: Response, next: NextFunction) =>
         const allPosts = await selectAllPosts(filters);
         return res.status(200).send(allPosts);
     } catch (error) {
-        return res.status(500).json( error );
+        console.log(error);
+        
+        return res.status(500).json({ message: error});
     }
 }

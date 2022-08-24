@@ -34,16 +34,18 @@ export const deletePostsById = async (id: number): Promise<boolean> => {
 
 export const getAllPosts = async (filters?: GetAllPostsFilters): Promise<PostsOutput[]> => {
     return Posts.findAll({
+        raw: true,
         include: [{
             model: Employees,
-            as: 'likers',
+            as: 'allLikers',
             attributes: ['id', 'name', 'surname'],
         },
         {
             model: Employees,
-            as: 'author',
+            as: 'authors',
             attributes: ['id', 'name', 'surname']
-        }],
+        }
+    ],
         where: {
             ...(filters?.isDeleted && {deletedAt: {[Op.not]: null}})
         },
