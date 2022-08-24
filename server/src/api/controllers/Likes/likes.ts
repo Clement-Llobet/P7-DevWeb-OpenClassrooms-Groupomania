@@ -13,8 +13,6 @@ const createNewLike = async (payload: createLikeDTO): Promise<Like> => {
     return mapper.toLike(await service.create(payload))
 }
 
-
-
 const likeManager = (req: Request, res: Response, next: NextFunction, payload: any) => {
     let postIdFound: number = 0;
     let employeeIdFound: number = 0;
@@ -112,18 +110,4 @@ exports.deleteLike = async (req: Request, res: Response, next: NextFunction) => 
     // } catch (error) {
     //     return res.status(500).json(error);
     // }    
-}
-
-const callLikeCount = async (id: number) => {
-    return await service.count(id)
-}
-
-exports.countLikesById = async (req: Request, res: Response, next: NextFunction) => {
-    const likeId = parseInt(req.params.id)
-    try {
-        const responseCountLike = await callLikeCount(likeId);
-        return res.status(200).json({ message: `Le post dont l'id est ${responseCountLike} possède ${responseCountLike} likes`})
-    } catch (error) {
-        return res.status(500).json(error);
-    }
 }

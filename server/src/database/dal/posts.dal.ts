@@ -1,4 +1,6 @@
 import { Op } from "sequelize";
+import Employees from "../models/Employees.model";
+import Likes from "../models/Likes.model";
 import Posts, { PostsInput, PostsOutput } from "../models/Posts.model";
 import { GetAllPostsFilters } from "./types";
 
@@ -32,6 +34,16 @@ export const deletePostsById = async (id: number): Promise<boolean> => {
 
 export const getAllPosts = async (filters?: GetAllPostsFilters): Promise<PostsOutput[]> => {
     return Posts.findAll({
+        include: [{
+            model: Employees,
+            as: 'likers',
+            attributes: ['id', 'name', 'surname'],
+        },
+        {
+            model: Employees,
+            as: 'author',
+            attributes: ['id', 'name', 'surname']
+        }],
         where: {
             ...(filters?.isDeleted && {deletedAt: {[Op.not]: null}})
         },

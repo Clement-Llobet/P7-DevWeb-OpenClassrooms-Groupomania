@@ -26,8 +26,7 @@ exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
         
         data.password = hash;
         await sendUserToDatabase(data);
-        // return res.status(201).json({ message: "Utilisateur créé !"});
-         return res.status(201).json({
+        return res.status(201).json({
                         userId: data.id,
                         token: jwt.sign(
                             { userId: data.id },

@@ -9,7 +9,3 @@ export const remove = (id: number): Promise<boolean> => {
     return likesDal.deleteLike(id)
 }
 
-export const count = (id: number): Promise<number> => {
-    return likesDal.countLikesById(id)
-}
-

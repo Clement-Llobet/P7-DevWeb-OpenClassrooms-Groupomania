@@ -177,7 +177,7 @@ export class ApiService {
   };
 
   apiCreateLike = async (token: string | null, data: types.LikesData) => {
-    let url = this.urlBase + `api/posts/${data.likesId}/like`;
+    let url = this.urlBase + `api/posts/${data.PostId}/like`;
 
     const response = await fetch(url, {
       method: 'POST',

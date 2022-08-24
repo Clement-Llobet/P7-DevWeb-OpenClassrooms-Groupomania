@@ -11,10 +11,3 @@ export const deleteLike = async (id: number): Promise<boolean> => {
     })
     return !!deleteLike
 }
-
-export const countLikesById = async (id: number): Promise<number> => {
-    const likesCount = Likes.count({
-        where:  {likesId: id}
-    })
-    return likesCount
-}

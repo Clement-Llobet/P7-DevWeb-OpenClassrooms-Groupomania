@@ -1,11 +1,13 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelizeConnection from "../config";
+import Employees from "./Employees.model";
 
 interface PostsAttributes {
     id: number;
     text: string;
     urlImage: string;
-    // employeeId: number;
+    likers: Employees[],
+    author: Employees[]
 }
 
 export interface PostsInput extends Optional<PostsAttributes, "id">{}
@@ -15,7 +17,9 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public id!: number;
     public text!: string;
     public urlImage!: string;
-    // public employeeId!: number;
+    public likers!: Employees[];
+    public author!: Employees[];
+    
 }
 
 Posts
@@ -27,13 +31,31 @@ Posts
             unique: true
         },
         text: { type: DataTypes.STRING },
-        urlImage: { type: DataTypes.STRING }
+        urlImage: { type: DataTypes.STRING },
+        likers: { 
+            type: DataTypes.STRING ,
+            get() {
+                return this.getDataValue('likers')
+            },
+            set(value: any) {
+                this.setDataValue('likers', value.join(";"))
+            }
+        },
+        author: { 
+            type: DataTypes.STRING,
+            get() {
+                return this.getDataValue('author')
+            },
+            set(value: any) {
+                this.setDataValue('author', value.join(";"))
+            }
+        }
     }, {
         sequelize: sequelizeConnection,
         paranoid: true,
         indexes: [{
             unique: true,
-            fields: ['text', 'urlImage', 'likes']
+            fields: ['text', 'urlImage', 'likers']
         }]
     })
 

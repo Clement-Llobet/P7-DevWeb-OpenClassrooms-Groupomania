@@ -2,21 +2,18 @@ require('dotenv').config()
 import Employees from "./models/Employees.model";
 import Posts from "./models/Posts.model";
 import Likes from "./models/Likes.model";
-import { Sequelize } from "sequelize/types";
 
 const isDev = process.env.NODE_ENV === 'development';
 Employees.hasMany(Posts, { as: "posts"} );
-Posts.belongsTo(Employees, { foreignKey: 'EmployeeId', as: 'author' });
+Posts.belongsTo(Employees, { foreignKey: 'EmployeeId', as: 'authors' });
 
 Employees.belongsToMany(Posts, { 
-    through: Likes
-    // foreignKey: 'EmployeeId',
-    // otherKey: 'PostId' 
+    through: Likes,
+    as: 'postsLiked'
 });
 Posts.belongsToMany(Employees, { 
-    through: Likes
-    // foreignKey: 'PostId',
-    // otherKey: 'EmployeeId' 
+    through: Likes,
+    as: 'allLikers'
 });
 
 const dataBaseInit = () => (
