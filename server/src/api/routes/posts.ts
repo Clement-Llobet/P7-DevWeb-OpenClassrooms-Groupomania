@@ -14,5 +14,6 @@ router.delete('/:id', auth, postsController.deletePostById);
 
 router.post('/:id/like', likesController.createLike);
 router.delete('/:id/like', likesController.deleteLike);
+router.get('/:id/like', likesController.countLikesById);
 
 export default router;

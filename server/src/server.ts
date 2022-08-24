@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import employeesRoutes from './api/routes/employees';
-import postsRoutes from './api/routes/posts'
+import postsRoutes from './api/routes/posts';
 import dataBaseInit from "./database/init";
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';

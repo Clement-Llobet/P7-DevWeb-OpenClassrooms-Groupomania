@@ -4,7 +4,7 @@ import sequelizeConnection from "../config";
 interface LikesAttributes {
     likesId: number;
     EmployeeId: number;
-    PostId: number;
+    PostId: number | Response;
 }
 
 export interface LikesInput extends Optional<LikesAttributes, 'likesId'>{}

@@ -5,6 +5,11 @@ export const create = (payload: LikesInput): Promise<LikesOutput> => {
     return likesDal.createLike(payload)
 }
 
-export const update = (id: number, payload: Partial<LikesInput>): Promise<LikesOutput> => {
-    return likesDal.updateLike(id, payload)
+export const remove = (id: number): Promise<boolean> => {
+    return likesDal.deleteLike(id)
 }
+
+export const count = (id: number): Promise<number> => {
+    return likesDal.countLikesById(id)
+}
+

@@ -5,12 +5,16 @@ export const createLike = async (data: any): Promise<LikesOutput> => {
     return like
 }
 
-export const updateLike = async (id: number, data: Partial<LikesInput>): Promise<LikesOutput> => {
-    const like = await Likes.findByPk(id);
+export const deleteLike = async (id: number): Promise<boolean> => {
+    const deleteLike = Likes.destroy({
+        where: {likesId: id}
+    })
+    return !!deleteLike
+}
 
-    if(!like) {
-        throw new Error('An error occured : like was not found')
-    }
-
-    return like.update(data)
+export const countLikesById = async (id: number): Promise<number> => {
+    const likesCount = Likes.count({
+        where:  {likesId: id}
+    })
+    return likesCount
 }

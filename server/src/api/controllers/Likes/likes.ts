@@ -1,11 +1,11 @@
 import * as service from '../../services/LikesService';
-import { NextFunction, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { createLikeDTO, updateLikeDTO } from "../../../database/dto/likes.dto";
-import { Like } from "../../interfaces/likes.interface";
 import * as mapper from './likesMapper';
 import Posts from '../../../database/models/Posts.model';
 import Employees from '../../../database/models/Employees.model';
 import { Employee } from '../../interfaces/employees.interfaces';
+import { Like } from "../../interfaces/likes.interface";
 import Likes from '../../../database/models/Likes.model';
 
 
@@ -18,33 +18,37 @@ const createNewLike = async (payload: createLikeDTO): Promise<Like> => {
 const likeManager = (req: Request, res: Response, next: NextFunction, payload: any) => {
     let postIdFound: number = 0;
     let employeeIdFound: number = 0;
-    let ifAlreadyCliked: boolean = false;
+    let ifAlreadyCliked: boolean = false;    
     
-    const checkIfPostExist = async () => {
+    const checkIfPostExist = async (data: any) => {
         try {
             await Posts.findOne({
-                where: { id: payload.PostId }
+                where: { id: data.PostId }
             })
         } catch (error) {
             return res.status(500).json({'error': `unable to verify post: error`})
         } finally {
-            postIdFound = payload.PostId
+            postIdFound = data.PostId
             return postIdFound
         }
     }
 
     // Vérifie si le message a été trouvé, si oui on récupère l'objet utilisateur
-    const checkEmployeeId = async (postIdFound: number) => {        
+    const checkEmployeeId = async (postIdFound: number, data: any) => {     
+        console.log("postId : " + postIdFound + " ; Payload.EmployeeId : " + data.EmployeeId);
+           
         try {
             if (postIdFound) {
                 await Employees.findOne({
-                    where: { id: payload.EmployeeId }
+                    where: { id: data.EmployeeId }
                 })
             }
         } catch (error) {
             return res.status(500).json({'error': `unable to find post`})
         } finally {
-            employeeIdFound = payload.EmployeeId;
+            employeeIdFound = data.EmployeeId;
+            console.log("employeeIdFound : " + employeeIdFound);
+            
             return employeeIdFound
         }   
     }
@@ -71,10 +75,11 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
     }
 
     // // Vérifie que l'utilisateur n'a pas déjà liké le message, si non on créee la relation Like qui unit le message et l'utilisateur
-    const sendOrderToCreateLike = async (ifAlreadyCliked: boolean) => {
+    const sendOrderToCreateLike = async (ifAlreadyCliked: boolean, likeToCreate: Like) => {
         if(ifAlreadyCliked === false) {
             try {
-                await createNewLike(payload);
+                await createNewLike(likeToCreate);
+                return res.status(200).json({ message: `Le post dont le PostId est ${likeToCreate.PostId} a bien été liké par l'EmployeeId ${likeToCreate.EmployeeId} `})
             } catch (error) {
                 return res.status(500).json({ 'error' : 'unable to set user like'})
             }
@@ -83,52 +88,22 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
         }
     }
 
-    // Met à jour le message en implémentant de 1 le nombre de likes
-    const addLikeToPostFound = (postIdFound: number) => {
-        // console.log(postIdFound);
-        
-        // try {
-        //     Posts.update({
-        //         likes: + 1
-        //     }, {
-        //         where: { id: postIdFound }
-        //     })  
-        // } catch (error) {
-        //     res.status(500).json({'error' : 'cannot update message like counter'})
-        // } 
-    }
-
-    checkIfPostExist()
-    .then(
-        postId => {
-            checkEmployeeId(postIdFound);
-            checkIfAlreadyCliked(postIdFound, employeeIdFound);
-            sendOrderToCreateLike(ifAlreadyCliked);
-            addLikeToPostFound(postIdFound);
-        }
-    )
-    
+    checkIfPostExist(payload)
+        .then(() => checkEmployeeId(postIdFound, payload)
+            .then(() => checkIfAlreadyCliked(postIdFound, employeeIdFound))
+                .then(() => {
+                    let newLikeObject: Like = {
+                            EmployeeId: employeeIdFound,
+                            PostId: postIdFound
+                        }
+                    sendOrderToCreateLike(ifAlreadyCliked, newLikeObject)
+                })
+        ) 
 }
 
 exports.createLike = async (req: Request, res: Response, next: NextFunction) => {
-
     const data: any = { ...req.body }
-
     likeManager(req, res, next, data);
-
-    // const headerAuth = req.headers.get('authorization'); // Récupère l'en-tête d'autorisation
-    // Il faut ensuite récupérer le userId --> req.params.id
-
-    // const postId = parseInt(req.params.PostId)
-    //On récupère dans l'URL l'identifiant du message et on s'assure qu'il correspond à un post dans la BDD
-
-    // if (postId <= 0) {
-    //     return res.status(400).json({ 'error': "invalid parameters"})
-    // }
-    // Détermine si l'identifiant du message est valide ou non
-
-
-    
 }
 
 exports.deleteLike = async (req: Request, res: Response, next: NextFunction) => {
@@ -137,4 +112,18 @@ exports.deleteLike = async (req: Request, res: Response, next: NextFunction) => 
     // } catch (error) {
     //     return res.status(500).json(error);
     // }    
+}
+
+const callLikeCount = async (id: number) => {
+    return await service.count(id)
+}
+
+exports.countLikesById = async (req: Request, res: Response, next: NextFunction) => {
+    const likeId = parseInt(req.params.id)
+    try {
+        const responseCountLike = await callLikeCount(likeId);
+        return res.status(200).json({ message: `Le post dont l'id est ${responseCountLike} possède ${responseCountLike} likes`})
+    } catch (error) {
+        return res.status(500).json(error);
+    }
 }
