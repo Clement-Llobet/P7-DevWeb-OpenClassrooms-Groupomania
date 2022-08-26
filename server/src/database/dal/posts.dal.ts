@@ -34,7 +34,6 @@ export const deletePostsById = async (id: number): Promise<boolean> => {
 
 export const getAllPosts = async (filters?: GetAllPostsFilters): Promise<PostsOutput[]> => {
     return Posts.findAll({
-        raw: true,
         include: [{
             model: Employees,
             as: 'author',

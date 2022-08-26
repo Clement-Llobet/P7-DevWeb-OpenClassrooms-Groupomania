@@ -5,6 +5,7 @@ export interface Post {
     text: string;
     urlImage: string;
     createdAt: Date;
-    likers: number[];
-    author: string[];
+    likers: Employees[];
+    author: string | Employees[];
+    totalLikes: number;
 }
