@@ -12,10 +12,13 @@ const regexEmail =
 const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [connected, setConnected] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log('effect, ' + connected);
+
     forbidAccessWithToken(navigate);
   });
 
@@ -52,12 +55,13 @@ const Login: FC = () => {
       return Error;
     } else {
       const loginResult = await api.apiEmployeesLogin(employee);
-      handleRedirect(loginResult.token);
+      // handleRedirect();
+      setConnected(true);
     }
   };
 
-  const handleRedirect = (res: string) => {
-    if (res) {
+  const handleRedirect = () => {
+    if (localStorage.getItem('token')) {
       navigate(`/Home`);
     } else {
       console.log(Error);
@@ -93,7 +97,9 @@ const Login: FC = () => {
           <p id="invalid-password-text"></p>
         </fieldset>
       </form>
-      <button onClick={() => handleSubmit(employeeToLogin)}>Valider</button>
+      <button onClick={async () => await handleSubmit(employeeToLogin)}>
+        Valider
+      </button>
 
       <p>
         Pas encore inscrit ? <Link to="/register">Faites-le ici</Link>

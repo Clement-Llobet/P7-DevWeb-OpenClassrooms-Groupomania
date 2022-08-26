@@ -22,7 +22,7 @@ const Post = () => {
 
   useEffect(() => {
     const getSinglePost = async () => {
-      const data = await api.apiGetPostById(currentToken, id);
+      const data = await api.apiGetPostById(currentToken(), id);
       setSinglePost(data);
     };
     getSinglePost();

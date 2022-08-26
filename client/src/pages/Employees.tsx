@@ -23,7 +23,7 @@ const Employees = () => {
 
   useEffect(() => {
     const getAllEmployees = async () => {
-      const data = await api.apiGetAllEmployees(currentToken);
+      const data = await api.apiGetAllEmployees(currentToken());
       setAllEmployees(data);
       setEmployeesList(true);
     };

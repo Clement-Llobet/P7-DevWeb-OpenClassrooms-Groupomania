@@ -15,7 +15,7 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [moderation, setModeration] = useState<boolean | null>(null);
-  const [profilePicture, setProfilePicture] = useState<string>('');
+  const [profilePicture, setProfilePicture] = useState<File | null>();
 
   const navigate = useNavigate();
 
@@ -69,11 +69,11 @@ const Register: React.FC = () => {
     const file: FileList | null = data.files;
 
     if (file === null) {
-      setProfilePicture('');
+      setProfilePicture(null);
       return;
     }
 
-    setProfilePicture(URL.createObjectURL(file[0]));
+    setProfilePicture(file[0]);
   };
 
   let employeeToCreate: EmployeesData = {
@@ -179,7 +179,7 @@ const Register: React.FC = () => {
               manageProfilePicture(e.currentTarget as HTMLInputElement)
             }
           />
-          <img src={profilePicture} alt="" />
+          {/* <img src={profilePicture} alt="" /> */}
         </fieldset>
       </form>
       <button onClick={handleSubmit}>Valider</button>

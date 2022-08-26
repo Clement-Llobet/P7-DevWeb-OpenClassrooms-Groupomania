@@ -39,7 +39,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
 
       return;
     }
-    await api.apiUpdateEmployees(currentToken, employeeToUpdate);
+    await api.apiUpdateEmployees(currentToken(), employeeToUpdate);
   };
 
   return (
@@ -51,10 +51,10 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
               <p>{employee.id}</p>
             </div>
             <div>
-              <img
+              {/* <img
                 src={employee.profilePicture}
                 alt={`${employee.surname} ${employee.name} img`}
-              />
+              /> */}
             </div>
             <div>
               <p>

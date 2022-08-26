@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   const handleEmployeesListAccess = async () => {
     let findToken = localStorage.getItem('token');
 
-    await api.apiGetEmployeeById(currentToken);
+    await api.apiGetEmployeeById(currentToken());
   };
 
   const handleLogOut = () => {

@@ -13,10 +13,10 @@ const CreatePostModal = () => {
     let createPostObject: PostsData = {
       text: text,
       urlImage: image,
-      EmployeeId: currentToken,
+      EmployeeId: currentToken(),
     };
 
-    await api.apiCreatePost(currentToken, createPostObject);
+    await api.apiCreatePost(currentToken(), createPostObject);
   };
 
   return (

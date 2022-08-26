@@ -27,7 +27,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const getAllPosts = async () => {
-      const data = await api.apiGetAllPosts(currentToken);
+      const data = await api.apiGetAllPosts(currentToken());
       setAllPosts(data);
     };
     getAllPosts();

@@ -12,9 +12,9 @@ export class ApiService {
 
     const response = await fetch(url, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: '',
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        'Content-type': 'multipart/form-data',
       },
     });
     const userData = await response.json();
@@ -29,7 +29,7 @@ export class ApiService {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        'Content-type': 'multipart/form-data',
       },
     });
     const userData = await response.json();

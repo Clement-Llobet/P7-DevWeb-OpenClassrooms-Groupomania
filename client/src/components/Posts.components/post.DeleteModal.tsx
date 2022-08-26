@@ -9,7 +9,7 @@ const DeleteModal: React.FC = () => {
   const { id } = useParams<PostIdParams>();
 
   const deletePost = async () => {
-    await api.apiDeletePost(currentToken, id);
+    await api.apiDeletePost(currentToken(), id);
   };
 
   return (

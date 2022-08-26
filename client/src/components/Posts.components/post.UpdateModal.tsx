@@ -50,7 +50,7 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
     objectToUpdate: PostsData,
     postId?: number
   ) => {
-    await api.apiUpdatePost(currentToken, objectToUpdate);
+    await api.apiUpdatePost(currentToken(), objectToUpdate);
 
     setSuccessMessage(true);
   };
