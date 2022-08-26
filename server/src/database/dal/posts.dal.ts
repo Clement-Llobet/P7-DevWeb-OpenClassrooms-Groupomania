@@ -37,13 +37,12 @@ export const getAllPosts = async (filters?: GetAllPostsFilters): Promise<PostsOu
         raw: true,
         include: [{
             model: Employees,
-            as: 'allLikers',
-            attributes: ['id', 'name', 'surname'],
+            as: 'author',
+            attributes: ['id', 'name', 'surname', 'createdAt'],
         },
         {
             model: Employees,
-            as: 'authors',
-            attributes: ['id', 'name', 'surname']
+            as: 'likers',
         }
     ],
         where: {

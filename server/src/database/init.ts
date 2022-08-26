@@ -5,15 +5,17 @@ import Likes from "./models/Likes.model";
 
 const isDev = process.env.NODE_ENV === 'development';
 Employees.hasMany(Posts, { as: "posts"});
-Posts.belongsTo(Employees, { foreignKey: 'EmployeeId', as: 'authors' });
+Posts.belongsTo(Employees, { foreignKey: 'EmployeeId', as: 'author' });
 
 Employees.belongsToMany(Posts, { 
     through: Likes,
-    as: 'postsLiked'
+    as: 'postsLiked',
+    foreignKey: 'EmployeeId'
 });
 Posts.belongsToMany(Employees, { 
     through: Likes,
-    as: 'allLikers'
+    as: 'likers',
+    foreignKey: 'PostId'
 });
 
 const dataBaseInit = () => (
