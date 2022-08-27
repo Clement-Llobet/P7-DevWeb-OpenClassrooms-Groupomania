@@ -1,6 +1,6 @@
 export interface PostsData {
   id?: number;
   text?: string;
-  urlImage?: string;
+  urlImage?: string | File | FormData;
   EmployeeId?: number | HashAlgorithmIdentifier | null;
 }

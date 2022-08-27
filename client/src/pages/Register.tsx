@@ -14,8 +14,8 @@ const Register: React.FC = () => {
   const [surname, setSurname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [moderation, setModeration] = useState<boolean | null>(null);
-  const [profilePicture, setProfilePicture] = useState<File | null>();
+  const [moderation, setModeration] = useState<string>('0');
+  const [profilePicture, setProfilePicture] = useState<string | File>();
 
   const navigate = useNavigate();
 
@@ -23,12 +23,15 @@ const Register: React.FC = () => {
     forbidAccessWithToken(navigate);
   });
 
+  let employeeToCreate = new FormData();
+
   const checkAndSetName = (input: HTMLInputElement) => {
     if (input.value.length < 2) {
       setName('');
     } else {
       setName(input.value);
     }
+    employeeToCreate.append('name', name);
   };
 
   const checkAndSetSurname = (input: HTMLInputElement) => {
@@ -37,6 +40,7 @@ const Register: React.FC = () => {
     } else {
       setSurname(input.value);
     }
+    employeeToCreate.append('surname', surname);
   };
 
   const checkAndSetEmail = (input: string) => {
@@ -45,6 +49,7 @@ const Register: React.FC = () => {
     } else {
       setEmail(input);
     }
+    employeeToCreate.append('email', email);
   };
 
   const checkAndSetPassword = (input: HTMLInputElement) => {
@@ -53,54 +58,46 @@ const Register: React.FC = () => {
     } else {
       setPassword(input.value);
     }
+    employeeToCreate.append('password', password);
   };
 
   const checkAndSetModeration = async (option: HTMLSelectElement) => {
     if (option.value === 'executive') {
-      setModeration(true);
+      setModeration('1');
     } else if (option.value === 'non-executive') {
-      setModeration(false);
+      setModeration('0');
     } else {
-      setModeration(null);
+      setModeration('');
     }
+    employeeToCreate.append('moderation', moderation);
   };
 
-  const manageProfilePicture = async (data: HTMLInputElement) => {
-    const file: FileList | null = data.files;
+  const manageProfilePicture = (data: HTMLInputElement) => {
+    const fileResult: FileList | null = data.files;
 
-    if (file === null) {
-      setProfilePicture(null);
+    if (fileResult === null || fileResult === undefined) {
+      setProfilePicture('');
       return;
     }
 
-    setProfilePicture(file[0]);
-  };
+    let file: File = fileResult[0];
 
-  let employeeToCreate: EmployeesData = {
-    name: name,
-    surname: surname,
-    email: email,
-    password: password,
-    moderation: moderation,
-    profilePicture: profilePicture,
-  };
+    if (!file) return;
 
-  useEffect(() => {
-    employeeToCreate.name = name;
-    employeeToCreate.surname = surname;
-    employeeToCreate.email = email;
-    employeeToCreate.password = password;
-    employeeToCreate.moderation = moderation;
-    employeeToCreate.profilePicture = profilePicture;
-  });
+    file.name.replace(/\s+/g, '_');
+    setProfilePicture(file);
+    employeeToCreate.append('profilePicture', profilePicture!);
+  };
 
   const handleSubmit = async () => {
-    const signupResult = await api.apiEmployeesSignUp(employeeToCreate);
-    handleRedirect(signupResult.token);
+    console.log(await employeeToCreate);
+
+    // const signupResponse = await api.apiEmployeesSignUp(employeeToCreate);
+    // handleRedirect(signupResponse.token);
   };
 
-  const handleRedirect = (res: any) => {
-    if (res) {
+  const handleRedirect = (token: string) => {
+    if (token) {
       navigate(`/Home`);
     } else {
       return Error;

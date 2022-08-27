@@ -8,15 +8,28 @@ const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 const CreatePostModal = () => {
   const [text, setText] = useState('');
   const [image, setImage] = useState('');
+  const [token, setToken] = useState<string | null>(null);
 
   const handleCreateSubmit = async () => {
-    let createPostObject: PostsData = {
-      text: text,
-      urlImage: image,
-      EmployeeId: currentToken(),
-    };
+    let createPostObject = new FormData();
+    createPostObject.append('text', text);
+    createPostObject.append('urlImage', image);
 
-    await api.apiCreatePost(currentToken(), createPostObject);
+    setToken(currentToken);
+
+    if (token) {
+      createPostObject.append('EmployeeId', token);
+    } else {
+      return Error;
+    }
+
+    // let createPostObject: PostsData = {
+    //   text: text,
+    //   urlImage: image,
+    //   EmployeeId: currentToken(),
+    // };
+
+    // await api.apiCreatePost(currentToken(), createPostObject);
   };
 
   return (

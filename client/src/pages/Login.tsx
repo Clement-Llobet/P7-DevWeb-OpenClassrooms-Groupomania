@@ -17,8 +17,6 @@ const Login: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('effect, ' + connected);
-
     forbidAccessWithToken(navigate);
   });
 
@@ -50,12 +48,10 @@ const Login: FC = () => {
 
   const handleSubmit = async (employee: EmployeesLoginData) => {
     if (email === '' || password === '') {
-      console.log('Il y a une erreur');
-
       return Error;
     } else {
-      const loginResult = await api.apiEmployeesLogin(employee);
-      // handleRedirect();
+      await api.apiEmployeesLogin(employee);
+      handleRedirect();
       setConnected(true);
     }
   };
@@ -97,9 +93,7 @@ const Login: FC = () => {
           <p id="invalid-password-text"></p>
         </fieldset>
       </form>
-      <button onClick={async () => await handleSubmit(employeeToLogin)}>
-        Valider
-      </button>
+      <button onClick={() => handleSubmit(employeeToLogin)}>Valider</button>
 
       <p>
         Pas encore inscrit ? <Link to="/register">Faites-le ici</Link>

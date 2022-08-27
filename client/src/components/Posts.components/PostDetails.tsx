@@ -70,14 +70,14 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
       {modal && updateModal ? (
         <UpdatePostModal
           defaultValueText={singlePost?.text}
-          defaultValueUrlImage={singlePost?.urlImage}
+          // defaultValueUrlImage={singlePost?.urlImage}
           postId={singlePost?.id}
         />
       ) : (
         <div>
           <div>
             <p>{singlePost?.text}</p>
-            <img src={singlePost?.urlImage} alt="" />
+            {/* <img src={singlePost?.urlImage} alt="" /> */}
           </div>
           <div>
             <button onClick={() => handleLike()}>Like</button>

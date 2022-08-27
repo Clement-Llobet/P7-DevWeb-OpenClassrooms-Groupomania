@@ -7,19 +7,21 @@ export class ApiService {
     this.urlBase = urlBase;
   }
 
-  apiEmployeesSignUp = async (data: types.EmployeesData) => {
+  apiEmployeesSignUp = async (data: types.EmployeesData | FormData) => {
     let url = this.urlBase + 'api/employees/signup';
 
-    const response = await fetch(url, {
-      method: 'POST',
-      body: '',
-      headers: {
-        'Content-type': 'multipart/form-data',
-      },
-    });
-    const userData = await response.json();
-    localStorage.setItem('token', userData.token);
-    return userData;
+    console.log(data);
+
+    // const response = await fetch(url, {
+    //   method: 'POST',
+    //   body: JSON.stringify(data),
+    //   headers: {
+    //     'Content-type': 'multipart/form-data',
+    //   },
+    // });
+    // const userData = await response.json();
+    // localStorage.setItem('token', userData.token);
+    // return userData;
   };
 
   apiEmployeesLogin = async (data: types.EmployeesLoginData) => {
@@ -29,7 +31,7 @@ export class ApiService {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
-        'Content-type': 'multipart/form-data',
+        'Content-type': 'application/json; charset=UTF-8',
       },
     });
     const userData = await response.json();

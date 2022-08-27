@@ -1,8 +1,9 @@
-import { SyntheticEvent, useRef, useState } from 'react';
+import { MutableRefObject, SyntheticEvent, useRef, useState } from 'react';
 import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
 import DeleteEmployeeModal from './employee.deleteModal';
+import UpdateEmployeeModal from './employee.updateModal';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -17,7 +18,20 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
   const [deleteEmployee, setDeleteEmployee] = useState<boolean>(false);
   const [showUpdateAndDeleteButtons, setShowUpdateAndDeleteButtons] =
     useState<boolean>(true);
+  const [employeeId, setEmployeeId] = useState<number>(0);
+  const [updateThisPost, setUpdateThisPost] = useState<boolean>(false);
   const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
+
+  const getEmployeeId = (element: HTMLLIElement) => {
+    let liElementValue = element.closest('li')?.value;
+    if (!liElementValue) return;
+    setEmployeeId(liElementValue);
+    setChangeModeration(true);
+  };
+
+  let employeeToUpdate: EmployeesData = {
+    moderation: changeModeration,
+  };
 
   const checkAndUpdateModeration = async (option: HTMLSelectElement) => {
     if (option.value === 'executive') {
@@ -27,10 +41,6 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     } else {
       setChangeModeration(null);
     }
-  };
-
-  let employeeToUpdate: EmployeesData = {
-    moderation: changeModeration,
   };
 
   const sendUpdateOrder = async () => {
@@ -46,7 +56,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     <div>
       <ul className="employees">
         {allEmployees?.map((employee) => (
-          <li key={employee.id}>
+          <li key={employee.id} value={employee.id}>
             <div>
               <p>{employee.id}</p>
             </div>
@@ -64,44 +74,22 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
             <div>
               <p>{employee.email}</p>
             </div>
+
             <>
-              {changeModeration ? (
-                <form action="">
-                  <select
-                    name="status"
-                    id="registration_status"
-                    required
-                    onChange={(e: SyntheticEvent) =>
-                      checkAndUpdateModeration(
-                        e.currentTarget as HTMLSelectElement
-                      )
-                    }
-                  >
-                    <option value="choose-status">Votre statut</option>
-                    <option value="executive">Cadre</option>
-                    <option value="non-executive">Non-cadre</option>
-                  </select>
-                  <button onClick={sendUpdateOrder}>Valider</button>
-                  <button
-                    onClick={() => {
-                      setChangeModeration(false);
-                      setShowUpdateAndDeleteButtons(true);
-                    }}
-                  >
-                    Annuler
-                  </button>
-                </form>
+              {!showUpdateAndDeleteButtons && employee.id === employeeId ? (
+                <UpdateEmployeeModal employee={employee} />
               ) : (
                 `Modération : ${employee.moderation ? 'Oui' : 'Non'}`
               )}
-              {deleteEmployee && <DeleteEmployeeModal />}
             </>
+
+            {deleteEmployee && <DeleteEmployeeModal />}
             {showUpdateAndDeleteButtons && (
               <div>
                 <button
-                  onClick={() => {
-                    setChangeModeration(true);
+                  onClick={(e: SyntheticEvent) => {
                     setShowUpdateAndDeleteButtons(false);
+                    getEmployeeId(e.currentTarget as HTMLLIElement);
                   }}
                 >
                   Modifier
@@ -111,6 +99,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
                 </button>
               </div>
             )}
+
             {/* {errorUpdateMessage && (
               <div>
                 <p>

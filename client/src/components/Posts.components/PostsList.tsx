@@ -13,7 +13,7 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts }) => {
       {allPosts?.map((post) => (
         <li key={post.id} onClick={() => navigate(`/${post.id}`)}>
           <p>{post.text}</p>
-          <img src={post.urlImage} alt="" />
+          {/* <img src={post.urlImage} alt="" /> */}
         </li>
       ))}
     </ul>

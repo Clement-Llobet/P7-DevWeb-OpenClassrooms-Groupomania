@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Error from './components/Error';
+import Error from './pages/Error';
 import Post from './pages/Post';
 import Employees from './pages/Employees';
 
