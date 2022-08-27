@@ -33,20 +33,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     moderation: changeModeration,
   };
 
-  const checkAndUpdateModeration = async (option: HTMLSelectElement) => {
-    if (option.value === 'executive') {
-      setChangeModeration(true);
-    } else if (option.value === 'non-executive') {
-      setChangeModeration(false);
-    } else {
-      setChangeModeration(null);
-    }
-  };
-
   const sendUpdateOrder = async () => {
     if (employeeToUpdate.moderation === null) {
       setErrorUpdateMessage(true);
-
       return;
     }
     await api.apiUpdateEmployees(currentToken(), employeeToUpdate);
@@ -74,14 +63,16 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
             <div>
               <p>{employee.email}</p>
             </div>
-
-            <>
+            <div>
               {!showUpdateAndDeleteButtons && employee.id === employeeId ? (
-                <UpdateEmployeeModal employee={employee} />
+                <UpdateEmployeeModal
+                  employee={employee}
+                  showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
+                />
               ) : (
                 `Modération : ${employee.moderation ? 'Oui' : 'Non'}`
               )}
-            </>
+            </div>
 
             {deleteEmployee && <DeleteEmployeeModal />}
             {showUpdateAndDeleteButtons && (
