@@ -19,9 +19,6 @@ const sendUserToDatabase = async (payload: CreateEmployeeDTO): Promise<Employee>
 exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
 
     const data = { ...req.body }
-
-    console.log(req.file);
-    
     
     // try {
     //     const hash = await bcrypt.hash(req.body.password, 10);
@@ -52,9 +49,9 @@ exports.postLogin = (req: Request, res: Response, next: NextFunction) => {
         where: { email: requestDatas.email }
     })
         .then(user => {
-            if (!user) {
+            if (!user) {                
                 return res.status(401).json({ error: "Utilisateur non trouvé !"});
-            }
+            }            
             bcrypt.compare(requestDatas.password, user.password)
                 .then((valid: boolean) => {
                     if(!valid) {
