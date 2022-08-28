@@ -29,18 +29,6 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     setChangeModeration(true);
   };
 
-  let employeeToUpdate: EmployeesData = {
-    moderation: changeModeration,
-  };
-
-  const sendUpdateOrder = async () => {
-    if (employeeToUpdate.moderation === null) {
-      setErrorUpdateMessage(true);
-      return;
-    }
-    await api.apiUpdateEmployees(currentToken(), employeeToUpdate);
-  };
-
   return (
     <div>
       <ul className="employees">
@@ -50,10 +38,17 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
               <p>{employee.id}</p>
             </div>
             <div>
-              {/* <img
-                src={employee.profilePicture}
-                alt={`${employee.surname} ${employee.name} img`}
-              /> */}
+              {employee.profilePicture ? (
+                <img
+                  // src={employee.profilePicture}
+                  alt="profil"
+                />
+              ) : (
+                <img
+                  // src={employee.profilePicture}
+                  alt="profil"
+                />
+              )}
             </div>
             <div>
               <p>

@@ -4,7 +4,7 @@ export interface EmployeesData {
   surname?: string;
   email?: string;
   password?: string | HashAlgorithmIdentifier;
-  moderation?: boolean | null;
+  moderation?: number | null;
   profilePicture?: File | null;
 }
 

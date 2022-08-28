@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
@@ -16,28 +16,37 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
 }) => {
   const [updateThisPost, setUpdateThisPost] = useState<boolean>(false);
   const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
-  const [changeModeration, setChangeModeration] = useState(false);
-
-  let employeeToUpdate: EmployeesData = {
-    moderation: changeModeration,
-  };
+  const [validUpdateMessage, setValidUpdateMessage] = useState<boolean>(false);
+  const [changeModeration, setChangeModeration] = useState<number | null>(null);
 
   const checkAndUpdateModeration = async (option: HTMLSelectElement) => {
     if (option.value === 'executive') {
-      setChangeModeration(true);
+      setChangeModeration(1);
+      setErrorUpdateMessage(false);
     } else if (option.value === 'non-executive') {
-      setChangeModeration(false);
+      setChangeModeration(0);
+      setErrorUpdateMessage(false);
     } else {
-      return;
+      if (employee.moderation === null) {
+        setErrorUpdateMessage(true);
+        return;
+      }
+      setChangeModeration(null);
     }
   };
 
-  const sendUpdateOrder = async () => {
-    if (employeeToUpdate.moderation === null) {
+  useEffect(() => {
+    employee.moderation = changeModeration;
+  }, [changeModeration, employee]);
+
+  const sendUpdateOrder = async (e: any) => {
+    e.preventDefault();
+    if (employee.moderation === null) {
       setErrorUpdateMessage(true);
       return;
     }
-    await api.apiUpdateEmployees(currentToken(), employeeToUpdate);
+    await api.apiUpdateEmployees(currentToken(), employee);
+    setValidUpdateMessage(true);
   };
 
   return (
@@ -54,7 +63,7 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
         <option value="executive">Cadre</option>
         <option value="non-executive">Non-cadre</option>
       </select>
-      <button onClick={sendUpdateOrder}>Valider</button>
+      <button onClick={(e) => sendUpdateOrder(e)}>Valider</button>
       <button
         onClick={() => {
           showUpdateAndDeleteButtons(true);
@@ -62,6 +71,26 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
       >
         Annuler
       </button>
+      {errorUpdateMessage && (
+        <div>
+          <p>
+            Attention, vous devez sélectionner un statut pour cet utilisateur !
+          </p>
+          <button onClick={() => setErrorUpdateMessage(false)}>Fermer</button>
+        </div>
+      )}
+      {validUpdateMessage && (
+        <div>
+          <p>Votre modification a bien été prise en compte.</p>
+          <button
+            onClick={() => {
+              setValidUpdateMessage(false);
+            }}
+          >
+            Fermer
+          </button>
+        </div>
+      )}
     </form>
   );
 };
