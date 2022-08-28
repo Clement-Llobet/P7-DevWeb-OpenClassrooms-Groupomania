@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
@@ -14,7 +14,6 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
   employee,
   showUpdateAndDeleteButtons,
 }) => {
-  const [updateThisPost, setUpdateThisPost] = useState<boolean>(false);
   const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
   const [validUpdateMessage, setValidUpdateMessage] = useState<boolean>(false);
   const [changeModeration, setChangeModeration] = useState<number | null>(null);
@@ -39,7 +38,7 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
     employee.moderation = changeModeration;
   }, [changeModeration, employee]);
 
-  const sendUpdateOrder = async (e: any) => {
+  const sendUpdateOrder = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (employee.moderation === null) {
       setErrorUpdateMessage(true);

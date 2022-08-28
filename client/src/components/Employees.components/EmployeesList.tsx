@@ -1,4 +1,10 @@
-import { MutableRefObject, SyntheticEvent, useRef, useState } from 'react';
+import {
+  MutableRefObject,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
@@ -12,15 +18,13 @@ interface EmployeesListProps {
 }
 
 const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
-  const [changeModeration, setChangeModeration] = useState<boolean | null>(
-    null
-  );
-  const [deleteEmployee, setDeleteEmployee] = useState<boolean>(false);
+  const [changeModeration, setChangeModeration] = useState<boolean>(false);
+  const [wantsToChange, setWantsToChange] = useState<boolean>(false);
+  const [wantsToDelete, setWantsToDelete] = useState<boolean>(false);
   const [showUpdateAndDeleteButtons, setShowUpdateAndDeleteButtons] =
     useState<boolean>(true);
+  const [showDeleteButtons, setShowDeleteButtons] = useState<boolean>(true);
   const [employeeId, setEmployeeId] = useState<number>(0);
-  const [updateThisPost, setUpdateThisPost] = useState<boolean>(false);
-  const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
 
   const getEmployeeId = (element: HTMLLIElement) => {
     let liElementValue = element.closest('li')?.value;
@@ -28,6 +32,8 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     setEmployeeId(liElementValue);
     setChangeModeration(true);
   };
+
+  useEffect(() => {}, [allEmployees]);
 
   return (
     <div>
@@ -58,42 +64,48 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
             <div>
               <p>{employee.email}</p>
             </div>
-            <div>
-              {!showUpdateAndDeleteButtons && employee.id === employeeId ? (
-                <UpdateEmployeeModal
-                  employee={employee}
-                  showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
-                />
-              ) : (
-                `Modération : ${employee.moderation ? 'Oui' : 'Non'}`
-              )}
-            </div>
-
-            {deleteEmployee && <DeleteEmployeeModal />}
             {showUpdateAndDeleteButtons && (
               <div>
                 <button
                   onClick={(e: SyntheticEvent) => {
+                    setWantsToChange(true);
+                    setWantsToDelete(false);
                     setShowUpdateAndDeleteButtons(false);
                     getEmployeeId(e.currentTarget as HTMLLIElement);
                   }}
                 >
                   Modifier
                 </button>
-                <button onClick={() => setDeleteEmployee(true)}>
+                <button
+                  onClick={(e: SyntheticEvent) => {
+                    setWantsToDelete(true);
+                    setWantsToChange(false);
+                    setShowUpdateAndDeleteButtons(false);
+                    getEmployeeId(e.currentTarget as HTMLLIElement);
+                  }}
+                >
                   Supprimer
                 </button>
               </div>
             )}
-
-            {/* {errorUpdateMessage && (
-              <div>
-                <p>
-                  Attention ! Vous devez sélectionner un statut pour cet
-                  employé.
-                </p>
-              </div>
-            )} */}
+            {!showUpdateAndDeleteButtons &&
+            wantsToChange &&
+            employee.id === employeeId ? (
+              <UpdateEmployeeModal
+                employee={employee}
+                showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
+              />
+            ) : (
+              `Modération : ${employee.moderation ? 'Oui' : 'Non'}`
+            )}
+            {!showUpdateAndDeleteButtons &&
+              wantsToDelete &&
+              employee.id === employeeId && (
+                <DeleteEmployeeModal
+                  employee={employee}
+                  showDeleteButtons={showDeleteButtons}
+                />
+              )}
           </li>
         ))}
       </ul>

@@ -101,6 +101,8 @@ exports.deleteEmployee = async (req: Request, res: Response, next: NextFunction)
         await sendDeleteEmployeeOrder(parseInt(req.params.id))
         return res.status(200).json({ message: `L'employé ayant l'identifiant ${req.params.id} a bien été supprimé.`}); 
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json( error );
     }
 }

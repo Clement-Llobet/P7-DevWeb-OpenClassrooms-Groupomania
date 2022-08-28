@@ -1,33 +1,49 @@
-import { useState } from 'react';
-import { PostsData } from '../../interfaces';
+import React, { useState } from 'react';
+import { EmployeesData, PostsData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
+import { currentToken } from '../../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
-const DeleteEmployeeModal: React.FC = () => {
-  const [wantToDelete, setWantToDelete] = useState(false);
+interface IDeleteEmployeeModal {
+  employee: EmployeesData;
+  showDeleteButtons: any;
+}
 
-  const deleteEmployee = async () => {
-    setWantToDelete(true);
+const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
+  employee,
+  showDeleteButtons,
+}) => {
+  const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
 
-    const employeeToDelete: PostsData = {
-      // A SUPPRIMER
-      id: 1,
-      text: '',
-      urlImage: '',
-      EmployeeId: 2,
-    };
-
-    if (wantToDelete) {
-      // await api.apiDeletePost(employeeToDelete); // IL FAUT PASSER EN PARAMETRE L'ID DE L'EMPLOYÉ !!!
+  const sendDeleteOrder = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (employee.id === null) {
+      setErrorUpdateMessage(true);
+      return;
     }
+    console.log(currentToken() + ' || ' + employee.id?.toString());
+    await api.apiDeleteEmployees(currentToken(), employee.id?.toString());
   };
 
   return (
     <div>
-      <h3>Voulez-vous vraiment supprimer ce post ?</h3>
-      <button onClick={() => deleteEmployee}>Oui</button>
-      <button onClick={() => setWantToDelete(false)}>Non</button>
+      <h3>Voulez-vous vraiment supprimer cet employé ?</h3>
+      <button onClick={(e) => sendDeleteOrder(e)}>Oui</button>
+      <button
+        onClick={() => {
+          showDeleteButtons(false);
+        }}
+      >
+        Non
+      </button>
+
+      {errorUpdateMessage && (
+        <div>
+          <p>Une erreur est survenue.</p>
+          <button onClick={() => setErrorUpdateMessage(false)}>Fermer</button>
+        </div>
+      )}
     </div>
   );
 };
