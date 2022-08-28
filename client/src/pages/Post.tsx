@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import PostDetails from '../components/Posts.components/PostDetails';
 import { PostsData } from '../interfaces';
 import { ApiService } from '../service/api.service';
-import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
+import { forbidAccessWithoutToken } from '../service/access.service';
 import { currentToken } from '../service/getCurrentToken';
 import { PostIdParams } from '../types/postId.type';
 

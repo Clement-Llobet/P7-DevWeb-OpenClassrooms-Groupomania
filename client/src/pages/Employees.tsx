@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import { EmployeesData } from '../interfaces';
 import { ApiService } from '../service/api.service';
 import { useNavigate } from 'react-router-dom';
-import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
+import { forbidAccessWithoutToken } from '../service/access.service';
 import { currentToken } from '../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);

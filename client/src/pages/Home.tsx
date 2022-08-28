@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { PostsData } from '../interfaces/index';
 import { ApiService } from '../service/api.service';
 import { useNavigate } from 'react-router-dom';
-import { forbidAccessWithoutToken } from '../service/checkLocalStorage';
+import { forbidAccessWithoutToken } from '../service/access.service';
 import CreatePostModal from '../components/Posts.components/post.createModal';
 import { currentToken } from '../service/getCurrentToken';
 

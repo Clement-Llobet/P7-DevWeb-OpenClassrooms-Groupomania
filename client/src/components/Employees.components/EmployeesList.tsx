@@ -1,17 +1,10 @@
-import {
-  MutableRefObject,
-  SyntheticEvent,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 import { EmployeesData } from '../../interfaces';
+import { forbidAccessWithoutModeration } from '../../service/access.service';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
 import DeleteEmployeeModal from './employee.deleteModal';
 import UpdateEmployeeModal from './employee.updateModal';
-
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface EmployeesListProps {
   allEmployees: EmployeesData[] | null;
@@ -33,7 +26,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     setChangeModeration(true);
   };
 
-  useEffect(() => {}, [allEmployees]);
+  useEffect(() => {
+    forbidAccessWithoutModeration(currentToken());
+  }, [allEmployees]);
 
   return (
     <div>

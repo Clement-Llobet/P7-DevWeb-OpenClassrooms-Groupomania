@@ -11,5 +11,6 @@ router.put('/:id', auth, multer, employeesController.updateEmployee);
 router.delete('/:id', auth, employeesController.deleteEmployee);
 router.get('/', auth, employeesController.getAllEmployees);
 router.get('/:id', auth, employeesController.getEmployeeById);
+router.get('/init', auth, employeesController.getAuth)
 
 export default router;

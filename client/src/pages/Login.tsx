@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FC, useEffect, useState } from 'react';
 import { ApiService } from '../service/api.service';
 import { EmployeesLoginData } from '../interfaces';
-import { forbidAccessWithToken } from '../service/checkLocalStorage';
+import { forbidAccessWithToken } from '../service/access.service';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
