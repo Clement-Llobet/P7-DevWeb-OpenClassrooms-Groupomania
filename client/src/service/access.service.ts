@@ -22,8 +22,8 @@ export const forbidAccessWithoutToken = (navigate: NavigateFunction) => {
   }
 };
 
-export const forbidAccessWithoutModeration = async (token: string | null) => {
-  if (token === null) return;
-  let getUserAuth = await api.apiGetAuth(token);
-  console.log(getUserAuth);
-};
+// export const forbidAccessWithoutModeration = async (token: string | null) => {
+//   if (token === null) return;
+//   let getUserAuth = await api.apiGetAuth(token);
+//   console.log(getUserAuth);
+// };

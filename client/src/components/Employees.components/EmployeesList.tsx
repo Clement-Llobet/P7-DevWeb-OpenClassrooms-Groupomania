@@ -1,6 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { EmployeesData } from '../../interfaces';
-import { forbidAccessWithoutModeration } from '../../service/access.service';
+// import { forbidAccessWithoutModeration } from '../../service/access.service';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
 import DeleteEmployeeModal from './employee.deleteModal';
@@ -26,9 +26,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     setChangeModeration(true);
   };
 
-  useEffect(() => {
-    forbidAccessWithoutModeration(currentToken());
-  }, [allEmployees]);
+  // useEffect(() => {
+  //   forbidAccessWithoutModeration(currentToken());
+  // }, [allEmployees]);
 
   return (
     <div>

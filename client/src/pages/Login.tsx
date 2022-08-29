@@ -1,8 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { ApiService } from '../service/api.service';
 import { EmployeesLoginData } from '../interfaces';
 import { forbidAccessWithToken } from '../service/access.service';
+import { UserContext } from '../utils/context';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -10,9 +11,10 @@ const regexEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const Login: FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [connected, setConnected] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+
+  const [user, setUser] = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -50,9 +52,9 @@ const Login: FC = () => {
     if (email === '' || password === '') {
       return Error;
     } else {
-      await api.apiEmployeesLogin(employee);
-      handleRedirect();
-      setConnected(true);
+      const user = await api.apiEmployeesLogin(employee);
+      getLoginedUserDatas(user);
+      // handleRedirect();
     }
   };
 
@@ -63,6 +65,15 @@ const Login: FC = () => {
       console.log(Error);
       return Error;
     }
+  };
+
+  const getLoginedUserDatas = async (user: any) => {
+    const callApi = await api.apiGetEmployeeById(
+      user.token,
+      user.userId.toString()
+    );
+    const response = callApi;
+    console.log(response);
   };
 
   return (
