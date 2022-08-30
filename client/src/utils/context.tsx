@@ -1,30 +1,35 @@
-import { createContext, useState } from 'react';
+import * as React from 'react';
+import {
+  UserContextType,
+  IUser,
+  IUserProvider,
+} from '../interfaces/types.userContext';
 
-interface IUserContext {
-  user: {
-    id: number;
-    name: string;
-    surname: string;
-    email: string;
-    password: HashAlgorithmIdentifier;
-    moderation: number;
-    profilePicture: string;
+export const UserContext = React.createContext<UserContextType | null>(null);
+
+const UserProvider: React.FC<IUserProvider> = ({ children }) => {
+  const [user, setUser] = React.useState<IUser[]>([]);
+
+  const saveUser = (user: IUser[]) => {
+    if (user === undefined) return;
+
+    const newUser: IUser = {
+      id: user[0].id,
+      name: user[0].name,
+      surname: user[0].surname,
+      email: user[0].email,
+      password: user[0].password,
+      moderation: user[0].moderation,
+      profilePicture: user[0].profilePicture,
+    };
+    setUser([...user, newUser]);
   };
-  setUser: React.Dispatch<React.SetStateAction<{}>>;
-}
-
-interface IUserProvider {
-  children: React.ReactNode;
-}
-
-export const UserContext = createContext<Partial<IUserContext>>({});
-
-export const UserProvider = ({ children }: IUserProvider) => {
-  const [user, setUser] = useState({});
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, saveUser, setUser }}>
       {children}
     </UserContext.Provider>
   );
 };
+
+export default UserProvider;

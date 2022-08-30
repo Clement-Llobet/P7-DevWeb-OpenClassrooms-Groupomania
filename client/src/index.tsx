@@ -7,7 +7,7 @@ import Register from './pages/Register';
 import Error from './pages/Error';
 import Post from './pages/Post';
 import Employees from './pages/Employees';
-import { UserProvider } from './utils/context';
+import UserProvider from './utils/context';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -1,9 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { ApiService } from '../service/api.service';
 import { EmployeesLoginData } from '../interfaces';
 import { forbidAccessWithToken } from '../service/access.service';
 import { UserContext } from '../utils/context';
+import { UserContextType, IUser } from '../interfaces/types.userContext';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -14,7 +15,7 @@ const Login: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const [user, setUser] = useContext(UserContext);
+  const { saveUser } = React.useContext(UserContext) as UserContextType;
 
   const navigate = useNavigate();
 
@@ -54,7 +55,7 @@ const Login: FC = () => {
     } else {
       const user = await api.apiEmployeesLogin(employee);
       getLoginedUserDatas(user);
-      // handleRedirect();
+      handleRedirect();
     }
   };
 
@@ -73,7 +74,7 @@ const Login: FC = () => {
       user.userId.toString()
     );
     const response = callApi;
-    console.log(response);
+    saveUser(response);
   };
 
   return (
