@@ -15,7 +15,7 @@ const Login: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const { saveUser } = React.useContext(UserContext) as UserContextType;
+  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
 
   const navigate = useNavigate();
 
@@ -53,8 +53,8 @@ const Login: FC = () => {
     if (email === '' || password === '') {
       return Error;
     } else {
-      const user = await api.apiEmployeesLogin(employee);
-      getLoginedUserDatas(user);
+      const loggedUser = await api.apiEmployeesLogin(employee);
+      getLoginedUserDatas(loggedUser);
       handleRedirect();
     }
   };
@@ -68,12 +68,12 @@ const Login: FC = () => {
     }
   };
 
-  const getLoginedUserDatas = async (user: any) => {
+  const getLoginedUserDatas = async (thisUser: any) => {
     const callApi = await api.apiGetEmployeeById(
-      user.token,
-      user.userId.toString()
+      thisUser.token,
+      thisUser.userId.toString()
     );
-    const response = callApi;
+    const response = [callApi];
     saveUser(response);
   };
 
