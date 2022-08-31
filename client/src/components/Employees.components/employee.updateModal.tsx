@@ -64,7 +64,8 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
       </select>
       <button onClick={(e) => sendUpdateOrder(e)}>Valider</button>
       <button
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           showUpdateAndDeleteButtons(true);
         }}
       >

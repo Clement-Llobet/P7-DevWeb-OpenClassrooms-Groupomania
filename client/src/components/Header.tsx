@@ -1,25 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserContextType } from '../interfaces/types.userContext';
-import { ApiService } from '../service/api.service';
-import { currentToken } from '../service/getCurrentToken';
-import { UserContext } from '../utils/context';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+interface IModerationRight {
+  moderationRight: number | null;
+}
 
-const Header: React.FC = () => {
-  const [employeesListAccess, setEmployeesListAccess] =
-    useState<boolean>(false);
-
-  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
-
+const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
   const navigate = useNavigate();
-
-  const handleEmployeesListAccess = async () => {
-    let findToken = localStorage.getItem('token');
-
-    await api.apiGetEmployeeById(currentToken());
-  };
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
@@ -33,11 +20,11 @@ const Header: React.FC = () => {
         <li>
           <Link to="/Home">Accueil</Link>
         </li>
-        {user[0].moderation === 1 && (
+        {moderationRight ? (
           <li>
             <Link to="/allEmployees">Modération</Link>
           </li>
-        )}
+        ) : null}
         <li onClick={handleLogOut}>Déconnexion</li>
       </nav>
     </div>

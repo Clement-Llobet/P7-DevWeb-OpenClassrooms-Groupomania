@@ -4,7 +4,7 @@ import { ApiService } from '../service/api.service';
 import { EmployeesLoginData } from '../interfaces';
 import { forbidAccessWithToken } from '../service/access.service';
 import { UserContext } from '../utils/context';
-import { UserContextType, IUser } from '../interfaces/types.userContext';
+import { UserContextType } from '../interfaces/types.userContext';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -59,15 +59,6 @@ const Login: FC = () => {
     }
   };
 
-  const handleRedirect = () => {
-    if (localStorage.getItem('token')) {
-      navigate(`/Home`);
-    } else {
-      console.log(Error);
-      return Error;
-    }
-  };
-
   const getLoginedUserDatas = async (thisUser: any) => {
     const callApi = await api.apiGetEmployeeById(
       thisUser.token,
@@ -75,6 +66,15 @@ const Login: FC = () => {
     );
     const response = [callApi];
     saveUser(response);
+  };
+
+  const handleRedirect = () => {
+    if (localStorage.getItem('token')) {
+      navigate(`/Home`);
+    } else {
+      console.log(Error);
+      return Error;
+    }
   };
 
   return (

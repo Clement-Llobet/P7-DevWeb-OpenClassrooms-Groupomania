@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { EmployeesData, PostsData } from '../../interfaces';
+import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
 
@@ -14,6 +14,7 @@ const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
   employee,
   showDeleteButtons,
 }) => {
+  const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
   const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
 
   const sendDeleteOrder = async (e: React.MouseEvent) => {
@@ -29,7 +30,15 @@ const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
   return (
     <div>
       <h3>Voulez-vous vraiment supprimer cet employé ?</h3>
-      <button onClick={(e) => sendDeleteOrder(e)}>Oui</button>
+      <button
+        onClick={(e) => {
+          sendDeleteOrder(e);
+          showDeleteButtons(false);
+          setDeleteConfirmation(true);
+        }}
+      >
+        Oui
+      </button>
       <button
         onClick={() => {
           showDeleteButtons(false);
@@ -37,6 +46,13 @@ const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
       >
         Non
       </button>
+
+      {deleteConfirmation && (
+        <div>
+          <p>L'employé a bien été supprimé.</p>
+          <button onClick={() => setDeleteConfirmation(false)}>Fermer</button>
+        </div>
+      )}
 
       {errorUpdateMessage && (
         <div>

@@ -8,21 +8,9 @@ import {
 export const UserContext = React.createContext<UserContextType | null>(null);
 
 const UserProvider: React.FC<IUserProvider> = ({ children }) => {
-  const [user, setUser] = React.useState<IUser[]>([
-    // {
-    //   id: 765,
-    //   name: 'Ble',
-    //   surname: 'Ble',
-    //   email: 'bleble@mail.com',
-    //   password: 'kfglfgnjwdhfgsug',
-    //   moderation: 1,
-    //   profilePicture: '',
-    // },
-  ]);
+  const [user, setUser] = React.useState<IUser[]>([]);
 
   const saveUser = (user: IUser[]) => {
-    // if (user === undefined) return;
-
     const newUser: IUser = {
       id: user[0].id,
       name: user[0].name,
@@ -32,7 +20,7 @@ const UserProvider: React.FC<IUserProvider> = ({ children }) => {
       moderation: user[0].moderation,
       profilePicture: user[0].profilePicture,
     };
-    setUser([...user, newUser]);
+    setUser([newUser]);
   };
 
   return (

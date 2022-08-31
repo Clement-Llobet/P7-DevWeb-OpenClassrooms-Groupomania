@@ -1,10 +1,7 @@
 import { NavigateFunction } from 'react-router-dom';
+import { IUser } from '../interfaces/types.userContext';
 import { ApiService } from './api.service';
 import { currentToken } from './getCurrentToken';
-
-// const jwt = require('jsonwebtoken');
-
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 export const forbidAccessWithToken = (navigate: NavigateFunction) => {
   if (currentToken()) {
@@ -22,8 +19,13 @@ export const forbidAccessWithoutToken = (navigate: NavigateFunction) => {
   }
 };
 
-// export const forbidAccessWithoutModeration = async (token: string | null) => {
-//   if (token === null) return;
-//   let getUserAuth = await api.apiGetAuth(token);
-//   console.log(getUserAuth);
-// };
+export const forbidAccessWithoutModerationRight = (
+  navigate: NavigateFunction,
+  user: IUser[]
+) => {
+  if (user[0].moderation !== 1) {
+    navigate('/Home');
+  } else {
+    return;
+  }
+};

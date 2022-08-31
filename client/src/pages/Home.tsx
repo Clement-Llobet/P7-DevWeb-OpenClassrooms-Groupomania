@@ -5,23 +5,23 @@ import { useEffect, useState } from 'react';
 import { PostsData } from '../interfaces/index';
 import { ApiService } from '../service/api.service';
 import { useNavigate } from 'react-router-dom';
-import { forbidAccessWithoutToken } from '../service/access.service';
+import {
+  forbidAccessWithoutModerationRight,
+  forbidAccessWithoutToken,
+} from '../service/access.service';
 import CreatePostModal from '../components/Posts.components/post.createModal';
 import { currentToken } from '../service/getCurrentToken';
+import React from 'react';
 import { UserContext } from '../utils/context';
 import { UserContextType } from '../interfaces/types.userContext';
-import React from 'react';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const Home: React.FC = () => {
   const [allPosts, setAllPosts] = useState<PostsData[] | null>(null);
-  const [postCount, setPostCount] = useState<number>();
   const [createPost, setCreatePost] = useState<boolean>(false);
 
-  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
-
-  // console.log(user);
+  const { user } = React.useContext(UserContext) as UserContextType;
 
   const navigate = useNavigate();
 
@@ -29,25 +29,19 @@ const Home: React.FC = () => {
     forbidAccessWithoutToken(navigate);
   });
 
-  // const postCountOrigin = () => localStorage.getItem('number') || postCount;
-  // const getPostCount = postCountOrigin();
-
   useEffect(() => {
     const getAllPosts = async () => {
       const data = await api.apiGetAllPosts(currentToken());
       setAllPosts(data);
     };
-    getAllPosts();
-  }, []);
-
-  // const setPosts = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPostCount(+e.target.value);
-  //   localStorage.setItem('number', e.target.value);
-  // };
+    if (allPosts === null) {
+      getAllPosts();
+    }
+  }, [allPosts]);
 
   return (
     <main>
-      <Header />
+      <Header moderationRight={user[0] && user[0].moderation} />
       <section className="post-container">
         <h2>Communiquez.</h2>
 

@@ -88,7 +88,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
             employee.id === employeeId ? (
               <UpdateEmployeeModal
                 employee={employee}
-                showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
+                showUpdateAndDeleteButtons={setShowUpdateAndDeleteButtons}
               />
             ) : (
               `Modération : ${employee.moderation ? 'Oui' : 'Non'}`
