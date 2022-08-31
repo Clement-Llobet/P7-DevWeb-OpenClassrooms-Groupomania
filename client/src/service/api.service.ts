@@ -39,20 +39,6 @@ export class ApiService {
     return userData;
   };
 
-  // apiGetAuth = async (token: string) => {
-  //   let url = this.urlBase + 'api/employees/init';
-
-  //   const response = await fetch(url, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  //   const employeesData = response.json();
-  //   return employeesData;
-  // };
-
   apiUpdateEmployees = async (
     token: string | null,
     data?: types.EmployeesData
