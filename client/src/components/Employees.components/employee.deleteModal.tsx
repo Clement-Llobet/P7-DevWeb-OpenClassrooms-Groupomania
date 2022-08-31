@@ -7,12 +7,14 @@ const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface IDeleteEmployeeModal {
   employee: EmployeesData;
-  showDeleteButtons: any;
+  showUpdateAndDeleteButtons: boolean;
+  setShowUpdateAndDeleteButtons: any;
 }
 
 const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
   employee,
-  showDeleteButtons,
+  showUpdateAndDeleteButtons,
+  setShowUpdateAndDeleteButtons,
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
   const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
@@ -23,34 +25,40 @@ const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
       setErrorUpdateMessage(true);
       return;
     }
-    console.log(currentToken() + ' || ' + employee.id?.toString());
     await api.apiDeleteEmployees(currentToken(), employee.id?.toString());
   };
 
   return (
     <div>
-      <h3>Voulez-vous vraiment supprimer cet employé ?</h3>
-      <button
-        onClick={(e) => {
-          sendDeleteOrder(e);
-          showDeleteButtons(false);
-          setDeleteConfirmation(true);
-        }}
-      >
-        Oui
-      </button>
-      <button
-        onClick={() => {
-          showDeleteButtons(false);
-        }}
-      >
-        Non
-      </button>
+      {!showUpdateAndDeleteButtons &&
+        !deleteConfirmation &&
+        !errorUpdateMessage && (
+          <>
+            <h3>Voulez-vous vraiment supprimer cet employé ?</h3>
+            <button
+              onClick={(e) => {
+                sendDeleteOrder(e);
+                setDeleteConfirmation(true);
+                setShowUpdateAndDeleteButtons(false);
+              }}
+            >
+              Oui
+            </button>
+            <button onClick={() => {}}>Non</button>
+          </>
+        )}
 
       {deleteConfirmation && (
         <div>
           <p>L'employé a bien été supprimé.</p>
-          <button onClick={() => setDeleteConfirmation(false)}>Fermer</button>
+          <button
+            onClick={() => {
+              setDeleteConfirmation(true);
+              setShowUpdateAndDeleteButtons(true);
+            }}
+          >
+            Fermer
+          </button>
         </div>
       )}
 

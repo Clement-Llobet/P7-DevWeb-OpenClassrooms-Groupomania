@@ -11,20 +11,19 @@ interface EmployeesListProps {
 }
 
 const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
-  const [changeModeration, setChangeModeration] = useState<boolean>(false);
   const [wantsToChange, setWantsToChange] = useState<boolean>(false);
   const [wantsToDelete, setWantsToDelete] = useState<boolean>(false);
   const [showUpdateAndDeleteButtons, setShowUpdateAndDeleteButtons] =
     useState<boolean>(true);
-  const [showDeleteButtons, setShowDeleteButtons] = useState<boolean>(true);
   const [employeeId, setEmployeeId] = useState<number>(0);
 
   const getEmployeeId = (element: HTMLLIElement) => {
     let liElementValue = element.closest('li')?.value;
     if (!liElementValue) return;
     setEmployeeId(liElementValue);
-    setChangeModeration(true);
   };
+
+  // useEffect(() => {}, [allEmployees]);
 
   // useEffect(() => {
   //   forbidAccessWithoutModeration(currentToken());
@@ -88,7 +87,8 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
             employee.id === employeeId ? (
               <UpdateEmployeeModal
                 employee={employee}
-                showUpdateAndDeleteButtons={setShowUpdateAndDeleteButtons}
+                showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
+                setShowUpdateAndDeleteButtons={setShowUpdateAndDeleteButtons}
               />
             ) : (
               `Modération : ${employee.moderation ? 'Oui' : 'Non'}`
@@ -98,7 +98,8 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
               employee.id === employeeId && (
                 <DeleteEmployeeModal
                   employee={employee}
-                  showDeleteButtons={showDeleteButtons}
+                  showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
+                  setShowUpdateAndDeleteButtons={setShowUpdateAndDeleteButtons}
                 />
               )}
           </li>

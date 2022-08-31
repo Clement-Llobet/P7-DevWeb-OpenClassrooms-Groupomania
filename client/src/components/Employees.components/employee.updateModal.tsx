@@ -7,12 +7,14 @@ const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface IUpdateEmployeeModal {
   employee: EmployeesData;
-  showUpdateAndDeleteButtons: any;
+  showUpdateAndDeleteButtons: boolean;
+  setShowUpdateAndDeleteButtons: any;
 }
 
 const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
   employee,
   showUpdateAndDeleteButtons,
+  setShowUpdateAndDeleteButtons,
 }) => {
   const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
   const [validUpdateMessage, setValidUpdateMessage] = useState<boolean>(false);
@@ -28,9 +30,9 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
     } else {
       if (employee.moderation === null) {
         setErrorUpdateMessage(true);
+        setChangeModeration(null);
         return;
       }
-      setChangeModeration(null);
     }
   };
 
@@ -46,37 +48,59 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
     }
     await api.apiUpdateEmployees(currentToken(), employee);
     setValidUpdateMessage(true);
+    console.log(validUpdateMessage);
   };
 
   return (
     <form action="">
-      <select
-        name="status"
-        id="registration_status"
-        required
-        onChange={(e: SyntheticEvent) =>
-          checkAndUpdateModeration(e.currentTarget as HTMLSelectElement)
-        }
-      >
-        <option value="choose-status">Votre statut</option>
-        <option value="executive">Cadre</option>
-        <option value="non-executive">Non-cadre</option>
-      </select>
-      <button onClick={(e) => sendUpdateOrder(e)}>Valider</button>
-      <button
-        onClick={(e) => {
-          e.preventDefault();
-          showUpdateAndDeleteButtons(true);
-        }}
-      >
-        Annuler
-      </button>
+      {!showUpdateAndDeleteButtons &&
+        !validUpdateMessage &&
+        !errorUpdateMessage && (
+          <>
+            <select
+              name="status"
+              id="registration_status"
+              required
+              onChange={(e: SyntheticEvent) =>
+                checkAndUpdateModeration(e.currentTarget as HTMLSelectElement)
+              }
+            >
+              <option value="choose-status">Votre statut</option>
+              <option value="executive">Cadre</option>
+              <option value="non-executive">Non-cadre</option>
+            </select>
+            <button
+              onClick={(e) => {
+                sendUpdateOrder(e);
+                setShowUpdateAndDeleteButtons(false);
+              }}
+            >
+              Valider
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setShowUpdateAndDeleteButtons(false);
+              }}
+            >
+              Annuler
+            </button>
+          </>
+        )}
+
       {errorUpdateMessage && (
         <div>
           <p>
             Attention, vous devez sélectionner un statut pour cet utilisateur !
           </p>
-          <button onClick={() => setErrorUpdateMessage(false)}>Fermer</button>
+          <button
+            onClick={() => {
+              setErrorUpdateMessage(false);
+              setShowUpdateAndDeleteButtons(true);
+            }}
+          >
+            Fermer
+          </button>
         </div>
       )}
       {validUpdateMessage && (
@@ -85,6 +109,7 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
           <button
             onClick={() => {
               setValidUpdateMessage(false);
+              setShowUpdateAndDeleteButtons(true);
             }}
           >
             Fermer
