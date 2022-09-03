@@ -1,5 +1,8 @@
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PostsData } from '../../interfaces';
+import { UserContextType } from '../../interfaces/types.userContext';
+import { UserContext } from '../../utils/context';
 
 interface PostsListProps {
   allPosts: PostsData[] | null;
@@ -7,6 +10,7 @@ interface PostsListProps {
 
 const PostsList: React.FC<PostsListProps> = ({ allPosts }) => {
   const navigate = useNavigate();
+  const { user } = React.useContext(UserContext) as UserContextType;
 
   return (
     <ul className="Posts">
@@ -20,10 +24,17 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts }) => {
             </h3>
             <>Date : {post.author?.createdAt}</>
             <p>{post.text}</p>
+            <>
+              {/* {post?.likers?.forEach((likers) => {
+                console.log(likers.id);
+              })} */}
+            </>
+
             {/* <img src={post.urlImage} alt="" /> */}
             <>
               <button>
                 Like
+                {}
                 {/* {isAlreadyLiked ? "UnLike" : "Like"} */}
               </button>
               <p>{post.likers!.length}</p>

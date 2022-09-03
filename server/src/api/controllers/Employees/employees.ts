@@ -19,26 +19,28 @@ const sendUserToDatabase = async (payload: CreateEmployeeDTO): Promise<Employee>
 exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
 
     const data = { ...req.body }
+    console.log(Array.from(data));
     
-    // try {
-    //     const hash = await bcrypt.hash(req.body.password, 10);
-    //     console.log(hash);
+    
+    try {
+        const hash = await bcrypt.hash(req.body.password, 10);
+        console.log(hash);
         
-    //     data.password = hash;
-    //     await sendUserToDatabase(data);
-    //     return res.status(201).json({
-    //                     userId: data.id,
-    //                     token: jwt.sign(
-    //                         { userId: data.id },
-    //                         process.env.TOKEN_SECRET,
-    //                         { expiresIn: '24h' }
-    //                     )
-    //                 });
-    // }
-    // catch(error) {
-    //     console.log(error);
-    //     return res.status(500).json({message: `L'erreur suivante est survenue : ${error}`});
-    // }
+        data.password = hash;
+        await sendUserToDatabase(data);
+        return res.status(201).json({
+                        userId: data.id,
+                        token: jwt.sign(
+                            { userId: data.id },
+                            process.env.TOKEN_SECRET,
+                            { expiresIn: '24h' }
+                        )
+                    });
+    }
+    catch(error) {
+        console.log(error);
+        return res.status(500).json({message: `L'erreur suivante est survenue : ${error}`});
+    }
 };
 
 
