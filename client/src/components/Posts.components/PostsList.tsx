@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { PostsData } from '../../interfaces';
 import { UserContextType } from '../../interfaces/types.userContext';
 import { UserContext } from '../../utils/context/context';
+import { PostLi, PostUl } from './postStyle/PostStyle';
 
 interface PostsListProps {
   allPosts: PostsData[] | null;
@@ -12,12 +13,14 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts }) => {
   const navigate = useNavigate();
   const { user } = React.useContext(UserContext) as UserContextType;
 
+  console.log(user);
+
   return (
-    <ul className="Posts">
+    <PostUl className="Posts">
       {allPosts
         ?.reverse()
         .map((post) => (
-          <li key={post!.id} onClick={() => navigate(`/${post!.id}`)}>
+          <PostLi key={post!.id} onClick={() => navigate(`/${post!.id}`)}>
             <h3>
               {post.profilePicture && post.profilePicture}
               {post.author?.surname} {post.author?.name}
@@ -34,15 +37,14 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts }) => {
             <>
               <button>
                 Like
-                {}
                 {/* {isAlreadyLiked ? "UnLike" : "Like"} */}
               </button>
               <p>{post.likers!.length}</p>
             </>
-          </li>
+          </PostLi>
         ))
         .reverse()}
-    </ul>
+    </PostUl>
   );
 };
 
