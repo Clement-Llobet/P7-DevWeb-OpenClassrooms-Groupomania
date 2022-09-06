@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PostsData } from '../../interfaces';
 import { UserContextType } from '../../interfaces/types.userContext';
-import { UserContext } from '../../utils/context';
+import { UserContext } from '../../utils/context/context';
 
 interface PostsListProps {
   allPosts: PostsData[] | null;

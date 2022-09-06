@@ -12,7 +12,7 @@ import {
 import CreatePostModal from '../components/Posts.components/post.createModal';
 import { currentToken } from '../service/getCurrentToken';
 import React from 'react';
-import { UserContext } from '../utils/context';
+import { UserContext } from '../utils/context/context';
 import { UserContextType } from '../interfaces/types.userContext';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);

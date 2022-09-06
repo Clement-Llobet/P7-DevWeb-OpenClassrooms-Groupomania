@@ -3,7 +3,7 @@ import {
   UserContextType,
   IUser,
   IUserProvider,
-} from '../interfaces/types.userContext';
+} from '../../interfaces/types.userContext';
 
 export const UserContext = React.createContext<UserContextType | null>(null);
 
