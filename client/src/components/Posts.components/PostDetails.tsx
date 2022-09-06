@@ -1,21 +1,27 @@
-import { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { PostsData } from '../../interfaces';
+import { EmployeesData, LikesData, PostsData } from '../../interfaces';
 import DeleteModal from './post.DeleteModal';
 import UpdatePostModal from './post.UpdateModal';
 import { ApiService } from '../../service/api.service';
+import { UserContext } from '../../utils/context/context';
+import { UserContextType } from '../../interfaces/types.userContext';
+import { currentToken } from '../../service/getCurrentToken';
 
 interface PostDetailProps {
   singlePost: PostsData | null;
+  likers: [];
 }
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
-const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
+const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
   const [modal, setModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(true);
+
+  const { user } = React.useContext(UserContext) as UserContextType;
 
   const showUpdatePostModal = async () => {
     setModal(true);
@@ -29,12 +35,36 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
     setUpdateModal(false);
   };
 
-  const handleLike = async () => {
-    like
-      ? setLike(false)
-      : // await api.apiCreateLike();
-        setLike(true);
+  const addLike = async (singlePostId: number) => {
+    let newLike: LikesData = {
+      EmployeeId: user[0].id,
+      PostId: singlePostId,
+    };
+
+    const callApi = await api.apiCreateLike(currentToken.toString(), newLike);
+    console.log(callApi);
   };
+
+  const removeLike = async (singlePostId: number) => {
+    const callApi = await api.apiDeleteLike(
+      currentToken.toString(),
+      singlePostId.toString()
+    );
+    console.log(callApi);
+  };
+
+  useEffect(() => {
+    const showLikeButton = () => {
+      likers.forEach((liker: EmployeesData) => {
+        if (liker.id === user[0].id) {
+          setLike(false);
+        } else {
+          setLike(true);
+        }
+      });
+    };
+    showLikeButton();
+  });
 
   return (
     <section>
@@ -80,7 +110,15 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost }) => {
             {/* <img src={singlePost?.urlImage} alt="" /> */}
           </div>
           <div>
-            <button onClick={() => handleLike()}>Like</button>
+            {like ? (
+              <button onClick={() => addLike(singlePost?.id!)}>Like</button>
+            ) : (
+              <button onClick={() => removeLike(singlePost?.id!)}>
+                UnLike
+              </button>
+            )}
+            {/*  <button onClick={() => handleLike()}>Like</button> */}
+            <>{likers.length}</>
           </div>
         </div>
       )}

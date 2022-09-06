@@ -8,6 +8,7 @@ import Error from './pages/Error';
 import Post from './pages/Post';
 import Employees from './pages/Employees';
 import UserProvider from './utils/context/context';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

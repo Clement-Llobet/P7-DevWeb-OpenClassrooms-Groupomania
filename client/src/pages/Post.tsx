@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import PostDetails from '../components/Posts.components/PostDetails';
 import { PostsData } from '../interfaces';
 import { ApiService } from '../service/api.service';
@@ -11,6 +11,7 @@ const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const Post = () => {
   const { id } = useParams<PostIdParams>();
+  const { state } = useLocation();
 
   const [singlePost, setSinglePost] = useState<PostsData | null>(null);
 
@@ -27,7 +28,7 @@ const Post = () => {
     };
     getSinglePost();
   }, [id]);
-  return <PostDetails singlePost={singlePost} />;
+  return <PostDetails singlePost={singlePost} likers={state as []} />;
 };
 
 export default Post;

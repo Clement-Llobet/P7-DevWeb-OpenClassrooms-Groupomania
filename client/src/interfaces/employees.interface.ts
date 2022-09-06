@@ -6,6 +6,9 @@ export interface EmployeesData {
   password?: string | HashAlgorithmIdentifier;
   moderation?: number | null;
   profilePicture?: File | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
+  deletedAt?: string | null;
 }
 
 export interface EmployeesLoginData {

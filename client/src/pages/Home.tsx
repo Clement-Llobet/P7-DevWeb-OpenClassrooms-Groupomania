@@ -54,7 +54,10 @@ const Home: React.FC = () => {
         )}
 
         <h2>Les derniers posts des Groupomaniens</h2>
-        <PostsList allPosts={allPosts} />
+        <PostsList
+          allPosts={allPosts}
+          moderationRight={user[0] && user[0].moderation}
+        />
       </section>
       <Footer />
     </main>
