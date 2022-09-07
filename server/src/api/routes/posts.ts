@@ -12,7 +12,6 @@ router.post('/', auth, multer, postsController.createPost);
 router.put('/:id', auth, multer, postsController.updatePost);
 router.delete('/:id', auth, postsController.deletePostById);
 
-router.post('/:id/like', likesController.createLike);
-router.delete('/:id/like', likesController.deleteLike);
+router.post('/:id/like', likesController.manageLike);
 
 export default router;

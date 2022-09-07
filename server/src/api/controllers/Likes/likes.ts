@@ -7,6 +7,7 @@ import Employees from '../../../database/models/Employees.model';
 import { Employee } from '../../interfaces/employees.interfaces';
 import { Like } from "../../interfaces/likes.interface";
 import Likes from '../../../database/models/Likes.model';
+import { deleteLike } from '../../../database/dal/likes.dal';
 
 
 const createNewLike = async (payload: createLikeDTO): Promise<Like> => {
@@ -17,6 +18,7 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
     let postIdFound: number = 0;
     let employeeIdFound: number = 0;
     let ifAlreadyCliked: boolean = false;    
+    let likeFound: any;
     
     const checkIfPostExist = async (data: any) => {
         try {
@@ -55,16 +57,21 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
     const checkIfAlreadyCliked = async (postIdFound: number, employeeIdFound: number) => {
         if(employeeIdFound) {
             try {
-                await Likes.findOne({
+                let response = await Likes.findOne({
                     where: {
                         EmployeeId: employeeIdFound,
                         PostId: postIdFound
                     }
                 })
-                ifAlreadyCliked = false;
+
+                if (response) {
+                    ifAlreadyCliked = true;
+                    likeFound = response?.getDataValue('likesId')                
+                } else {
+                    ifAlreadyCliked = false;
+                }
             } 
             catch (error) {
-                ifAlreadyCliked = true;                
                 return res.status(500).json({ 'error' : 'unable to verify if employee already clicked'})
             }  
         } else {
@@ -73,41 +80,37 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
     }
 
     // // Vérifie que l'utilisateur n'a pas déjà liké le message, si non on créee la relation Like qui unit le message et l'utilisateur
-    const sendOrderToCreateLike = async (ifAlreadyCliked: boolean, likeToCreate: Like) => {
+    const sendOrder = async (ifAlreadyCliked: boolean, employeeIdFound: number, postIdFound: number, likeIdFound?: number) => {
         if(ifAlreadyCliked === false) {
             try {
-                await createNewLike(likeToCreate);
-                return res.status(200).json({ message: `Le post dont le PostId est ${likeToCreate.PostId} a bien été liké par l'EmployeeId ${likeToCreate.EmployeeId} `})
+                let newLikeObject: Like = {
+                    EmployeeId: employeeIdFound,
+                    PostId: postIdFound
+                }
+                await createNewLike(newLikeObject);
+                return res.status(200).json({ message: `Le post dont le PostId est ${newLikeObject.PostId} a bien été liké par l'EmployeeId ${newLikeObject.EmployeeId} `})
             } catch (error) {
                 return res.status(500).json({ 'error' : 'unable to set user like'})
             }
-        } else {
-            res.status(409).json({ 'error' : 'message already liked'})
+        } else if (ifAlreadyCliked === true) {            
+            try {
+                await deleteLike(likeIdFound!)
+                return res.status(200).json({ message: `Le post dont le LikeId est ${likeIdFound} a bien été unliké par l'EmployeeId ${employeeIdFound} `})
+            } catch (error) {
+                res.status(500).json({ 'error' : 'unable to set user unlike'})
+            }
         }
     }
 
     checkIfPostExist(payload)
         .then(() => checkEmployeeId(postIdFound, payload)
             .then(() => checkIfAlreadyCliked(postIdFound, employeeIdFound))
-                .then(() => {
-                    let newLikeObject: Like = {
-                            EmployeeId: employeeIdFound,
-                            PostId: postIdFound
-                        }
-                    sendOrderToCreateLike(ifAlreadyCliked, newLikeObject)
-                })
+                .then(() => sendOrder(ifAlreadyCliked, employeeIdFound, postIdFound, likeFound)
+            )
         ) 
 }
 
-exports.createLike = async (req: Request, res: Response, next: NextFunction) => {
+exports.manageLike = async (req: Request, res: Response, next: NextFunction) => {
     const data: any = { ...req.body }
     likeManager(req, res, next, data);
-}
-
-exports.deleteLike = async (req: Request, res: Response, next: NextFunction) => {
-    // try {
-        
-    // } catch (error) {
-    //     return res.status(500).json(error);
-    // }    
 }
