@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { HeaderStyledComponent, HeaderNav } from './HeaderStyle';
+import { HeaderStyledComponent, HeaderNav, LogoImg } from './HeaderStyle';
 import Logo from '../../assets/Logo.png';
 
 interface IModerationRight {
@@ -20,7 +20,7 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
       <HeaderNav>
         <li>
           <Link to="/Home">
-            <img src={Logo} alt="Logo Groupomania" />
+            <LogoImg />
           </Link>
         </li>
         {moderationRight ? (
