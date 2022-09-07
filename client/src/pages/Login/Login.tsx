@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import React, { FC, useContext, useEffect, useState } from 'react';
-import { ApiService } from '../service/api.service';
-import { EmployeesLoginData } from '../interfaces';
-import { forbidAccessWithToken } from '../service/access.service';
-import { UserContext } from '../utils/context/context';
-import { UserContextType } from '../interfaces/types.userContext';
+import { ApiService } from '../../service/api.service';
+import { EmployeesLoginData } from '../../interfaces';
+import { forbidAccessWithToken } from '../../service/access.service';
+import { UserContext } from '../../utils/context/context';
+import { UserContextType } from '../../interfaces/types.userContext';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 

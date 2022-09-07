@@ -20,6 +20,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
   const [updateModal, setUpdateModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [like, setLike] = useState(true);
+  const [likeCount, setLikeCount] = useState<number>(likers.length);
 
   const { user } = React.useContext(UserContext) as UserContextType;
 
@@ -35,7 +36,30 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
     setUpdateModal(false);
   };
 
-  const addLike = async (singlePostId: number) => {
+  // useEffect(() => {
+  //   setLikeCount(likers.length);
+  // }, [likers]);
+
+  useEffect(() => {
+    const showLikeButton = () => {
+      likers.forEach((liker: EmployeesData) => {
+        if (liker.id === user[0].id) {
+          setLike(false);
+          console.log(likers);
+
+          // setLikeCount(likers.length);
+        } else {
+          setLike(true);
+          console.log(likers);
+
+          // setLikeCount(likers.length);
+        }
+      });
+    };
+    showLikeButton();
+  }, [likers, user]);
+
+  const manageLike = async (singlePostId: number) => {
     let newLike: LikesData = {
       EmployeeId: user[0].id,
       PostId: singlePostId,
@@ -44,19 +68,6 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
     const callApi = await api.apiManageLike(currentToken.toString(), newLike);
     console.log(callApi);
   };
-
-  useEffect(() => {
-    const showLikeButton = () => {
-      likers.forEach((liker: EmployeesData) => {
-        if (liker.id === user[0].id) {
-          setLike(false);
-        } else {
-          setLike(true);
-        }
-      });
-    };
-    showLikeButton();
-  });
 
   return (
     <section>
@@ -102,13 +113,10 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
             {/* <img src={singlePost?.urlImage} alt="" /> */}
           </div>
           <div>
-            {like ? (
-              <button onClick={() => addLike(singlePost?.id!)}>Like</button>
-            ) : (
-              <button onClick={() => addLike(singlePost?.id!)}>UnLike</button>
-            )}
-            {/*  <button onClick={() => handleLike()}>Like</button> */}
-            <>{likers.length}</>
+            <button onClick={() => manageLike(singlePost?.id!)}>
+              {like ? 'Like' : 'Unlike'}
+            </button>
+            <>{likeCount}</>
           </div>
         </div>
       )}

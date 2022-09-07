@@ -1,19 +1,20 @@
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import PostsList from '../components/Posts.components/PostsList';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import PostsList from '../../components/Posts.components/PostsList';
 import { useEffect, useState } from 'react';
-import { PostsData } from '../interfaces/index';
-import { ApiService } from '../service/api.service';
+import { PostsData } from '../../interfaces/index';
+import { ApiService } from '../../service/api.service';
 import { useNavigate } from 'react-router-dom';
 import {
   forbidAccessWithoutModerationRight,
   forbidAccessWithoutToken,
-} from '../service/access.service';
-import CreatePostModal from '../components/Posts.components/post.createModal';
-import { currentToken } from '../service/getCurrentToken';
+} from '../../service/access.service';
+import CreatePostModal from '../../components/Posts.components/post.createModal';
+import { currentToken } from '../../service/getCurrentToken';
 import React from 'react';
-import { UserContext } from '../utils/context/context';
-import { UserContextType } from '../interfaces/types.userContext';
+import { UserContext } from '../../utils/context/context';
+import { UserContextType } from '../../interfaces/types.userContext';
+import { HomeMain } from './HomeStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -40,7 +41,7 @@ const Home: React.FC = () => {
   }, [allPosts]);
 
   return (
-    <main>
+    <HomeMain>
       <Header moderationRight={user[0] && user[0].moderation} />
       <section className="post-container">
         <h2>Communiquez.</h2>
@@ -60,7 +61,7 @@ const Home: React.FC = () => {
         />
       </section>
       <Footer />
-    </main>
+    </HomeMain>
   );
 };
 
