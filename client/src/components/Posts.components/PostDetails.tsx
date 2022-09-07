@@ -41,15 +41,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
       PostId: singlePostId,
     };
 
-    const callApi = await api.apiCreateLike(currentToken.toString(), newLike);
-    console.log(callApi);
-  };
-
-  const removeLike = async (singlePostId: number) => {
-    const callApi = await api.apiDeleteLike(
-      currentToken.toString(),
-      singlePostId.toString()
-    );
+    const callApi = await api.apiManageLike(currentToken.toString(), newLike);
     console.log(callApi);
   };
 
@@ -113,9 +105,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
             {like ? (
               <button onClick={() => addLike(singlePost?.id!)}>Like</button>
             ) : (
-              <button onClick={() => removeLike(singlePost?.id!)}>
-                UnLike
-              </button>
+              <button onClick={() => addLike(singlePost?.id!)}>UnLike</button>
             )}
             {/*  <button onClick={() => handleLike()}>Like</button> */}
             <>{likers.length}</>

@@ -178,7 +178,7 @@ export class ApiService {
     return postData;
   };
 
-  apiCreateLike = async (token: string | null, data: types.LikesData) => {
+  apiManageLike = async (token: string | null, data: types.LikesData) => {
     let url = this.urlBase + `api/posts/${data.PostId}/like`;
 
     const response = await fetch(url, {
@@ -191,19 +191,5 @@ export class ApiService {
     });
     const likeData = response.json();
     return likeData;
-  };
-
-  apiDeleteLike = async (token: string | null, data: string) => {
-    let url = this.urlBase + `api/posts/${data}/like`;
-
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    const deleteLikeData = response.json();
-    return deleteLikeData;
   };
 }

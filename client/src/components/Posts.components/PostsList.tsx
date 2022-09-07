@@ -41,11 +41,7 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
 
               {/* <img src={post.urlImage} alt="" /> */}
               <>
-                <button>
-                  Like
-                  {/* {isAlreadyLiked ? "UnLike" : "Like"} */}
-                </button>
-                <p>{post.likers!.length}</p>
+                <p>Likes : {post.likers!.length}</p>
               </>
             </PostLi>
           ))
