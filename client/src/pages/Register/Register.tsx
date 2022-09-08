@@ -99,7 +99,9 @@ const Register: React.FC = () => {
     employeeToCreate,
   ]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
     // console.log(`L'objet créé et le suivant : {
     //   name : ${name},
     //   surname : ${surname},
@@ -203,7 +205,7 @@ const Register: React.FC = () => {
           />
           {/* <img src={profilePicture} alt="" /> */}
         </fieldset>
-        <button onClick={handleSubmit}>Valider</button>
+        <button onClick={(e) => handleSubmit()}>Valider</button>
       </form>
     </Wrapper>
   );

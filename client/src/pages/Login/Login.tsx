@@ -50,7 +50,12 @@ const Login: FC = () => {
     employeeToLogin.password = password;
   });
 
-  const handleSubmit = async (employee: EmployeesLoginData) => {
+  const handleSubmit = async (
+    e: React.MouseEvent,
+    employee: EmployeesLoginData
+  ) => {
+    e.preventDefault();
+
     if (email === '' || password === '') {
       return Error;
     } else {
@@ -108,7 +113,9 @@ const Login: FC = () => {
             <p id="invalid-password-text"></p>
           </fieldset>
 
-          <button onClick={() => handleSubmit(employeeToLogin)}>Valider</button>
+          <button onClick={(e) => handleSubmit(e, employeeToLogin)}>
+            Valider
+          </button>
 
           <p>
             Pas encore inscrit ? <Link to="/register">Faites-le ici</Link>
