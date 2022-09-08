@@ -205,7 +205,7 @@ const Register: React.FC = () => {
           />
           {/* <img src={profilePicture} alt="" /> */}
         </fieldset>
-        <button onClick={(e) => handleSubmit()}>Valider</button>
+        <button onClick={(e) => handleSubmit(e)}>Valider</button>
       </form>
     </Wrapper>
   );
