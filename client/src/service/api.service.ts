@@ -9,21 +9,22 @@ export class ApiService {
 
   apiEmployeesSignUp = async (data: FormData) => {
     let url = this.urlBase + 'api/employees/signup';
+    console.log('Form Data : ', Array.from(data));
 
     // console.log(Array.from(data));
 
     const response = await fetch(url, {
       method: 'POST',
       body: data,
-      // headers: {
-      //   'Content-type': 'multipart/form-data',
-      // },
+      headers: {
+        //   'Content-type': 'multipart/form-data',
+      },
     });
     const userData = await response.json();
-    console.log(userData);
+    // console.log(userData);
 
     // localStorage.setItem('token', userData.token);
-    // return userData;
+    return userData;
   };
 
   apiEmployeesLogin = async (data: types.EmployeesLoginData) => {

@@ -32,7 +32,6 @@ const Register: React.FC = () => {
     } else {
       setName(input.value);
     }
-    // employeeToCreate.append('name', name);
   };
 
   const checkAndSetSurname = (input: HTMLInputElement) => {
@@ -41,7 +40,6 @@ const Register: React.FC = () => {
     } else {
       setSurname(input.value);
     }
-    // employeeToCreate.append('surname', surname);
   };
 
   const checkAndSetEmail = (input: string) => {
@@ -50,7 +48,6 @@ const Register: React.FC = () => {
     } else {
       setEmail(input);
     }
-    // employeeToCreate.append('email', email);
   };
 
   const checkAndSetPassword = (input: HTMLInputElement) => {
@@ -59,7 +56,6 @@ const Register: React.FC = () => {
     } else {
       setPassword(input.value);
     }
-    // employeeToCreate.append('password', password);
   };
 
   const checkAndSetModeration = async (option: HTMLSelectElement) => {
@@ -70,7 +66,6 @@ const Register: React.FC = () => {
     } else {
       setModeration('');
     }
-    // employeeToCreate.append('moderation', moderation);
   };
 
   const manageProfilePicture = (data: HTMLInputElement) => {
@@ -86,38 +81,19 @@ const Register: React.FC = () => {
     if (!file) return;
     file.name.replace(/\s+/g, '_');
     setProfilePicture(file);
-    // employeeToCreate.append('profilePicture', profilePicture!);
   };
-
-  useEffect(() => {}, [
-    name,
-    surname,
-    email,
-    password,
-    moderation,
-    profilePicture,
-    employeeToCreate,
-  ]);
 
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
 
-    // console.log(`L'objet créé et le suivant : {
-    //   name : ${name},
-    //   surname : ${surname},
-    //   email: ${email},
-    //   password: ${password},
-    //   moderation: ${moderation},
-    //   profilePicture: ${profilePicture}
-    // }`);
     employeeToCreate.append('name', `${name}`);
     employeeToCreate.append('surname', `${surname}`);
     employeeToCreate.append('email', `${email}`);
     employeeToCreate.append('password', `${password}`);
     employeeToCreate.append('moderation', `${moderation}`);
-    employeeToCreate.append('profilePicture', `${profilePicture!}`);
+    employeeToCreate.append('profilePicture', profilePicture!);
 
-    // console.log(Array.from(employeeToCreate));
+    console.log(Array.from(employeeToCreate));
 
     await api.apiEmployeesSignUp(employeeToCreate);
     // handleRedirect(signupResponse.token);
