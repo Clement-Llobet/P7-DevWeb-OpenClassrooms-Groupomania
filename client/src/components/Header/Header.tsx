@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { HeaderStyledComponent, HeaderNav, LogoImg } from './HeaderStyle';
-import Logo from '../../assets/Logo.png';
 
 interface IModerationRight {
   moderationRight: number | null;

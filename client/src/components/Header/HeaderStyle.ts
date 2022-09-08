@@ -29,6 +29,7 @@ export const HeaderNav = styled.nav`
 
 export const LogoImg = styled.img.attrs({
   src: `${Logo}`,
+  alt: `Logo Groupomania`,
 })`
   width: 30%;
 `;
