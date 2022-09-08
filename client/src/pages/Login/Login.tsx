@@ -5,6 +5,7 @@ import { EmployeesLoginData } from '../../interfaces';
 import { forbidAccessWithToken } from '../../service/access.service';
 import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
+import { Wrapper, LogoImg } from './LoginStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -78,39 +79,43 @@ const Login: FC = () => {
   };
 
   return (
-    <section>
-      <h2>Connexion à Groupomania</h2>
-      <form action="">
-        <fieldset>
-          <legend>Connexion</legend>
+    <Wrapper>
+      <section className="Groupomania-logo">
+        <LogoImg />
+      </section>
+      <section className="login-section">
+        <h1>Connexion à Groupomania</h1>
+        <form action="">
+          <fieldset>
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              id="employee_email"
+              onBlur={(e) => checkEmail(e.target.value)}
+              required
+            />
+            <p id="invalid-email-text"></p>
 
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            id="employee_email"
-            onBlur={(e) => checkEmail(e.target.value)}
-            required
-          />
-          <p id="invalid-email-text"></p>
+            <label>Mot de passe</label>
+            <input
+              type="password"
+              name="password"
+              id="employee_password"
+              onBlur={(e) => checkPassword(e.target.value)}
+              required
+            />
+            <p id="invalid-password-text"></p>
+          </fieldset>
 
-          <label>Mot de passe</label>
-          <input
-            type="password"
-            name="password"
-            id="employee_password"
-            onBlur={(e) => checkPassword(e.target.value)}
-            required
-          />
-          <p id="invalid-password-text"></p>
-        </fieldset>
-      </form>
-      <button onClick={() => handleSubmit(employeeToLogin)}>Valider</button>
+          <button onClick={() => handleSubmit(employeeToLogin)}>Valider</button>
 
-      <p>
-        Pas encore inscrit ? <Link to="/register">Faites-le ici</Link>
-      </p>
-    </section>
+          <p>
+            Pas encore inscrit ? <Link to="/register">Faites-le ici</Link>
+          </p>
+        </form>
+      </section>
+    </Wrapper>
   );
 };
 
