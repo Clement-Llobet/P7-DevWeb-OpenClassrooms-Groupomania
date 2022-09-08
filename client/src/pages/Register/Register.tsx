@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { forbidAccessWithToken } from '../../service/access.service';
+import { LogoImg, Wrapper } from './RegisterStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -129,11 +130,11 @@ const Register: React.FC = () => {
   };
 
   return (
-    <section>
+    <Wrapper>
+      <LogoImg />
       <h1>Inscrivez-vous</h1>
       <form>
         <fieldset>
-          <legend>Inscription</legend>
           <label>Nom</label>
           <input
             type="text"
@@ -190,7 +191,7 @@ const Register: React.FC = () => {
           </select>
 
           <label>Avatar</label>
-          <legend>Type d'images acceptées : JPEG, JPG, PNG, WEBP</legend>
+          <p>Type d'images acceptées : JPEG, JPG, PNG, WEBP</p>
           <input
             type="file"
             id="registration_avatar"
@@ -202,9 +203,9 @@ const Register: React.FC = () => {
           />
           {/* <img src={profilePicture} alt="" /> */}
         </fieldset>
+        <button onClick={handleSubmit}>Valider</button>
       </form>
-      <button onClick={handleSubmit}>Valider</button>
-    </section>
+    </Wrapper>
   );
 };
 
