@@ -14,7 +14,7 @@ export const HeaderNav = styled.nav`
   list-style-type: none;
   padding: 2%;
 
-  li {
+  li.user-actions {
     font-size: 1.4rem;
     color: #ffffff;
     padding: 1%;

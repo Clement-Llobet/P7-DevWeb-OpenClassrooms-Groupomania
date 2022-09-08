@@ -1,9 +1,15 @@
+import { FooterComponent } from './FooterStyle';
+
 const Footer = () => {
   return (
-    <ul>
-      <li>Contact RH</li>
-      <li>Mentions légales</li>
-    </ul>
+    <FooterComponent>
+      <ul>
+        <li>
+          <a href="mailto:rh@groupomania.com">Contact RH</a>
+        </li>
+        <li>Mentions légales</li>
+      </ul>
+    </FooterComponent>
   );
 };
 

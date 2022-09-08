@@ -23,11 +23,11 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
           </Link>
         </li>
         {moderationRight ? (
-          <li>
+          <li className="user-actions">
             <Link to="/allEmployees">Modération</Link>
           </li>
         ) : null}
-        <li onClick={handleLogOut}>
+        <li className="user-actions" onClick={handleLogOut}>
           {/* <i className="fa-solid fa-arrow-up-left-from-circle"></i> */}
           Déconnexion
         </li>
