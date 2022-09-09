@@ -10,7 +10,7 @@ const CreatePostModal = () => {
   const [image, setImage] = useState('');
   const [token, setToken] = useState<string | null>(null);
 
-  const handleCreateSubmit = async () => {
+  const handleCreateSubmit = async (e: React.MouseEvent) => {
     let createPostObject = new FormData();
     createPostObject.append('text', text);
     createPostObject.append('urlImage', image);
@@ -29,7 +29,9 @@ const CreatePostModal = () => {
     //   EmployeeId: currentToken(),
     // };
 
-    // await api.apiCreatePost(currentToken(), createPostObject);
+    console.log(Array.from(createPostObject));
+
+    await api.apiCreatePost(currentToken(), createPostObject);
   };
 
   return (
@@ -52,7 +54,7 @@ const CreatePostModal = () => {
           onChange={(e) => setImage(e.target.value)}
         />
       </form>
-      <button onClick={handleCreateSubmit}>Créer le post</button>
+      <button onClick={(e) => handleCreateSubmit(e)}>Créer le post</button>
     </div>
   );
 };

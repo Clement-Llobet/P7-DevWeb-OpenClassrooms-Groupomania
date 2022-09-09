@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import EmployeesList from '../../components/Employees.components/EmployeesList';
+import EmployeesList from '../../components/Employees.components/EmployeesList/EmployeesList';
 import Header from '../../components/Header/Header';
 import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';

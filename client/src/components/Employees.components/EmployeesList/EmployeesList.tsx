@@ -1,10 +1,11 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { EmployeesData } from '../../interfaces';
+import { EmployeesData } from '../../../interfaces';
 // import { forbidAccessWithoutModeration } from '../../service/access.service';
-import { ApiService } from '../../service/api.service';
-import { currentToken } from '../../service/getCurrentToken';
-import DeleteEmployeeModal from './employee.deleteModal';
-import UpdateEmployeeModal from './employee.updateModal';
+import { ApiService } from '../../../service/api.service';
+import { currentToken } from '../../../service/getCurrentToken';
+import DeleteEmployeeModal from '../employee.deleteModal';
+import UpdateEmployeeModal from '../employee.updateModal';
+import { PostDetails } from './EmployeesListStyle';
 
 interface EmployeesListProps {
   allEmployees: EmployeesData[] | null;
@@ -30,14 +31,22 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
   // }, [allEmployees]);
 
   return (
-    <div>
+    <PostDetails>
       <ul className="employees">
+        <li className="employee-row">
+          <div className="employee-row__id">Id</div>
+          <div className="employee-row__avatar">Avatar</div>
+          <div className="employee-row__surname">Prénom</div>
+          <div className="employee-row__name">Nom</div>
+          <div className="employee-row__email">Email</div>
+          <div className="employee-row__moderation">Modération</div>
+        </li>
         {allEmployees?.map((employee) => (
-          <li key={employee.id} value={employee.id}>
-            <div>
+          <li key={employee.id} value={employee.id} className="employee-row">
+            <div className="employee-row__id">
               <p>{employee.id}</p>
             </div>
-            <div>
+            <div className="employee-row__avatar">
               {employee.profilePicture ? (
                 <img
                   // src={employee.profilePicture}
@@ -50,16 +59,24 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
                 />
               )}
             </div>
-            <div>
-              <p>
-                {employee.surname} {employee.name}
-              </p>
-            </div>
-            <div>
-              <p>{employee.email}</p>
+            <div className="employee-row__surname">{employee.surname}</div>
+            <div className="employee-row__name">{employee.name}</div>
+            <div className="employee-row__email">{employee.email}</div>
+            <div className="employee-row__moderation">
+              {!showUpdateAndDeleteButtons &&
+              wantsToChange &&
+              employee.id === employeeId ? (
+                <UpdateEmployeeModal
+                  employee={employee}
+                  showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
+                  setShowUpdateAndDeleteButtons={setShowUpdateAndDeleteButtons}
+                />
+              ) : (
+                `${employee.moderation ? 'Oui' : 'Non'}`
+              )}
             </div>
             {showUpdateAndDeleteButtons && (
-              <div>
+              <div className="employee-row__update-and-delete">
                 <button
                   onClick={(e: SyntheticEvent) => {
                     setWantsToChange(true);
@@ -82,17 +99,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
                 </button>
               </div>
             )}
-            {!showUpdateAndDeleteButtons &&
-            wantsToChange &&
-            employee.id === employeeId ? (
-              <UpdateEmployeeModal
-                employee={employee}
-                showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
-                setShowUpdateAndDeleteButtons={setShowUpdateAndDeleteButtons}
-              />
-            ) : (
-              `Modération : ${employee.moderation ? 'Oui' : 'Non'}`
-            )}
+
             {!showUpdateAndDeleteButtons &&
               wantsToDelete &&
               employee.id === employeeId && (
@@ -105,7 +112,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </PostDetails>
   );
 };
 

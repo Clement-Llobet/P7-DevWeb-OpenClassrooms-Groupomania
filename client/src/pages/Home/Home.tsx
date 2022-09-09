@@ -14,7 +14,7 @@ import { currentToken } from '../../service/getCurrentToken';
 import React from 'react';
 import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
-import { HomeMain } from './HomeStyle';
+import { HomeMain, PostContainer, CreatePost } from './HomeStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -43,23 +43,27 @@ const Home: React.FC = () => {
   return (
     <HomeMain>
       <Header moderationRight={user[0] && user[0].moderation} />
-      <section className="post-container">
-        <h2>Communiquez.</h2>
-
-        <button onClick={() => setCreatePost(true)}>Créer un post</button>
-        {createPost && (
-          <div>
-            <CreatePostModal />
-            <button onClick={() => setCreatePost(false)}>Annuler</button>
-          </div>
-        )}
+      <PostContainer>
+        <h1>Communiquez</h1>
 
         <h2>Les derniers posts des Groupomaniens</h2>
+
+        <CreatePost>
+          <p>Créer un post</p>
+          <button onClick={() => setCreatePost(true)}>Créer</button>
+          {createPost && (
+            <div>
+              <CreatePostModal />
+              <button onClick={() => setCreatePost(false)}>Annuler</button>
+            </div>
+          )}
+        </CreatePost>
+
         <PostsList
           allPosts={allPosts}
           moderationRight={user[0] && user[0].moderation}
         />
-      </section>
+      </PostContainer>
       <Footer />
     </HomeMain>
   );

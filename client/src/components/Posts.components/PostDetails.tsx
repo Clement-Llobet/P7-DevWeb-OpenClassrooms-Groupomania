@@ -67,6 +67,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
 
     const callApi = await api.apiManageLike(currentToken.toString(), newLike);
     console.log(callApi);
+    // setLikeCount()
   };
 
   return (

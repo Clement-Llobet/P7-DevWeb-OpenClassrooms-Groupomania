@@ -11,19 +11,13 @@ export class ApiService {
     let url = this.urlBase + 'api/employees/signup';
     console.log('Form Data : ', Array.from(data));
 
-    // console.log(Array.from(data));
-
     const response = await fetch(url, {
       method: 'POST',
       body: data,
-      headers: {
-        //   'Content-type': 'multipart/form-data',
-      },
     });
     const userData = await response.json();
-    // console.log(userData);
 
-    // localStorage.setItem('token', userData.token);
+    localStorage.setItem('token', userData.token);
     return userData;
   };
 
@@ -104,14 +98,13 @@ export class ApiService {
     return employeeByIdData;
   };
 
-  apiCreatePost = async (token: string | null, data: types.PostsData) => {
+  apiCreatePost = async (token: string | null, data: FormData) => {
     let url = this.urlBase + 'api/posts/';
 
     const response = await fetch(url, {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: data,
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
         Authorization: `Bearer ${token}`,
       },
     });
