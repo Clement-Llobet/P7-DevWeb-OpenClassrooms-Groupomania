@@ -1,6 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EmployeesData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { forbidAccessWithToken } from '../../service/access.service';
 import { LogoImg, Wrapper } from './RegisterStyle';
