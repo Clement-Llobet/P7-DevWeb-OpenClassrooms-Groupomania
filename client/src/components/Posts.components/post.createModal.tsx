@@ -1,37 +1,55 @@
-import { useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { PostsData } from '../../interfaces';
+import { UserContextType } from '../../interfaces/types.userContext';
 import { ApiService } from '../../service/api.service';
+import { UserContext } from '../../utils/context/context';
 import { currentToken } from '../../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const CreatePostModal = () => {
   const [text, setText] = useState('');
-  const [image, setImage] = useState('');
-  const [token, setToken] = useState<string | null>(null);
+  const [image, setImage] = useState<string | File>();
+  const [idUser, setIdUser] = useState<number>();
+
+  const { user } = React.useContext(UserContext) as UserContextType;
+
+  useEffect(() => {}, [user]);
+
+  console.log(user);
+
+  let createPostObject = new FormData();
+
+  const managePicture = (data: HTMLInputElement) => {
+    const fileResult: FileList | null = data.files;
+
+    if (fileResult === null || fileResult === undefined) {
+      setImage('');
+      return;
+    }
+
+    let file: File = fileResult[0];
+
+    file.name.replace(/\s+/g, '_');
+    setImage(file);
+  };
 
   const handleCreateSubmit = async (e: React.MouseEvent) => {
-    let createPostObject = new FormData();
-    createPostObject.append('text', text);
-    createPostObject.append('urlImage', image);
+    e.preventDefault();
 
-    setToken(currentToken);
+    createPostObject.append('text', `${text}`);
+    createPostObject.append('urlImage', image!);
 
-    if (token) {
-      createPostObject.append('EmployeeId', token);
+    setIdUser(user[0].id!);
+
+    if (idUser) {
+      createPostObject.append('EmployeeId', currentToken()!);
     } else {
       return Error;
     }
 
-    // let createPostObject: PostsData = {
-    //   text: text,
-    //   urlImage: image,
-    //   EmployeeId: currentToken(),
-    // };
-
-    console.log(Array.from(createPostObject));
-
-    await api.apiCreatePost(currentToken(), createPostObject);
+    const callApi = await api.apiCreatePost(currentToken(), createPostObject);
+    console.log(callApi);
   };
 
   return (
@@ -51,7 +69,9 @@ const CreatePostModal = () => {
           className="post-image"
           multiple={false}
           accept=".jpeg, .jpg, .png, .webp"
-          onChange={(e) => setImage(e.target.value)}
+          onChange={(e: SyntheticEvent) =>
+            managePicture(e.currentTarget as HTMLInputElement)
+          }
         />
       </form>
       <button onClick={(e) => handleCreateSubmit(e)}>Créer le post</button>

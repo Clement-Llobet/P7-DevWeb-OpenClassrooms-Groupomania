@@ -6,6 +6,7 @@ import { currentToken } from '../../../service/getCurrentToken';
 import DeleteEmployeeModal from '../employee.deleteModal';
 import UpdateEmployeeModal from '../employee.updateModal';
 import { PostDetails } from './EmployeesListStyle';
+import EmptyAvatar from '../../../assets/EmptyAvatar.png';
 
 interface EmployeesListProps {
   allEmployees: EmployeesData[] | null;
@@ -48,15 +49,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
             </div>
             <div className="employee-row__avatar">
               {employee.profilePicture ? (
-                <img
-                  // src={employee.profilePicture}
-                  alt="profil"
-                />
+                <img src="" alt="profil" />
               ) : (
-                <img
-                  // src={employee.profilePicture}
-                  alt="profil"
-                />
+                <img src={EmptyAvatar} alt="profil" />
               )}
             </div>
             <div className="employee-row__surname">{employee.surname}</div>

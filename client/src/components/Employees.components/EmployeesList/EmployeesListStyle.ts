@@ -13,7 +13,7 @@ export const PostDetails = styled.div`
     flex-direction: row;
     space-between: start;
     width: 100%;
-    height: 2rem;
+    height: 30%;
     margin-right: 2%;
     margin-left: 2%;
     text-align: center;
@@ -21,6 +21,7 @@ export const PostDetails = styled.div`
 
     &__id {
       width: 3%;
+      height: 100%;
       border: 1px solid ${colors.secondary};
       padding: 0.5%;
     }
@@ -31,8 +32,8 @@ export const PostDetails = styled.div`
       width: 20%;
 
       & img {
-        height: 50%;
-        width: 50%;
+        height: auto;
+        width: 30%;
       }
     }
 
