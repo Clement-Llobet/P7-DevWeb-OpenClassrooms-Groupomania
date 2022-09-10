@@ -16,8 +16,11 @@ exports.createPost = async (req: Request, res: Response, next: NextFunction) => 
 
     const data = req.body
 
+    console.log("DATA DATA DATA : ", data);
+    
+
     const decodedToken = jwt.verify(data.EmployeeId, process.env.TOKEN_SECRET);
-    const decodedEmployeeId = decodedToken.userId;
+    const decodedEmployeeId = decodedToken.userId;    
 
     data.EmployeeId = decodedEmployeeId;    
     data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;

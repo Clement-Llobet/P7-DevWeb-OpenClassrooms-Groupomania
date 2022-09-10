@@ -6,7 +6,6 @@ interface PostsAttributes {
     id: number;
     text: string;
     urlImage: string;
-    createdAt: string;
     author?: string | Employees[];
     likers?: Employees[];
 }
@@ -19,7 +18,6 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public id!: number;
     public text!: string;
     public urlImage!: string;
-    public createdAt!: string;
     public author!: string | Employees[];
     public likers!: Employees[];
     
@@ -34,8 +32,7 @@ Posts
             unique: true
         },
         text: { type: DataTypes.STRING },
-        urlImage: { type: DataTypes.STRING },
-        createdAt: { type: DataTypes.STRING}
+        urlImage: { type: DataTypes.STRING }
     },
      {
         sequelize: sequelizeConnection,
