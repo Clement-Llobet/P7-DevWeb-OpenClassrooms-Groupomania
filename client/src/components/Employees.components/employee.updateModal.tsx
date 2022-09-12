@@ -40,16 +40,16 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
     employee.moderation = changeModeration;
   }, [changeModeration, employee]);
 
-  const sendUpdateOrder = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (employee.moderation === null) {
-      setErrorUpdateMessage(true);
-      return;
-    }
-    await api.apiUpdateEmployees(currentToken(), employee);
-    setValidUpdateMessage(true);
-    console.log(validUpdateMessage);
-  };
+  // const sendUpdateOrder = async (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   if (employee.moderation === null) {
+  //     setErrorUpdateMessage(true);
+  //     return;
+  //   }
+  //   await api.apiUpdateEmployees(currentToken(), employee);
+  //   setValidUpdateMessage(true);
+  //   console.log(validUpdateMessage);
+  // };
 
   return (
     <form action="">
@@ -69,7 +69,7 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
               <option value="executive">Cadre</option>
               <option value="non-executive">Non-cadre</option>
             </select>
-            <button
+            {/* <button
               onClick={(e) => {
                 sendUpdateOrder(e);
                 setShowUpdateAndDeleteButtons(false);
@@ -80,11 +80,11 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setShowUpdateAndDeleteButtons(false);
+                setShowUpdateAndDeleteButtons(true);
               }}
             >
               Annuler
-            </button>
+            </button> */}
           </>
         )}
 

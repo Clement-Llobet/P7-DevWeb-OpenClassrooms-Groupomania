@@ -8,57 +8,66 @@ export const PostDetails = styled.div`
     width: 100%;
   }
 
-  .employee-row {
+  li {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    space-between: start;
-    width: 100%;
-    height: 30%;
+    space-between: space-between;
+    align-items: center;
+    height: 5rem;
+    // border: 1px solid ${colors.primary};
+    font-size: 1.2rem;
+  }
+
+  .li-head {
+    background-color: ${colors.tertiary};
+    color: #ffffff;
+    border: 1px solid ${colors.tertiary};
+
+    &:hover {
+      background-color: ${colors.tertiary}!important;
+    }
+  }
+
+  .employee-row {
     margin-right: 2%;
     margin-left: 2%;
     text-align: center;
     align-items: center;
+    word-wrap: break-word;
+    border-bottom: 1px solid ${colors.secondary};
+
+    &:hover {
+      background-color: ${colors.secondary};
+    }
 
     &__id {
-      width: 3%;
-      height: 100%;
-      border: 1px solid ${colors.secondary};
-      padding: 0.5%;
+      width: 4%;
     }
 
     &__avatar {
-      border: 1px solid ${colors.secondary};
-      padding: 0.5%;
-      width: 20%;
+      width: 10%;
 
       & img {
-        height: auto;
-        width: 30%;
+        padding: 2%;
+        height: 4rem;
       }
     }
 
     &__surname,
     &__name {
-      border: 1px solid ${colors.secondary};
-      padding: 0.5%;
-      width: 10%;
+      width: 14%;
     }
 
     &__email {
-      border: 1px solid ${colors.secondary};
-      padding: 0.5%;
-      width: 20%;
+      width: 26%;
     }
 
     &__moderation {
-      border: 1px solid ${colors.secondary};
-      padding: 0.5%;
-      width: 10%;
+      width: 7%;
     }
 
-    &__update-and-delete {
-      border: 1px solid ${colors.secondary};
-      // padding: 0.05%;
+    &__action {
       width: 20%;
     }
   }

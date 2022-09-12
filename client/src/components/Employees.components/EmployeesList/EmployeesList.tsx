@@ -8,6 +8,8 @@ import UpdateEmployeeModal from '../employee.updateModal';
 import { PostDetails } from './EmployeesListStyle';
 import EmptyAvatar from '../../../assets/EmptyAvatar.png';
 
+const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+
 interface EmployeesListProps {
   allEmployees: EmployeesData[] | null;
 }
@@ -18,6 +20,8 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
   const [showUpdateAndDeleteButtons, setShowUpdateAndDeleteButtons] =
     useState<boolean>(true);
   const [employeeId, setEmployeeId] = useState<number>(0);
+  const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
+  const [validUpdateMessage, setValidUpdateMessage] = useState<boolean>(false);
 
   const getEmployeeId = (element: HTMLLIElement) => {
     let liElementValue = element.closest('li')?.value;
@@ -25,22 +29,30 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     setEmployeeId(liElementValue);
   };
 
-  // useEffect(() => {}, [allEmployees]);
-
-  // useEffect(() => {
-  //   forbidAccessWithoutModeration(currentToken());
-  // }, [allEmployees]);
+  const sendUpdateOrder = async (
+    e: React.MouseEvent,
+    employee: EmployeesData
+  ) => {
+    e.preventDefault();
+    if (employee.moderation === null) {
+      setErrorUpdateMessage(true);
+      return;
+    }
+    await api.apiUpdateEmployees(currentToken(), employee);
+    setValidUpdateMessage(true);
+  };
 
   return (
     <PostDetails>
       <ul className="employees">
-        <li className="employee-row">
+        <li className="li-head employee-row">
           <div className="employee-row__id">Id</div>
           <div className="employee-row__avatar">Avatar</div>
           <div className="employee-row__surname">Prénom</div>
           <div className="employee-row__name">Nom</div>
           <div className="employee-row__email">Email</div>
           <div className="employee-row__moderation">Modération</div>
+          <div className="employee-row__action">Actions</div>
         </li>
         {allEmployees?.map((employee) => (
           <li key={employee.id} value={employee.id} className="employee-row">
@@ -49,7 +61,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
             </div>
             <div className="employee-row__avatar">
               {employee.profilePicture ? (
-                <img src="" alt="profil" />
+                <img src={`${employee.profilePicture}`} alt="profil" />
               ) : (
                 <img src={EmptyAvatar} alt="profil" />
               )}
@@ -70,40 +82,63 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
                 `${employee.moderation ? 'Oui' : 'Non'}`
               )}
             </div>
-            {showUpdateAndDeleteButtons && (
-              <div className="employee-row__update-and-delete">
-                <button
-                  onClick={(e: SyntheticEvent) => {
-                    setWantsToChange(true);
-                    setWantsToDelete(false);
-                    setShowUpdateAndDeleteButtons(false);
-                    getEmployeeId(e.currentTarget as HTMLLIElement);
-                  }}
-                >
-                  Modifier
-                </button>
-                <button
-                  onClick={(e: SyntheticEvent) => {
-                    setWantsToDelete(true);
-                    setWantsToChange(false);
-                    setShowUpdateAndDeleteButtons(false);
-                    getEmployeeId(e.currentTarget as HTMLLIElement);
-                  }}
-                >
-                  Supprimer
-                </button>
-              </div>
-            )}
-
-            {!showUpdateAndDeleteButtons &&
-              wantsToDelete &&
-              employee.id === employeeId && (
-                <DeleteEmployeeModal
-                  employee={employee}
-                  showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
-                  setShowUpdateAndDeleteButtons={setShowUpdateAndDeleteButtons}
-                />
+            <div className="employee-row__action">
+              {showUpdateAndDeleteButtons ? (
+                <div className="employee-row__update-and-delete">
+                  <button
+                    onClick={(e: SyntheticEvent) => {
+                      setWantsToChange(true);
+                      setWantsToDelete(false);
+                      setShowUpdateAndDeleteButtons(false);
+                      getEmployeeId(e.currentTarget as HTMLLIElement);
+                    }}
+                  >
+                    Modifier
+                  </button>
+                  <button
+                    onClick={(e: SyntheticEvent) => {
+                      setWantsToDelete(true);
+                      setWantsToChange(false);
+                      setShowUpdateAndDeleteButtons(false);
+                      getEmployeeId(e.currentTarget as HTMLLIElement);
+                    }}
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <button
+                    onClick={(e) => {
+                      sendUpdateOrder(e, employee);
+                      setShowUpdateAndDeleteButtons(true);
+                    }}
+                  >
+                    Valider
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowUpdateAndDeleteButtons(true);
+                    }}
+                  >
+                    Annuler
+                  </button>
+                </>
               )}
+
+              {!showUpdateAndDeleteButtons &&
+                wantsToDelete &&
+                employee.id === employeeId && (
+                  <DeleteEmployeeModal
+                    employee={employee}
+                    showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
+                    setShowUpdateAndDeleteButtons={
+                      setShowUpdateAndDeleteButtons
+                    }
+                  />
+                )}
+            </div>
           </li>
         ))}
       </ul>
