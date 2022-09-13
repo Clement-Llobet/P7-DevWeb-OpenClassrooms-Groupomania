@@ -153,6 +153,8 @@ export class ApiService {
     });
 
     const postByIdData = response.json();
+    console.log(postByIdData);
+
     return postByIdData;
   };
 
