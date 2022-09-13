@@ -25,6 +25,10 @@ export const HeaderNav = styled.nav`
       color: ${colors.primary};
     }
   }
+
+  (Link) {
+    color: yellow;
+  }
 `;
 
 export const LogoImg = styled.img.attrs({
