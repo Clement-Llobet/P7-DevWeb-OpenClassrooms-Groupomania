@@ -1,10 +1,9 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { EmployeesData } from '../../../interfaces';
-// import { forbidAccessWithoutModeration } from '../../service/access.service';
 import { ApiService } from '../../../service/api.service';
 import { currentToken } from '../../../service/getCurrentToken';
-import DeleteEmployeeModal from '../employee.deleteModal';
-import UpdateEmployeeModal from '../employee.updateModal';
+import DeleteEmployeeModal from '../EmployeeActionModal/employee.deleteModal';
+import UpdateEmployeeModal from '../EmployeeActionModal/employee.updateModal';
 import { PostDetails } from './EmployeesListStyle';
 import EmptyAvatar from '../../../assets/EmptyAvatar.png';
 
@@ -20,8 +19,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
   const [showUpdateAndDeleteButtons, setShowUpdateAndDeleteButtons] =
     useState<boolean>(true);
   const [employeeId, setEmployeeId] = useState<number>(0);
-  const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
-  const [validUpdateMessage, setValidUpdateMessage] = useState<boolean>(false);
+  const [moderation, setModeration] = useState<number | null>(null);
 
   const getEmployeeId = (element: HTMLLIElement) => {
     let liElementValue = element.closest('li')?.value;
@@ -34,12 +32,13 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
     employee: EmployeesData
   ) => {
     e.preventDefault();
-    if (employee.moderation === null) {
-      setErrorUpdateMessage(true);
-      return;
-    }
+    if (employee.moderation === null) return;
+
     await api.apiUpdateEmployees(currentToken(), employee);
-    setValidUpdateMessage(true);
+  };
+
+  const resetModeration = async (employee: EmployeesData) => {
+    console.log(employee.moderation);
   };
 
   return (
@@ -84,13 +83,14 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
             </div>
             <div className="employee-row__action">
               {showUpdateAndDeleteButtons ? (
-                <div className="employee-row__update-and-delete">
+                <div className="employee-row__update-and-delete button-container">
                   <button
                     onClick={(e: SyntheticEvent) => {
                       setWantsToChange(true);
                       setWantsToDelete(false);
                       setShowUpdateAndDeleteButtons(false);
                       getEmployeeId(e.currentTarget as HTMLLIElement);
+                      // saveCurrentModeration(employee);
                     }}
                   >
                     Modifier
@@ -107,24 +107,29 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
                   </button>
                 </div>
               ) : (
-                <>
-                  <button
-                    onClick={(e) => {
-                      sendUpdateOrder(e, employee);
-                      setShowUpdateAndDeleteButtons(true);
-                    }}
-                  >
-                    Valider
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setShowUpdateAndDeleteButtons(true);
-                    }}
-                  >
-                    Annuler
-                  </button>
-                </>
+                !showUpdateAndDeleteButtons &&
+                !wantsToDelete &&
+                employee.id === employeeId && (
+                  <div className="button-container">
+                    <button
+                      onClick={(e) => {
+                        sendUpdateOrder(e, employee);
+                        setShowUpdateAndDeleteButtons(true);
+                      }}
+                    >
+                      Valider
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setShowUpdateAndDeleteButtons(true);
+                        resetModeration(employee);
+                      }}
+                    >
+                      Annuler
+                    </button>
+                  </div>
+                )
               )}
 
               {!showUpdateAndDeleteButtons &&

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { EmployeesData } from '../../interfaces';
-import { ApiService } from '../../service/api.service';
-import { currentToken } from '../../service/getCurrentToken';
+import { EmployeesData } from '../../../interfaces';
+import { ApiService } from '../../../service/api.service';
+import { currentToken } from '../../../service/getCurrentToken';
+import { EmployeeActionModal } from './employeeModalStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -29,22 +30,30 @@ const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
   };
 
   return (
-    <div>
+    <EmployeeActionModal>
       {!showUpdateAndDeleteButtons &&
         !deleteConfirmation &&
         !errorUpdateMessage && (
           <>
-            <h3>Voulez-vous vraiment supprimer cet employé ?</h3>
-            <button
-              onClick={(e) => {
-                sendDeleteOrder(e);
-                setDeleteConfirmation(true);
-                setShowUpdateAndDeleteButtons(false);
-              }}
-            >
-              Oui
-            </button>
-            <button onClick={() => {}}>Non</button>
+            <p>Voulez-vous vraiment supprimer cet employé ?</p>
+            <div className="button-container">
+              <button
+                onClick={(e) => {
+                  sendDeleteOrder(e);
+                  setDeleteConfirmation(true);
+                  setShowUpdateAndDeleteButtons(false);
+                }}
+              >
+                Oui
+              </button>
+              <button
+                onClick={() => {
+                  setShowUpdateAndDeleteButtons(true);
+                }}
+              >
+                Non
+              </button>
+            </div>
           </>
         )}
 
@@ -68,7 +77,7 @@ const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
           <button onClick={() => setErrorUpdateMessage(false)}>Fermer</button>
         </div>
       )}
-    </div>
+    </EmployeeActionModal>
   );
 };
 

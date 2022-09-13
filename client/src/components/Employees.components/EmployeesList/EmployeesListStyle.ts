@@ -2,20 +2,16 @@ import styled from 'styled-components';
 import colors from '../../../utils/style/colors';
 
 export const PostDetails = styled.div`
-  width: 100%;
-
   ul {
     width: 100%;
   }
 
   li {
-    width: 100%;
     display: flex;
     flex-direction: row;
     space-between: space-between;
     align-items: center;
     height: 5rem;
-    // border: 1px solid ${colors.primary};
     font-size: 1.2rem;
   }
 
@@ -68,7 +64,29 @@ export const PostDetails = styled.div`
     }
 
     &__action {
-      width: 20%;
+      width: 25%;
     }
+  }
+
+  button {
+    width: 40%;
+    color: ${colors.tertiary};
+    border: 1px solid ${colors.secondary};
+    font-size: 1rem;
+    padding: 2%;
+    border-radius: 5px;
+    background-color: #ffffff;
+
+    &:hover {
+      cursor: pointer;
+      color: #ffffff;
+      background-color: ${colors.tertiary};
+    }
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
   }
 `;

@@ -11,6 +11,7 @@ import {
 import { currentToken } from '../../service/getCurrentToken';
 import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
+import { Employee } from './EmployeeStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -41,10 +42,10 @@ const Employees = () => {
   return (
     <main>
       <Header moderationRight={user[0] && user[0].moderation} />
-      <section>
-        <h2>Les employés de Groupomania :</h2>
+      <Employee>
+        <h1>Les employés de Groupomania :</h1>
         <EmployeesList allEmployees={allEmployees} />
-      </section>
+      </Employee>
     </main>
   );
 };
