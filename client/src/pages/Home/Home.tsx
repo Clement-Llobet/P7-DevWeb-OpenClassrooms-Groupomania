@@ -46,13 +46,15 @@ const Home: React.FC = () => {
         <h2>Les derniers posts des Groupomaniens</h2>
 
         <CreatePost>
-          <p>Créer un post</p>
-          <button onClick={() => setCreatePost(true)}>Créer</button>
-          {createPost && (
+          {createPost ? (
             <div>
-              <CreatePostModal />
+              <CreatePostModal postSetter={setAllPosts} />
               <button onClick={() => setCreatePost(false)}>Annuler</button>
             </div>
+          ) : (
+            <button className="create-post" onClick={() => setCreatePost(true)}>
+              Créez le vôtre !
+            </button>
           )}
         </CreatePost>
 
