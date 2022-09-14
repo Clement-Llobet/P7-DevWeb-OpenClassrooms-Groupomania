@@ -1,5 +1,5 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ApiService } from '../../service/api.service';
 import { forbidAccessWithToken } from '../../service/access.service';
 import { LogoImg, Wrapper } from './RegisterStyle';
@@ -90,7 +90,7 @@ const Register: React.FC = () => {
     employeeToCreate.append('email', `${email}`);
     employeeToCreate.append('password', `${password}`);
     employeeToCreate.append('moderation', `${moderation}`);
-    employeeToCreate.append('profilePicture', profilePicture!);
+    employeeToCreate.append('picture', profilePicture!);
 
     const signupResponse = await api.apiEmployeesSignUp(employeeToCreate);
     handleRedirect(signupResponse.token);
@@ -180,6 +180,10 @@ const Register: React.FC = () => {
         </fieldset>
         <button onClick={(e) => handleSubmit(e)}>Valider</button>
       </form>
+
+      <p className="go-to-login">
+        Déjà inscrit ? <Link to="/">Connectez-vous.</Link>
+      </p>
     </Wrapper>
   );
 };
