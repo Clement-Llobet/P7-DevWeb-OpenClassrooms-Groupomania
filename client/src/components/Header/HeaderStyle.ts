@@ -14,20 +14,27 @@ export const HeaderNav = styled.nav`
   list-style-type: none;
   padding: 2%;
 
-  li.user-actions {
+  li.user-actions,
+  li.user-actions > a {
     font-size: 1.4rem;
     color: #ffffff;
     padding: 1%;
     border-radius: 5px;
+    cursor: pointer;
 
-    &:hover {
-      background-color: #ffffff;
-      color: ${colors.primary};
+    &:hover,
+    &:hover > a {
+      background-color: #ffffff !important;
+      color: ${colors.primary}!important;
     }
   }
 
-  (Link) {
-    color: yellow;
+  a {
+    height: 100%;
+  }
+
+  .go-to-profile-page img {
+    height: 2% !important;
   }
 `;
 
