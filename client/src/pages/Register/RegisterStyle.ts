@@ -39,7 +39,18 @@ export const Wrapper = styled.section`
     margin-bottom: 2%:
   }
 
+  .go-to-login, a {
+    font-size: 1.2rem;
+    color: #ffffff;
+
+    a:hover {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+
   & input {
+    font-style: normal!important;
     height: 2rem;
     margin-bottom: 2.5%;
   }
