@@ -8,8 +8,8 @@ import Error from './pages/Errors/Error';
 import Post from './pages/Post/Post';
 import Employees from './pages/Employees/Employees';
 import UserProvider from './utils/context/context';
-// import '../node_modules/font-awesome/css/font-awesome.min.css';
 import { GlobalStyle } from './indexStyle';
+import EmployeeProfile from './pages/EmployeeProfile/EmployeeProfile';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -26,6 +26,7 @@ root.render(
           <Route path="/home" element={<Home />} />
           <Route path="/:id" element={<Post />} />
           <Route path="/allEmployees" element={<Employees />} />
+          <Route path="/employee/:id" element={<EmployeeProfile />} />
           <Route path="/error" element={<Error />} />
         </Routes>
       </UserProvider>
