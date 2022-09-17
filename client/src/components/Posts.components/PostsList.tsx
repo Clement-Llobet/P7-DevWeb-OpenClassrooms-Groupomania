@@ -14,16 +14,6 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const formatDate = (date: string) => {
-    console.log(typeof date);
-    date.slice(0, 10);
-    console.log(date);
-
-    // .split('-');
-    // console.log(date);
-    // return date;
-  };
-
   return (
     <div>
       <PostUl className="Posts">
@@ -34,8 +24,8 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
               onClick={() => navigate(`/${post!.id}`, { state: post.likers })}
             >
               <div className="li-header">
-                {post.author?.urlImage ? (
-                  <img src={`${post.author.urlImage}`} alt="profil" />
+                {post.author?.profilePicture ? (
+                  <img src={`${post.author?.profilePicture!}`} alt="profil" />
                 ) : (
                   <img src={EmptyAvatar} alt="profil" />
                 )}

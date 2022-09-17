@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
-import { PostIdParams } from '../../types/postId.type';
+import { PostIdParams } from '../../types/types';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
