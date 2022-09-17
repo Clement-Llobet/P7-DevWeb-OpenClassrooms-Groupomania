@@ -5,7 +5,7 @@ import { PostsData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { forbidAccessWithoutToken } from '../../service/access.service';
 import { currentToken } from '../../service/getCurrentToken';
-import { PostIdParams } from '../../types/postId.type';
+import { PostIdParams } from '../../types/types';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
