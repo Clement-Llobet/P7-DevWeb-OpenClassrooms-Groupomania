@@ -5,7 +5,7 @@ export interface EmployeesData {
   email?: string;
   password?: string | HashAlgorithmIdentifier;
   moderation?: number | null;
-  profilePicture?: File | null;
+  profilePicture?: string | File | null;
   createdAt?: string | null;
   updatedAt?: string | null;
   deletedAt?: string | null;
