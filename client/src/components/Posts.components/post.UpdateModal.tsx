@@ -7,51 +7,50 @@ const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface PostDefaultValuesProps {
   defaultValueText?: string;
-  defaultValueUrlImage?: string;
+  defaultValueImage?: File;
   postId?: number;
 }
 
 const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
   defaultValueText,
-  defaultValueUrlImage,
+  defaultValueImage,
   postId,
 }) => {
-  const [text, updateText] = useState(defaultValueText);
-  const [urlImage, setUrlImage] = useState(defaultValueUrlImage);
+  const [text, setText] = useState<string>(defaultValueText!);
+  const [image, setImage] = useState<string | File>(defaultValueImage!);
   const [successMessage, setSuccessMessage] = useState(false);
+
+  let objectToUpdate = new FormData();
+
+  const manageText = (e: HTMLInputElement) => {
+    if (e.value.length <= 2) return;
+    setText(e.value);
+  };
 
   const manageUpdateUrlImage = (data: HTMLInputElement) => {
     const file: FileList | null = data.files;
 
-    if (file === null) {
-      setUrlImage('');
-      return;
-    }
+    if (file === null) return;
 
-    console.log(file);
-
-    setUrlImage(URL.createObjectURL(file[0]));
-    console.log(urlImage);
+    setImage(file[0]);
   };
-
-  let objectToUpdate: PostsData = {
-    id: postId,
-    text: text,
-    urlImage: urlImage,
-  };
-
-  useEffect(() => {
-    objectToUpdate.id = postId;
-    objectToUpdate.text = text;
-    objectToUpdate.urlImage = urlImage;
-  });
 
   const handleUpdateSubmit = async (
-    objectToUpdate: PostsData,
+    postToUpdate: FormData,
     postId?: number
   ) => {
-    await api.apiUpdatePost(currentToken(), objectToUpdate);
+    postToUpdate.append('id', postId!.toString());
 
+    if (text?.length >= 2) {
+      postToUpdate.append('text', text);
+    }
+    if (image !== undefined) {
+      postToUpdate.append('picture', image);
+    }
+
+    console.log(Array.from(postToUpdate));
+
+    await api.apiUpdatePost(currentToken(), postToUpdate);
     setSuccessMessage(true);
   };
 
@@ -67,7 +66,9 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
               name="text"
               defaultValue={text}
               className="post-text__update"
-              onBlur={(e) => updateText(e.target.value)}
+              onBlur={(e: SyntheticEvent) =>
+                manageText(e.currentTarget as HTMLInputElement)
+              }
             />
           </div>
 
@@ -82,7 +83,6 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
                 manageUpdateUrlImage(e.currentTarget as HTMLInputElement)
               }
             />
-            <img src={urlImage} alt="" />
           </div>
         </fieldset>
       </form>

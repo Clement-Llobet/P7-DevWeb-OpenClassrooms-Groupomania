@@ -7,16 +7,20 @@ import { currentToken } from '../../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
-const CreatePostModal = () => {
+interface ICreatePostModal {
+  postSetter: any;
+}
+
+const CreatePostModal: React.FC<ICreatePostModal> = ({ postSetter }) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<string | File>();
-  const [idUser, setIdUser] = useState<number>();
+  const [idUser, setIdUser] = useState<number | null>(null);
 
   const { user } = React.useContext(UserContext) as UserContextType;
 
-  useEffect(() => {}, [user]);
-
-  console.log(user);
+  useEffect(() => {
+    idUser === null && setIdUser(user[0].id!);
+  }, [user, idUser]);
 
   let createPostObject = new FormData();
 
@@ -38,9 +42,7 @@ const CreatePostModal = () => {
     e.preventDefault();
 
     createPostObject.append('text', `${text}`);
-    createPostObject.append('urlImage', image!);
-
-    setIdUser(user[0].id!);
+    createPostObject.append('picture', image!);
 
     if (idUser) {
       createPostObject.append('EmployeeId', currentToken()!);
@@ -48,8 +50,9 @@ const CreatePostModal = () => {
       return Error;
     }
 
-    const callApi = await api.apiCreatePost(currentToken(), createPostObject);
-    console.log(callApi);
+    await api.apiCreatePost(currentToken(), createPostObject);
+    const result: PostsData[] = await api.apiGetAllPosts(currentToken());
+    postSetter(result);
   };
 
   return (
