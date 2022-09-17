@@ -92,8 +92,10 @@ const Register: React.FC = () => {
     employeeToCreate.append('moderation', `${moderation}`);
     employeeToCreate.append('picture', profilePicture!);
 
+    console.log(Array.from(employeeToCreate));
+
     const signupResponse = await api.apiEmployeesSignUp(employeeToCreate);
-    handleRedirect(signupResponse.token);
+    await handleRedirect(signupResponse.token);
   };
 
   const handleRedirect = (token: string) => {
