@@ -9,7 +9,6 @@ export class ApiService {
 
   apiEmployeesSignUp = async (data: FormData) => {
     let url = this.urlBase + 'api/employees/signup';
-    console.log('Form Data : ', Array.from(data));
 
     const response = await fetch(url, {
       method: 'POST',
@@ -36,22 +35,20 @@ export class ApiService {
     return userData;
   };
 
-  apiUpdateEmployees = async (
-    token: string | null,
-    data?: types.EmployeesData
-  ) => {
-    let url = this.urlBase + `api/employees/${data?.id}`;
+  apiUpdateEmployees = async (token: string | null, data?: FormData) => {
+    let url = this.urlBase + `api/employees/${data?.get('id')}`;
 
     const response = await fetch(url, {
       method: 'PUT',
+      body: data,
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
     });
     const updateEmployeeData = response.json();
-    return updateEmployeeData;
+    console.log(updateEmployeeData);
+
+    // return updateEmployeeData;
   };
 
   apiDeleteEmployees = async (token: string | null, data?: string) => {
@@ -112,16 +109,15 @@ export class ApiService {
     return postData;
   };
 
-  apiUpdatePost = async (token: string | null, data: types.PostsData) => {
-    let url = this.urlBase + `api/posts/${data.id}`;
+  apiUpdatePost = async (token: string | null, data: FormData) => {
+    let url = this.urlBase + `api/posts/${data.get('id')}`;
 
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: data,
     });
     const updatePostData = response.json();
     return updatePostData;
@@ -153,8 +149,6 @@ export class ApiService {
     });
 
     const postByIdData = response.json();
-    console.log(postByIdData);
-
     return postByIdData;
   };
 
