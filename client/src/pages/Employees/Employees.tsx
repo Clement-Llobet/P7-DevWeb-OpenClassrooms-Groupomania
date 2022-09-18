@@ -44,7 +44,10 @@ const Employees = () => {
       <Header moderationRight={user[0] && user[0].moderation} />
       <Employee>
         <h1>Les employés de Groupomania :</h1>
-        <EmployeesList allEmployees={allEmployees} />
+        <EmployeesList
+          allEmployees={allEmployees}
+          employeesListSetter={setAllEmployees}
+        />
       </Employee>
     </main>
   );

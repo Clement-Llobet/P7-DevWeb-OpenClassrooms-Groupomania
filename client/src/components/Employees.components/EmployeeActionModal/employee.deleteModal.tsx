@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, useState } from 'react';
 import { EmployeesData } from '../../../interfaces';
 import { ApiService } from '../../../service/api.service';
 import { currentToken } from '../../../service/getCurrentToken';
@@ -10,12 +10,14 @@ interface IDeleteEmployeeModal {
   employee: EmployeesData;
   showUpdateAndDeleteButtons: boolean;
   setShowUpdateAndDeleteButtons: any;
+  employeesListSetter: Dispatch<React.SetStateAction<EmployeesData[] | null>>;
 }
 
 const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
   employee,
   showUpdateAndDeleteButtons,
   setShowUpdateAndDeleteButtons,
+  employeesListSetter,
 }) => {
   const [deleteConfirmation, setDeleteConfirmation] = useState<boolean>(false);
   const [errorUpdateMessage, setErrorUpdateMessage] = useState<boolean>(false);
@@ -27,6 +29,14 @@ const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
       return;
     }
     await api.apiDeleteEmployees(currentToken(), employee.id?.toString());
+  };
+
+  const updateEmployeesList = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const result: EmployeesData[] = await api.apiGetAllEmployees(
+      currentToken()
+    );
+    employeesListSetter(result);
   };
 
   return (
@@ -61,9 +71,10 @@ const DeleteEmployeeModal: React.FC<IDeleteEmployeeModal> = ({
         <div>
           <p>L'employé a bien été supprimé.</p>
           <button
-            onClick={() => {
+            onClick={(e) => {
               setDeleteConfirmation(true);
               setShowUpdateAndDeleteButtons(true);
+              updateEmployeesList(e);
             }}
           >
             Fermer

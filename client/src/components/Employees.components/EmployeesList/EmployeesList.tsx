@@ -1,4 +1,10 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from 'react';
 import { EmployeesData } from '../../../interfaces';
 import { ApiService } from '../../../service/api.service';
 import { currentToken } from '../../../service/getCurrentToken';
@@ -11,9 +17,13 @@ const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface EmployeesListProps {
   allEmployees: EmployeesData[] | null;
+  employeesListSetter: Dispatch<SetStateAction<EmployeesData[] | null>>;
 }
 
-const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
+const EmployeesList: React.FC<EmployeesListProps> = ({
+  allEmployees,
+  employeesListSetter,
+}) => {
   const [wantsToChange, setWantsToChange] = useState<boolean>(false);
   const [wantsToDelete, setWantsToDelete] = useState<boolean>(false);
   const [showUpdateAndDeleteButtons, setShowUpdateAndDeleteButtons] =
@@ -145,6 +155,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({ allEmployees }) => {
                     setShowUpdateAndDeleteButtons={
                       setShowUpdateAndDeleteButtons
                     }
+                    employeesListSetter={employeesListSetter}
                   />
                 )}
             </div>
