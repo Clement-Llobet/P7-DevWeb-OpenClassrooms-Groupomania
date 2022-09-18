@@ -1,31 +1,23 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { EmployeesData } from '../../../interfaces';
 import { ModifyModerationForm } from './employeeModalStyle';
 
 interface IUpdateEmployeeModal {
-  employee: EmployeesData;
   showUpdateAndDeleteButtons: boolean;
   setShowUpdateAndDeleteButtons: any;
+  moderationSetter: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
-  employee,
   showUpdateAndDeleteButtons,
+  moderationSetter,
 }) => {
-  const [moderation, setModeration] = useState<number | null>(null);
-
   const checkAndUpdateModeration = async (option: HTMLSelectElement) => {
     if (option.value === 'executive') {
-      setModeration(1);
+      moderationSetter(1);
     } else if (option.value === 'non-executive') {
-      setModeration(0);
-    } else {
+      moderationSetter(0);
     }
   };
-
-  useEffect(() => {
-    employee.moderation = moderation;
-  }, [moderation, employee]);
 
   return (
     <ModifyModerationForm>

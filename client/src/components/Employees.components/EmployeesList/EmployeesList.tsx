@@ -29,12 +29,15 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   const [showUpdateAndDeleteButtons, setShowUpdateAndDeleteButtons] =
     useState<boolean>(true);
   const [employeeId, setEmployeeId] = useState<number>(0);
+  const [moderation, setModeration] = useState<number | null>(null);
 
   const getEmployeeId = (element: HTMLLIElement) => {
     let liElementValue = element.closest('li')?.value;
     if (!liElementValue) return;
     setEmployeeId(liElementValue);
   };
+
+  useEffect(() => {}, [moderation]);
 
   const sendUpdateOrder = async (
     e: React.MouseEvent,
@@ -51,7 +54,11 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   };
 
   const resetModeration = async (employee: EmployeesData) => {
-    console.log(employee.moderation);
+    const callApi = await api.apiGetEmployeeById(
+      currentToken(),
+      employeeId.toString()
+    );
+    setModeration(callApi.moderation);
   };
 
   return (
@@ -86,9 +93,9 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
               wantsToChange &&
               employee.id === employeeId ? (
                 <UpdateEmployeeModal
-                  employee={employee}
                   showUpdateAndDeleteButtons={showUpdateAndDeleteButtons}
                   setShowUpdateAndDeleteButtons={setShowUpdateAndDeleteButtons}
+                  moderationSetter={setModeration}
                 />
               ) : (
                 `${employee.moderation ? 'Oui' : 'Non'}`
