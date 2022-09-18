@@ -47,7 +47,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
           setLike(false);
           console.log(likers);
 
-          // setLikeCount(likers.length);
+          setLikeCount(likers.length);
         } else {
           setLike(true);
           console.log(likers);
@@ -69,6 +69,14 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
     console.log(callApi);
     // setLikeCount()
   };
+
+  // useEffect(() => {
+  //   const compareId = async () => {
+  //     const getUser = await api.apiGetEmployeeById(currentToken(), user.id!.toString())
+  //    return
+  //    }
+  //    compareId();
+  // })
 
   return (
     <section>
@@ -96,10 +104,18 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
         )}
       </div>
 
-      {!modal && (
-        <button onClick={showUpdatePostModal}>Modifier le post</button>
-      )}
-      {!modal && <button onClick={showDeleteModal}>Supprimer le post</button>}
+      {
+        // user[0].moderation === 1 || compareId(user[0]) ? (
+        <div>
+          {!modal && (
+            <button onClick={showUpdatePostModal}>Modifier le post</button>
+          )}
+          {!modal && (
+            <button onClick={showDeleteModal}>Supprimer le post</button>
+          )}
+        </div>
+        // ) : null
+      }
 
       {modal && updateModal ? (
         <UpdatePostModal
@@ -109,8 +125,8 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
       ) : (
         <div>
           <div>
-            <p>{singlePost?.text}</p>
-            {/* <img src={singlePost?.urlImage} alt="" /> */}
+            <p onClick={() => console.log(singlePost)}>{singlePost?.text}</p>
+            {singlePost?.urlImage && <img src={singlePost?.urlImage} alt="" />}
           </div>
           <div>
             <button onClick={() => manageLike(singlePost?.id!)}>

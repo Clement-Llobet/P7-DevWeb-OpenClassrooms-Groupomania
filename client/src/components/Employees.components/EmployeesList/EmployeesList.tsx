@@ -44,13 +44,15 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
     employee: EmployeesData
   ) => {
     e.preventDefault();
-    if (employee.moderation === null) return;
+    if (moderation === null) return;
 
     let employeeToUpdate = new FormData();
     employeeToUpdate.append('id', employee.id!.toString());
-    employeeToUpdate.append('moderation', employee.moderation!.toString());
+    employeeToUpdate.append('moderation', moderation.toString());
 
     await api.apiUpdateEmployees(currentToken(), employeeToUpdate);
+    const callApi = await api.apiGetAllEmployees(currentToken());
+    employeesListSetter(callApi);
   };
 
   const resetModeration = async (employee: EmployeesData) => {

@@ -4,13 +4,12 @@ export interface PostsData {
   urlImage?: string;
   // | File | FormData;
   EmployeeId?: number | HashAlgorithmIdentifier | null;
-  profilePicture?: string;
-  author?: {
+  author: {
     createdAt: string;
     id: number;
     name: string;
     surname: string;
-    profilePicture?: string | File;
+    profilePicture: string | File;
   };
   likers?: [];
 }

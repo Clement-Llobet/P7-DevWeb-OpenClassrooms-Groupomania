@@ -75,13 +75,16 @@ const sendUpdatedEmployee = async (id: number, payload: updateEmployeeDTO): Prom
 }
 
 exports.updateEmployee = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const data = req.body;
-
+    const data = req.body;
+    if (data.password) {
         const hash = await bcrypt.hash(req.body.password, 10);        
         data.password = hash;
+    }
+    if (data.profilePicture) {
         data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
-
+    }    
+    
+    try {
         await sendUpdatedEmployee(data.id, data);
         return res.status(200).json({ 
             message: `L'employé ayant l'identifiant ${data.id} a bien été modifié.`,
