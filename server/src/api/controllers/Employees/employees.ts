@@ -22,9 +22,7 @@ exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
     data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
     
     try {
-        const hash = await bcrypt.hash(req.body.password, 10);
-        console.log(hash);
-        
+        const hash = await bcrypt.hash(req.body.password, 10);        
         data.password = hash;
         await sendUserToDatabase(data);
         return res.status(201).json({
@@ -77,13 +75,23 @@ const sendUpdatedEmployee = async (id: number, payload: updateEmployeeDTO): Prom
 }
 
 exports.updateEmployee = async (req: Request, res: Response, next: NextFunction) => {
-    
-    const data = req.body;
-    data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
-
     try {
+        const data = req.body;
+
+        const hash = await bcrypt.hash(req.body.password, 10);        
+        data.password = hash;
+        data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+
         await sendUpdatedEmployee(data.id, data);
-        return res.status(200).json({ message: `L'employé ayant l'identifiant ${data.id} a bien été modifié.`});
+        return res.status(200).json({ 
+            message: `L'employé ayant l'identifiant ${data.id} a bien été modifié.`,
+            userId: data.id,
+            token: jwt.sign(
+                { userId: data.id },
+                process.env.TOKEN_SECRET,
+                { expiresIn: '24h' }
+                )
+            });
     } catch (error) {
         return res.status(500).json(error);
     }
