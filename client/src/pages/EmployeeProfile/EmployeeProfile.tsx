@@ -83,16 +83,6 @@ const EmployeeProfile = () => {
     }
   };
 
-  const checkAndSetModeration = async (option: HTMLSelectElement) => {
-    if (option.value === 'executive') {
-      setModeration('1');
-    } else if (option.value === 'non-executive') {
-      setModeration('0');
-    } else {
-      setModeration('');
-    }
-  };
-
   const manageProfilePicture = (data: HTMLInputElement) => {
     const fileResult: FileList | null = data.files;
 
@@ -124,9 +114,12 @@ const EmployeeProfile = () => {
       employeeToCreate.append('picture', profilePicture!);
     }
 
-    console.log(Array.from(employeeToCreate));
-
     await api.apiUpdateEmployees(currentToken(), employeeToCreate);
+    const updatedSingleEmployee = await api.apiGetEmployeeById(
+      currentToken(),
+      id
+    );
+    setSingleEmployee(updatedSingleEmployee);
     setIsModifying(false);
   };
 

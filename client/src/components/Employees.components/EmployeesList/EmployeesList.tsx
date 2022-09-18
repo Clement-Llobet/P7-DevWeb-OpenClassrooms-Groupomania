@@ -29,7 +29,6 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   const [showUpdateAndDeleteButtons, setShowUpdateAndDeleteButtons] =
     useState<boolean>(true);
   const [employeeId, setEmployeeId] = useState<number>(0);
-  const [moderation, setModeration] = useState<number | null>(null);
 
   const getEmployeeId = (element: HTMLLIElement) => {
     let liElementValue = element.closest('li')?.value;
