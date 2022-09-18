@@ -77,20 +77,16 @@ const sendUpdatedEmployee = async (id: number, payload: updateEmployeeDTO): Prom
 }
 
 exports.updateEmployee = async (req: Request, res: Response, next: NextFunction) => {
-    const data = { ...req.body };
-
-    data.file && (data.urlImage = imageAbsoluteUrl + `${data.file.filename}`);
-    const employeeId = parseInt(req.params.id);
+    
+    const data = req.body;
+    data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
 
     try {
-        await sendUpdatedEmployee(employeeId, data);
-        return res.status(200).json({ message: `L'employé ayant l'identifiant ${req.params.id} a bien été modifié.`});
+        await sendUpdatedEmployee(data.id, data);
+        return res.status(200).json({ message: `L'employé ayant l'identifiant ${data.id} a bien été modifié.`});
     } catch (error) {
         return res.status(500).json(error);
     }
-    
-    // if Employee moderation = 1, alors modération peut être modifiée
-    // Sinon, renvoyer une erreur 500
 }
 
 const sendDeleteEmployeeOrder = async (id: number) => {
