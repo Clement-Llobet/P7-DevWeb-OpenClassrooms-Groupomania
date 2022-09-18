@@ -13,16 +13,17 @@ const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => 
 }
 
 exports.createPost = async (req: Request, res: Response, next: NextFunction) => {
-
-    const data = req.body;    
-
-    const decodedToken = jwt.verify(data.EmployeeId, process.env.TOKEN_SECRET);
-    const decodedEmployeeId = decodedToken.userId;    
-
-    data.EmployeeId = decodedEmployeeId;    
-    data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
-    
     try {
+        const data = req.body;
+    
+        if (data.text !== "" && data.urlImage !== "") {
+            const decodedToken = jwt.verify(data.EmployeeId, process.env.TOKEN_SECRET);
+            const decodedEmployeeId = decodedToken.userId;    
+
+            data.EmployeeId = decodedEmployeeId;    
+            data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+        }
+
         await sendNewPostToDatabase(data);
         return res.status(201).json({ message: "Nouveau post créé !"});
     }
@@ -90,9 +91,7 @@ exports.getAllPosts = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const allPosts = await selectAllPosts(filters);
         return res.status(200).send(allPosts);
-    } catch (error) {
-        console.log(error);
-        
+    } catch (error) {        
         return res.status(500).json({ message: error});
     }
 }
