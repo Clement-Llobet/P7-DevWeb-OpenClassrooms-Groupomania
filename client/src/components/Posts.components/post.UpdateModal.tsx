@@ -5,19 +5,17 @@ import { currentToken } from '../../service/getCurrentToken';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
-interface PostDefaultValuesProps {
+interface IUpdatePostModal {
   defaultValueText?: string;
-  defaultValueImage?: File;
   postId?: number;
 }
 
-const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
+const UpdatePostModal: React.FC<IUpdatePostModal> = ({
   defaultValueText,
-  defaultValueImage,
   postId,
 }) => {
   const [text, setText] = useState<string>(defaultValueText!);
-  const [image, setImage] = useState<string | File>(defaultValueImage!);
+  const [image, setImage] = useState<string | File>();
   const [successMessage, setSuccessMessage] = useState(false);
 
   let objectToUpdate = new FormData();
@@ -27,11 +25,9 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
     setText(e.value);
   };
 
-  const manageUpdateUrlImage = (data: HTMLInputElement) => {
+  const manageUpdateImage = (data: HTMLInputElement) => {
     const file: FileList | null = data.files;
-
     if (file === null) return;
-
     setImage(file[0]);
   };
 
@@ -41,14 +37,15 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
   ) => {
     postToUpdate.append('id', postId!.toString());
 
-    if (text?.length >= 2) {
+    console.log(text, ' ====== ', defaultValueText);
+
+    if (text?.length >= 2 && text !== defaultValueText) {
       postToUpdate.append('text', text);
     }
+
     if (image !== undefined) {
       postToUpdate.append('picture', image);
     }
-
-    console.log(Array.from(postToUpdate));
 
     await api.apiUpdatePost(currentToken(), postToUpdate);
     setSuccessMessage(true);
@@ -80,7 +77,7 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
               multiple={false}
               accept=".jpeg, .jpg, .png, .webp"
               onChange={(e: SyntheticEvent) =>
-                manageUpdateUrlImage(e.currentTarget as HTMLInputElement)
+                manageUpdateImage(e.currentTarget as HTMLInputElement)
               }
             />
           </div>
@@ -90,7 +87,10 @@ const UpdatePostModal: React.FC<PostDefaultValuesProps> = ({
         Valider
       </button>
       {successMessage && (
-        <div>Vos modifications ont bien été prises en compte.</div>
+        <div>
+          <p>Vos modifications ont bien été prises en compte.</p>
+          <button onClick={() => setSuccessMessage(false)}>Fermer</button>
+        </div>
       )}
     </div>
   );

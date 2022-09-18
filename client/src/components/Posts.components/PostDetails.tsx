@@ -104,7 +104,6 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
       {modal && updateModal ? (
         <UpdatePostModal
           defaultValueText={singlePost?.text}
-          // defaultValueUrlImage={singlePost?.urlImage}
           postId={singlePost?.id}
         />
       ) : (

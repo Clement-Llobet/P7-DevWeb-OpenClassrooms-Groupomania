@@ -14,10 +14,7 @@ const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => 
 
 exports.createPost = async (req: Request, res: Response, next: NextFunction) => {
 
-    const data = req.body
-
-    console.log("DATA DATA DATA : ", data);
-    
+    const data = req.body;    
 
     const decodedToken = jwt.verify(data.EmployeeId, process.env.TOKEN_SECRET);
     const decodedEmployeeId = decodedToken.userId;    
@@ -39,14 +36,15 @@ const sendUpdatedPost = async (id: number, payload: updatePostsDto): Promise<Pos
 }
 
 exports.updatePost = async (req: Request, res: Response, next: NextFunction) => {
-    const data = { ...req.body };
+    const data = req.body;
 
-    data.file && (data.urlImage = imageAbsoluteUrl + `${data.file.filename}`);
-    const postId = parseInt(req.params.id);
+    data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+    
+    console.log(data);
 
     try {
-        await sendUpdatedPost(postId, data);
-        return res.status(200).json({ message: `Le post ayant l'identifiant ${req.params.id} a bien été modifié.`}); 
+        await sendUpdatedPost(data.id, data);
+        return res.status(200).json({ message: `Le post ayant l'identifiant ${data.id} a bien été modifié.`}); 
     }
     catch (error) {
         return res.status(500).json(error);
