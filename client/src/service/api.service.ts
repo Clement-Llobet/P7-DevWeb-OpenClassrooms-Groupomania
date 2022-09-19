@@ -30,9 +30,13 @@ export class ApiService {
         'Content-type': 'application/json; charset=UTF-8',
       },
     });
-    const userData = await response.json();
-    localStorage.setItem('token', userData.token);
-    return userData;
+    if (response.status === 401) {
+      return response;
+    } else {
+      const userData = await response.json();
+      // localStorage.setItem('token', userData.token);
+      return userData;
+    }
   };
 
   apiUpdateEmployees = async (token: string | null, data?: FormData) => {
@@ -46,9 +50,8 @@ export class ApiService {
       },
     });
     const updateEmployeeData = response.json();
-    console.log(updateEmployeeData);
 
-    // return updateEmployeeData;
+    return updateEmployeeData;
   };
 
   apiDeleteEmployees = async (token: string | null, data?: string) => {

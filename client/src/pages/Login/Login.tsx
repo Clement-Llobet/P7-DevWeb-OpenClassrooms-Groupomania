@@ -15,6 +15,8 @@ const regexEmail =
 const Login: FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [deletedEmployeeMessage, setDeletedEmployeeMessage] =
+    useState<boolean>(false);
 
   const { user, saveUser } = React.useContext(UserContext) as UserContextType;
 
@@ -60,7 +62,12 @@ const Login: FC = () => {
       return Error;
     } else {
       const loggedUser = await api.apiEmployeesLogin(employee);
+
+      if (loggedUser.status === 401) {
+        setDeletedEmployeeMessage(true);
+      }
       getLoginedUserDatas(loggedUser);
+      localStorage.setItem('token', loggedUser.token);
     }
   };
 
@@ -80,8 +87,17 @@ const Login: FC = () => {
       <section className="Groupomania-logo">
         <LogoImg />
       </section>
+
       <section className="login-section">
         <h1>Connexion à Groupomania</h1>
+        {deletedEmployeeMessage && (
+          <div>
+            <p>Le compte auquel vous voulez vous connecter a été supprimé.</p>
+            <button onClick={() => setDeletedEmployeeMessage(false)}>
+              Fermer
+            </button>
+          </div>
+        )}
         <form action="">
           <fieldset>
             <label>Email</label>
