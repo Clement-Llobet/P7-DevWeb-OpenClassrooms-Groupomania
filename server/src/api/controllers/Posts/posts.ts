@@ -16,7 +16,7 @@ exports.createPost = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const data = req.body;
     
-        if (data.text !== "" && data.urlImage !== "") {
+        if (data.text !== "" && req.file !== undefined) {
             const decodedToken = jwt.verify(data.EmployeeId, process.env.TOKEN_SECRET);
             const decodedEmployeeId = decodedToken.userId;    
 
@@ -39,10 +39,10 @@ const sendUpdatedPost = async (id: number, payload: updatePostsDto): Promise<Pos
 exports.updatePost = async (req: Request, res: Response, next: NextFunction) => {
     const data = req.body;
 
-    data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+    if (req.file !== undefined) {
+        data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+    }
     
-    console.log(data);
-
     try {
         await sendUpdatedPost(data.id, data);
         return res.status(200).json({ message: `Le post ayant l'identifiant ${data.id} a bien été modifié.`}); 

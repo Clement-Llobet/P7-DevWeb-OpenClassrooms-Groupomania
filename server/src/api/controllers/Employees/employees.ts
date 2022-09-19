@@ -80,9 +80,9 @@ exports.updateEmployee = async (req: Request, res: Response, next: NextFunction)
         const hash = await bcrypt.hash(req.body.password, 10);        
         data.password = hash;
     }
-    if (data.profilePicture) {
+    if (req.file) {
         data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
-    }    
+    }
     
     try {
         await sendUpdatedEmployee(data.id, data);
