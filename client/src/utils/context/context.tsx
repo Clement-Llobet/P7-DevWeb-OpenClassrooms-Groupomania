@@ -16,7 +16,6 @@ const UserProvider: React.FC<IUserProvider> = ({ children }) => {
       name: user[0].name,
       surname: user[0].surname,
       email: user[0].email,
-      password: user[0].password,
       moderation: user[0].moderation,
       profilePicture: user[0].profilePicture,
     };

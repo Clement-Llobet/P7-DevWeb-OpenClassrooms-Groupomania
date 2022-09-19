@@ -104,7 +104,6 @@ const EmployeeProfile = () => {
     employeeToCreate.append('name', `${name}`);
     employeeToCreate.append('surname', `${surname}`);
     employeeToCreate.append('email', `${email}`);
-    employeeToCreate.append('moderation', `${moderation}`);
 
     if (password !== undefined && password.length >= 3) {
       employeeToCreate.append('password', `${password}`);
@@ -120,6 +119,7 @@ const EmployeeProfile = () => {
       id
     );
     setSingleEmployee(updatedSingleEmployee);
+    user[0].profilePicture = updatedSingleEmployee.profilePicture;
     setIsModifying(false);
   };
 

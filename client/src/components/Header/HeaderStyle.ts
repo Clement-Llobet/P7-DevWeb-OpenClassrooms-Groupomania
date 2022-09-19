@@ -39,7 +39,16 @@ export const HeaderNav = styled.nav`
   }
 
   .go-to-profile-page img {
-    height: 4rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    border: 2px solid ${colors.primary};
+
+    object-fit: cover;
+    object-position: center;
+
+    &:hover {
+      border: 2px solid #ffffff;
+    }
   }
 `;
 
@@ -48,5 +57,5 @@ export const LogoImg = styled.img.attrs({
   alt: `Logo Groupomania`,
 })`
   width: 15rem;
-  // margin-left: 10%;
+  }
 `;

@@ -4,13 +4,17 @@ import { UserContextType } from '../../interfaces/types.userContext';
 import { UserContext } from '../../utils/context/context';
 import { HeaderStyledComponent, HeaderNav, LogoImg } from './HeaderStyle';
 import EmptyAvatar from '../../assets/EmptyAvatar.png';
+import { ApiService } from '../../service/api.service';
+import { currentToken } from '../../service/getCurrentToken';
+
+const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface IModerationRight {
   moderationRight: number | null;
 }
 
 const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
-  const { user } = React.useContext(UserContext) as UserContextType;
+  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
   console.log(user);
 
   useEffect(() => {}, [user]);
@@ -43,12 +47,11 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
           <li className="go-to-profile-page">
             <Link to={`/employee/${user[0].id}`}>
               <img
-                src={EmptyAvatar}
-                // {
-                //   user[0].profilePicture === undefined
-                //     ? EmptyAvatar
-                //     : `${user[0].profilePicture}`
-                // }
+                src={
+                  user[0].profilePicture
+                    ? `${user[0].profilePicture}`
+                    : EmptyAvatar
+                }
                 alt="profil utilisateur"
               />
             </Link>
