@@ -9,8 +9,6 @@ import { GetAllEmployeesFilters } from "../../../database/dal/types";
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const imageAbsoluteUrl = `http://${process.env.PORT}/images/`;
-
 
 const sendUserToDatabase = async (payload: CreateEmployeeDTO): Promise<Employee> => {
     return await mapper.toEmployee(await service.createEmployee(payload));
@@ -57,7 +55,8 @@ exports.postLogin = (req: Request, res: Response, next: NextFunction) => {
         .then(user => {
             if (!user) {                
                 return res.status(401).json({ error: "Utilisateur non trouvé !"});
-            }            
+            }
+              
             bcrypt.compare(requestDatas.password, user.password)
                 .then((valid: boolean) => {
                     if(!valid) {

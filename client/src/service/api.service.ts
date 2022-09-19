@@ -34,7 +34,6 @@ export class ApiService {
       return response;
     } else {
       const userData = await response.json();
-      // localStorage.setItem('token', userData.token);
       return userData;
     }
   };
