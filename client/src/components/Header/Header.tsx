@@ -39,19 +39,21 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
           {/* <i className="fa-solid fa-arrow-up-left-from-circle"></i> */}
           Déconnexion
         </li>
-        <li className="go-to-profile-page">
-          <Link to={`/employee/${36}`}>
-            <img
-              src={EmptyAvatar}
-              // {
-              //   user[0].profilePicture === undefined
-              //     ? EmptyAvatar
-              //     : `${user[0].profilePicture}`
-              // }
-              alt="profil utilisateur"
-            />
-          </Link>
-        </li>
+        {user[0] && (
+          <li className="go-to-profile-page">
+            <Link to={`/employee/${user[0].id}`}>
+              <img
+                src={EmptyAvatar}
+                // {
+                //   user[0].profilePicture === undefined
+                //     ? EmptyAvatar
+                //     : `${user[0].profilePicture}`
+                // }
+                alt="profil utilisateur"
+              />
+            </Link>
+          </li>
+        )}
       </HeaderNav>
     </HeaderStyledComponent>
   );
