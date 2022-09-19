@@ -2,3 +2,4 @@ server/node_modules
 client/node_modules
 .env
 server/config
+server/src/api/images
