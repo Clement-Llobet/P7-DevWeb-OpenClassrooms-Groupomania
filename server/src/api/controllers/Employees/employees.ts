@@ -20,19 +20,26 @@ exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
 
     const data = req.body;
     data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
-    
+        
     try {
         const hash = await bcrypt.hash(req.body.password, 10);        
         data.password = hash;
-        await sendUserToDatabase(data);
+        const response = await sendUserToDatabase(data);
+        
         return res.status(201).json({
-                        userId: data.id,
+                        id: response.id,
+                        name: data.name,
+                        surname: data.surname,
+                        email: data.email,
+                        moderation: data.moderation,
+                        profilePicture: data.profilePicture,
                         token: jwt.sign(
                             { userId: data.id },
                             process.env.TOKEN_SECRET,
                             { expiresIn: '24h' }
                         )
-                    });
+                    }
+                    );
     }
     catch(error) {
         console.log(error);

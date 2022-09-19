@@ -14,7 +14,7 @@ interface IModerationRight {
 }
 
 const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
-  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
+  const { user } = React.useContext(UserContext) as UserContextType;
   console.log(user);
 
   useEffect(() => {}, [user]);
@@ -45,7 +45,7 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
         </li>
         {user[0] && (
           <li className="go-to-profile-page">
-            <Link to={`/employee/${user[0].id}`}>
+            <Link to={`/employee/${user[0].id}`} state={user[0].moderation}>
               <img
                 src={
                   user[0].profilePicture

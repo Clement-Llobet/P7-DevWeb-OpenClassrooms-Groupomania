@@ -21,7 +21,7 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
           ?.map((post) => (
             <PostLi
               key={post!.id}
-              onClick={() => navigate(`/${post!.id}`, { state: post.likers })}
+              // onClick={() => navigate(`/${post!.id}`, { state: post.likers })}
             >
               <h1 onClick={() => console.log(post)}> Verif</h1>
               <div className="li-header">

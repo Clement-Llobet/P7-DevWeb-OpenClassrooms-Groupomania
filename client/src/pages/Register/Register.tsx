@@ -1,8 +1,12 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ApiService } from '../../service/api.service';
+import { UserContext } from '../../utils/context/context';
+import { IUser, UserContextType } from '../../interfaces/types.userContext';
 import { forbidAccessWithToken } from '../../service/access.service';
 import { LogoImg, Wrapper } from './RegisterStyle';
+import { currentToken } from '../../service/getCurrentToken';
+import { EmployeesData } from '../../interfaces';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -14,14 +18,16 @@ const Register: React.FC = () => {
   const [surname, setSurname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [moderation, setModeration] = useState<string>('0');
   const [profilePicture, setProfilePicture] = useState<string | File>();
+  const [tryToValid, setTryToValid] = useState<boolean | null>(null);
 
   const navigate = useNavigate();
 
+  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
+
   useEffect(() => {
     forbidAccessWithToken(navigate);
-  });
+  }, [tryToValid, navigate]);
 
   let employeeToCreate = new FormData();
 
@@ -57,16 +63,6 @@ const Register: React.FC = () => {
     }
   };
 
-  const checkAndSetModeration = async (option: HTMLSelectElement) => {
-    if (option.value === 'executive') {
-      setModeration('1');
-    } else if (option.value === 'non-executive') {
-      setModeration('0');
-    } else {
-      setModeration('');
-    }
-  };
-
   const manageProfilePicture = (data: HTMLInputElement) => {
     const fileResult: FileList | null = data.files;
 
@@ -89,20 +85,19 @@ const Register: React.FC = () => {
     employeeToCreate.append('surname', `${surname}`);
     employeeToCreate.append('email', `${email}`);
     employeeToCreate.append('password', `${password}`);
-    employeeToCreate.append('moderation', `${moderation}`);
+    employeeToCreate.append('moderation', `0`);
     employeeToCreate.append('picture', profilePicture!);
 
     console.log(Array.from(employeeToCreate));
 
-    const signupResponse = await api.apiEmployeesSignUp(employeeToCreate);
-    await handleRedirect(signupResponse.token);
-  };
+    const apiResponse = await api.apiEmployeesSignUp(employeeToCreate);
+    delete apiResponse.token;
 
-  const handleRedirect = (token: string) => {
-    if (token) {
-      navigate(`/Home`);
-    } else {
-      return Error;
+    const response = [apiResponse];
+    saveUser(response);
+
+    if (apiResponse) {
+      setTryToValid(true);
     }
   };
 
@@ -152,20 +147,6 @@ const Register: React.FC = () => {
               checkAndSetPassword(e.currentTarget as HTMLInputElement)
             }
           />
-
-          <label>Statut</label>
-          <select
-            name="status"
-            id="registration_status"
-            required
-            onChange={(e: SyntheticEvent) =>
-              checkAndSetModeration(e.currentTarget as HTMLSelectElement)
-            }
-          >
-            <option value="choose-status">Votre statut</option>
-            <option value="executive">Cadre</option>
-            <option value="non-executive">Non-cadre</option>
-          </select>
 
           <label>Avatar</label>
           <p>Type d'images acceptées : JPEG, JPG, PNG, WEBP</p>

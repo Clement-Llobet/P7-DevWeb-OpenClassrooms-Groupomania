@@ -3,7 +3,7 @@ export interface IUser {
   name: string;
   surname: string;
   email: string;
-  password: HashAlgorithmIdentifier;
+  password?: HashAlgorithmIdentifier;
   moderation: number;
   profilePicture?: string;
 }

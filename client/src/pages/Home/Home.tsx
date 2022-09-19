@@ -25,7 +25,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     forbidAccessWithoutToken(navigate);
-  });
+  }, [navigate]);
 
   useEffect(() => {
     const getAllPosts = async () => {

@@ -8,6 +8,7 @@ import { EmployeesData } from '../../interfaces';
 import { Main, ThisEmployeeProfile } from './EmployeeProfileStyle';
 import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
+import Header from '../../components/Header/Header';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -125,9 +126,7 @@ const EmployeeProfile = () => {
 
   return (
     <Main>
-      <button>
-        <Link to="/home">Retour</Link>
-      </button>
+      <Header moderationRight={user[0] && user[0].moderation} />
       <ThisEmployeeProfile>
         {isModifying ? (
           <div className="employee-profile__modify">

@@ -61,7 +61,6 @@ const Login: FC = () => {
     } else {
       const loggedUser = await api.apiEmployeesLogin(employee);
       getLoginedUserDatas(loggedUser);
-      handleRedirect();
     }
   };
 
@@ -70,17 +69,10 @@ const Login: FC = () => {
       thisUser.token,
       thisUser.userId.toString()
     );
+    console.log(callApi);
+
     const response = [callApi];
     saveUser(response);
-  };
-
-  const handleRedirect = () => {
-    if (localStorage.getItem('token')) {
-      navigate(`/Home`);
-    } else {
-      console.log(Error);
-      return Error;
-    }
   };
 
   return (
