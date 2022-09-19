@@ -24,12 +24,12 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
 
   return (
     <HeaderStyledComponent>
+      <div>
+        <Link to="/Home">
+          <LogoImg />
+        </Link>
+      </div>
       <HeaderNav>
-        <li>
-          <Link to="/Home">
-            <LogoImg />
-          </Link>
-        </li>
         {moderationRight ? (
           <li className="user-actions">
             <Link to="/allEmployees">Modération</Link>

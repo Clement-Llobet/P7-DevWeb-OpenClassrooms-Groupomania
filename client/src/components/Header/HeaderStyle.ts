@@ -3,16 +3,21 @@ import colors from '../../utils/style/colors';
 import Logo from '../../assets/Logo.png';
 
 export const HeaderStyledComponent = styled.header`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2%;
   background-color: ${colors.primary};
 `;
 
 export const HeaderNav = styled.nav`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   list-style-type: none;
-  padding: 2%;
+  width: 27%;
 
   li.user-actions,
   li.user-actions > a {
@@ -34,7 +39,7 @@ export const HeaderNav = styled.nav`
   }
 
   .go-to-profile-page img {
-    height: 2% !important;
+    height: 4rem;
   }
 `;
 
@@ -42,5 +47,6 @@ export const LogoImg = styled.img.attrs({
   src: `${Logo}`,
   alt: `Logo Groupomania`,
 })`
-  width: 30%;
+  width: 15rem;
+  // margin-left: 10%;
 `;
