@@ -63,3 +63,62 @@ export const PostLi = styled.li`
     object-position: center;
   }
 `;
+
+export const SinglePostBody = styled.section`
+  height: 100%;
+`;
+
+export const SinglePost = styled.article`
+  width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 2%;
+
+  .post-detail {
+    &__header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__profile-infos {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__avatar {
+      width: 2rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      & img {
+        height: 5rem;
+        width: auto;
+        border-radius: 25%;
+      }
+    }
+
+    &__name-and-surname {
+      font-weight: bold;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      & img {
+        max-height: 25vh;
+        width: 25vw;
+      }
+    }
+  }
+`;

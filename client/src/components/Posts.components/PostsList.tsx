@@ -21,18 +21,12 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
           ?.map((post) => (
             <PostLi
               key={post!.id}
-              // onClick={() => navigate(`/${post!.id}`, { state: post.likers })}
+              onClick={() => navigate(`/${post!.id}`, { state: post })}
             >
-              <h1 onClick={() => console.log(post)}> Verif</h1>
+              {/* <h1 onClick={() => console.log(post)}> Verif</h1> */}
               <div className="li-header">
                 {post.author?.profilePicture ? (
-                  <img
-                    src={
-                      ''
-                      // post.author!.profilePicture
-                    }
-                    alt="profil"
-                  />
+                  <img src={post.author!.profilePicture} alt="profil" />
                 ) : (
                   <img src={EmptyAvatar} alt="profil" />
                 )}

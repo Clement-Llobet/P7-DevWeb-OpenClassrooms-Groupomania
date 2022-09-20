@@ -9,16 +9,23 @@ import { PostIdParams } from '../../types/types';
 import Header from '../../components/Header/Header';
 import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
+import { PostBody } from './PostStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 const Post = () => {
   const { id } = useParams<PostIdParams>();
   const { state } = useLocation();
+  console.log(state);
+
+  // let primaryPostLikers = state as [];
 
   const { user } = React.useContext(UserContext) as UserContextType;
 
   const [singlePost, setSinglePost] = useState<PostsData | null>(null);
+  // const [likersCount, setLikersCount] = useState<number>(
+  //   primaryPostLikers.length
+  // );
 
   const navigate = useNavigate();
 
@@ -35,10 +42,14 @@ const Post = () => {
   }, [id]);
 
   return (
-    <>
+    <PostBody>
       <Header moderationRight={user[0] && user[0].moderation} />
-      <PostDetails singlePost={singlePost} likers={state as []} />
-    </>
+      <PostDetails
+        singlePost={singlePost!}
+        // likersCountSetter={setLikersCount}
+        // likersCount={likersCount}
+      />
+    </PostBody>
   );
 };
 

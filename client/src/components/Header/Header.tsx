@@ -10,12 +10,11 @@ import { currentToken } from '../../service/getCurrentToken';
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface IModerationRight {
-  moderationRight: number | null;
+  moderationRight: number;
 }
 
 const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
   const { user } = React.useContext(UserContext) as UserContextType;
-  console.log(user);
 
   useEffect(() => {}, [user]);
 
@@ -34,13 +33,12 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
         </Link>
       </div>
       <HeaderNav>
-        {moderationRight ? (
+        {moderationRight === 1 ? (
           <li className="user-actions">
             <Link to="/allEmployees">Modération</Link>
           </li>
         ) : null}
         <li className="user-actions" onClick={handleLogOut}>
-          {/* <i className="fa-solid fa-arrow-up-left-from-circle"></i> */}
           Déconnexion
         </li>
         {user[0] && (
