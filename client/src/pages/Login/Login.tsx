@@ -62,9 +62,11 @@ const Login: FC = () => {
       return Error;
     } else {
       const loggedUser = await api.apiEmployeesLogin(employee);
+      console.log(loggedUser);
 
-      if (loggedUser.status === 401) {
+      if (loggedUser.status === 401 || loggedUser.status === 400) {
         setDeletedEmployeeMessage(true);
+        return;
       }
       getLoginedUserDatas(loggedUser);
       localStorage.setItem('token', loggedUser.token);

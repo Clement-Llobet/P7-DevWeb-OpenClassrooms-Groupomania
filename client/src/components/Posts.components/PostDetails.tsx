@@ -7,6 +7,8 @@ import { ApiService } from '../../service/api.service';
 import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
 import { currentToken } from '../../service/getCurrentToken';
+import EmptyAvatar from '../../assets/EmptyAvatar.png';
+import { SinglePost } from './postStyle/PostComponentsStyle';
 
 interface PostDetailProps {
   singlePost: PostsData | null;
@@ -23,6 +25,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
   const [likeCount, setLikeCount] = useState<number>(likers.length);
 
   const { user } = React.useContext(UserContext) as UserContextType;
+  console.log(user);
 
   const showUpdatePostModal = async () => {
     setModal(true);
@@ -70,52 +73,52 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
     // setLikeCount()
   };
 
-  // useEffect(() => {
-  //   const compareId = async () => {
-  //     const getUser = await api.apiGetEmployeeById(currentToken(), user.id!.toString())
-  //    return
-  //    }
-  //    compareId();
-  // })
-
   return (
-    <section>
-      <div>
-        <h2>Post n°{singlePost?.id}</h2>
-        {modal && updateModal && (
-          <button
-            onClick={() => {
-              setUpdateModal(false);
-              setModal(false);
-            }}
-          >
-            Fermer
-          </button>
-        )}
-        {modal && deleteModal && (
-          <button
-            onClick={() => {
-              setDeleteModal(false);
-              setModal(false);
-            }}
-          >
-            Fermer
-          </button>
-        )}
-      </div>
-
-      {
-        // user[0].moderation === 1 || compareId(user[0]) ? (
-        <div>
-          {!modal && (
-            <button onClick={showUpdatePostModal}>Modifier le post</button>
-          )}
-          {!modal && (
-            <button onClick={showDeleteModal}>Supprimer le post</button>
-          )}
+    <SinglePost>
+      <div className="post-detail__header">
+        <div className="post-detail__profile-infos">
+          <div className="post-detail__avatar">
+            {singlePost?.author.profilePicture ? (
+              <img src={singlePost?.author.profilePicture} alt="avatar" />
+            ) : (
+              <img src={EmptyAvatar} alt="avatar" />
+            )}
+          </div>
+          <div>
+            <p>{singlePost?.author.surname}</p>
+            <p>{singlePost?.author.name}</p>
+          </div>
         </div>
-        // ) : null
-      }
+
+        {user[0].moderation === 1 || singlePost?.author.id === user[0].id ? (
+          <div>
+            {!modal ? (
+              <div>
+                <button onClick={showUpdatePostModal}>Modifier le post</button>
+                <button onClick={showDeleteModal}>Supprimer le post</button>
+              </div>
+            ) : updateModal ? (
+              <button
+                onClick={() => {
+                  setUpdateModal(false);
+                  setModal(false);
+                }}
+              >
+                Fermer
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setDeleteModal(false);
+                  setModal(false);
+                }}
+              >
+                Fermer
+              </button>
+            )}
+          </div>
+        ) : null}
+      </div>
 
       {modal && updateModal ? (
         <UpdatePostModal
@@ -125,7 +128,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
       ) : (
         <div>
           <div>
-            <p onClick={() => console.log(singlePost)}>{singlePost?.text}</p>
+            <p>{singlePost?.text}</p>
             {singlePost?.urlImage && <img src={singlePost?.urlImage} alt="" />}
           </div>
           <div>
@@ -138,9 +141,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ singlePost, likers }) => {
       )}
 
       {modal && deleteModal && <DeleteModal />}
-
-      <Link to="/home">Accueil</Link>
-    </section>
+    </SinglePost>
   );
 };
 

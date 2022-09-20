@@ -18,7 +18,13 @@ export const updatePosts = async (id: number, data: Partial<PostsInput>): Promis
 }
 
 export const getPostsById = async (id: number): Promise<PostsOutput> => {
-    const post = await Posts.findByPk(id)
+    const post = await Posts.findByPk(id, {
+        include: [{
+            model: Employees,
+            as: 'author',
+            attributes: ['id', 'name', 'surname', 'createdAt', 'profilePicture'],
+        }]
+    })
     if (!post) {
         throw new Error("An error occured : post was not found")
     }
@@ -37,7 +43,7 @@ export const getAllPosts = async (filters?: GetAllPostsFilters): Promise<PostsOu
         include: [{
             model: Employees,
             as: 'author',
-            attributes: ['id', 'name', 'surname', 'createdAt'],
+            attributes: ['id', 'name', 'surname', 'createdAt', 'profilePicture'],
         },
         {
             model: Employees,
