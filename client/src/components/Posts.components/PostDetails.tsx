@@ -39,11 +39,8 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
 
   useEffect(() => {
     const manageLikeButtonName = (post?: PostsData) => {
-      // console.log(post);
-      // console.log(likers);
-
       if (post!.likers?.length === 0) {
-        return;
+        setLike(true);
       } else {
         post!.likers?.forEach(async (liker) => {
           if (user[0].id === liker.id) {
