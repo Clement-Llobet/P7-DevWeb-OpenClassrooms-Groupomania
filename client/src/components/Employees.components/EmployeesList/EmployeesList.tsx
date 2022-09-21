@@ -10,7 +10,7 @@ import { ApiService } from '../../../service/api.service';
 import { currentToken } from '../../../service/getCurrentToken';
 import DeleteEmployeeModal from '../EmployeeActionModal/employee.deleteModal';
 import UpdateEmployeeModal from '../EmployeeActionModal/employee.updateModal';
-import { PostDetails } from './EmployeesListStyle';
+import { EmployeesDetails } from './EmployeesListStyle';
 import EmptyAvatar from '../../../assets/EmptyAvatar.png';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
@@ -64,7 +64,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
   };
 
   return (
-    <PostDetails>
+    <EmployeesDetails>
       <ul className="employees">
         <li className="li-head employee-row">
           <div className="employee-row__id">Id</div>
@@ -79,6 +79,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
           <li key={employee.id} value={employee.id} className="employee-row">
             <div className="employee-row__id">
               <p>{employee.id}</p>
+              <hr className="when-max-width" />
             </div>
             <div className="employee-row__avatar">
               {employee.profilePicture ? (
@@ -100,7 +101,10 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
                   moderationSetter={setModeration}
                 />
               ) : (
-                `${employee.moderation ? 'Oui' : 'Non'}`
+                <p>
+                  <span className="when-max-width">Modération : </span>
+                  <span>{`${employee.moderation ? 'Oui' : 'Non'}`}</span>
+                </p>
               )}
             </div>
             <div className="employee-row__action">
@@ -170,7 +174,7 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
           </li>
         ))}
       </ul>
-    </PostDetails>
+    </EmployeesDetails>
   );
 };
 
