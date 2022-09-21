@@ -6,7 +6,6 @@ export type createPostsDto = {
     urlImage: string;
     likers: Employees[];
     author: string;
-    // createdAt: string;
 }
 
 export type updatePostsDto = Optional<createPostsDto, "text">

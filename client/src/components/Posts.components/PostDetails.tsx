@@ -11,25 +11,19 @@ import EmptyAvatar from '../../assets/EmptyAvatar.png';
 import { SinglePost, SinglePostBody } from './postStyle/PostComponentsStyle';
 
 interface PostDetailProps {
-  singlePost: PostsData;
-  // likersCountSetter: Dispatch<React.SetStateAction<number>>;
-  // likersCount: number;
+  post: PostsData;
 }
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
-const PostDetails: React.FC<PostDetailProps> = ({
-  singlePost,
-  // likersCountSetter,
-  // likersCount,
-}) => {
+const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
   const [modal, setModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [like, setLike] = useState(true);
+  const [like, setLike] = useState<boolean | null>(null);
+  const [likeCount, setLikeCount] = useState<number>(post.likers!.length);
 
   const { user } = React.useContext(UserContext) as UserContextType;
-  console.log(singlePost);
 
   const showUpdatePostModal = async () => {
     setModal(true);
@@ -43,44 +37,41 @@ const PostDetails: React.FC<PostDetailProps> = ({
     setUpdateModal(false);
   };
 
-  // useEffect(() => {
-  //   setLikeCount(likers.length);
-  // }, [likers]);
+  useEffect(() => {
+    const manageLikeButtonName = (post?: PostsData) => {
+      // console.log(post);
+      // console.log(likers);
 
-  // useEffect(() => {
-  //   const showLikeButton = () => {
-  //     likers.forEach((liker: EmployeesData) => {
-  //       if (liker.id === user[0].id) {
-  //         setLike(false);
-  //         console.log(likers);
-
-  //         setLikeCount(likers.length);
-  //       } else {
-  //         setLike(true);
-  //         console.log(likers);
-
-  //         // setLikeCount(likers.length);
-  //       }
-  //     });
-  //   };
-  //   showLikeButton();
-  // }, [likers, user]);
+      if (post!.likers?.length === 0) {
+        return;
+      } else {
+        post!.likers?.forEach(async (liker) => {
+          if (user[0].id === liker.id) {
+            setLike(false);
+          } else {
+            setLike(true);
+          }
+        });
+      }
+    };
+    manageLikeButtonName(post);
+  }, [post, user]);
 
   const manageLike = async (singlePost: PostsData) => {
-    let newLike: LikesData = {
+    let likeOrder: LikesData = {
       EmployeeId: user[0].id,
       PostId: singlePost.id!,
     };
 
-    const response = await api.apiManageLike(currentToken.toString(), newLike);
-    // console.log(response.postIdFound);
-    const callApi = await api.apiGetPostById(
-      currentToken(),
-      response.postIdFound
-    );
-    // console.log(callApi);
+    await api.apiManageLike(currentToken.toString(), likeOrder);
 
-    // likersCountSetter()
+    if (like === true) {
+      setLike(false);
+      setLikeCount(likeCount + 1);
+    } else {
+      setLike(true);
+      setLikeCount(likeCount - 1);
+    }
   };
 
   return (
@@ -89,19 +80,19 @@ const PostDetails: React.FC<PostDetailProps> = ({
         <div className="post-detail__header">
           <div className="post-detail__profile-infos">
             <div className="post-detail__avatar">
-              {singlePost?.author.profilePicture ? (
-                <img src={singlePost?.author.profilePicture} alt="avatar" />
+              {post.author.profilePicture ? (
+                <img src={post.author.profilePicture} alt="avatar" />
               ) : (
                 <img src={EmptyAvatar} alt="avatar" />
               )}
               <div className="post-detail__name-and-surname">
-                <p>{singlePost?.author.surname}</p>
-                <p>{singlePost?.author.name}</p>
+                <p>{post.author.surname}</p>
+                <p>{post.author.name}</p>
               </div>
             </div>
           </div>
 
-          {user[0].moderation === 1 || singlePost?.author.id === user[0].id ? (
+          {user[0].moderation === 1 || post.author.id === user[0].id ? (
             <div>
               {!modal ? (
                 <div>
@@ -134,27 +125,18 @@ const PostDetails: React.FC<PostDetailProps> = ({
         </div>
 
         {modal && updateModal ? (
-          <UpdatePostModal
-            defaultValueText={singlePost?.text}
-            postId={singlePost?.id}
-          />
+          <UpdatePostModal defaultValueText={post.text} postId={post.id} />
         ) : (
           <div>
             <div className="post-detail__content">
-              <p>{singlePost?.text}</p>
-              {singlePost?.urlImage && (
-                <img src={singlePost?.urlImage} alt="" />
-              )}
+              <p>{post.text}</p>
+              {post.urlImage && <img src={post.urlImage} alt="" />}
             </div>
             <div>
-              <button onClick={() => manageLike(singlePost!)}>
+              <button onClick={() => manageLike(post!)}>
                 {like ? 'Like' : 'Unlike'}
               </button>
-              <>
-                {
-                  // likersCount
-                }
-              </>
+              <>{likeCount}</>
             </div>
           </div>
         )}

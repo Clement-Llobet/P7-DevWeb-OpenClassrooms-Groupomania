@@ -7,5 +7,4 @@ export interface Post {
     createdAt: Date;
     likers: Employees[];
     author: string | Employees[];
-    totalLikes: number;
 }

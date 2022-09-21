@@ -88,14 +88,23 @@ const likeManager = (req: Request, res: Response, next: NextFunction, payload: a
                     PostId: postIdFound
                 }
                 await createNewLike(newLikeObject);
-                return res.status(200).json({ message: `Le post dont le PostId est ${newLikeObject.PostId} a bien été liké par l'EmployeeId ${newLikeObject.EmployeeId} `})
+                return res.status(200).json(
+                    { 
+                        message: `Le post dont le PostId est ${newLikeObject.PostId} a bien été liké par l'EmployeeId ${newLikeObject.EmployeeId}`,
+                        postIdFound: postIdFound
+                    })
             } catch (error) {
                 return res.status(500).json({ 'error' : 'unable to set user like'})
             }
         } else if (ifAlreadyCliked === true) {            
             try {
                 await deleteLike(likeIdFound!)
-                return res.status(200).json({ message: `Le post dont le LikeId est ${likeIdFound} a bien été unliké par l'EmployeeId ${employeeIdFound} `})
+                return res.status(200).json(
+                    { 
+                        message: `Le post dont le LikeId est ${likeIdFound} a bien été unliké par l'EmployeeId ${employeeIdFound}`,
+                        postIdFound: postIdFound
+                    },
+                )
             } catch (error) {
                 res.status(500).json({ 'error' : 'unable to set user unlike'})
             }

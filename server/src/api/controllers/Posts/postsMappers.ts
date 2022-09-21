@@ -9,6 +9,5 @@ export const toPost = (post: PostsOutput): Post => {
         createdAt: post.createdAt,
         likers: post.likers,
         author: post.author,
-        totalLikes : post.likers ? post.likers.length : 0
     }
 }

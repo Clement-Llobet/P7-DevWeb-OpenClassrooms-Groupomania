@@ -8,6 +8,7 @@ interface PostsAttributes {
     urlImage: string;
     author?: string | Employees[];
     likers?: Employees[];
+    createdAt?: Date;
 }
 
 export interface PostsInput extends Optional<PostsAttributes, "id">{}
@@ -20,7 +21,7 @@ class Posts extends Model<PostsAttributes, PostsInput> implements PostsAttribute
     public urlImage!: string;
     public author!: string | Employees[];
     public likers!: Employees[];
-    
+    public createdAt!: Date;
 }
 
 Posts
@@ -32,7 +33,7 @@ Posts
             unique: true
         },
         text: { type: DataTypes.STRING },
-        urlImage: { type: DataTypes.STRING }
+        urlImage: { type: DataTypes.STRING },
     },
      {
         sequelize: sequelizeConnection,
