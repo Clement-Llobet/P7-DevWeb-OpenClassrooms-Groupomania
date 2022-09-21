@@ -1,18 +1,21 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { PostsData } from '../../interfaces';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
+import { PostUpdateComponent } from './postStyle/PostComponentsStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface IUpdatePostModal {
   defaultValueText?: string;
   postId?: number;
+  modalSetter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const UpdatePostModal: React.FC<IUpdatePostModal> = ({
   defaultValueText,
   postId,
+  modalSetter,
 }) => {
   const [text, setText] = useState<string>(defaultValueText!);
   const [image, setImage] = useState<string | File>();
@@ -52,47 +55,50 @@ const UpdatePostModal: React.FC<IUpdatePostModal> = ({
   };
 
   return (
-    <div>
+    <PostUpdateComponent>
       <h2>Modifier le post</h2>
       <form>
         <fieldset>
-          <div>
-            <label>Modifier le texte : </label>
-            <input
-              type="text"
-              name="text"
-              defaultValue={text}
-              className="post-text__update"
-              onBlur={(e: SyntheticEvent) =>
-                manageText(e.currentTarget as HTMLInputElement)
-              }
-            />
-          </div>
+          <textarea
+            name="text"
+            defaultValue={text}
+            className="post-text__update"
+            onBlur={(e: SyntheticEvent) =>
+              manageText(e.currentTarget as HTMLInputElement)
+            }
+          ></textarea>
 
-          <div>
-            <label>Modifier l'image : </label>
-            <input
-              type="file"
-              className="post-image"
-              multiple={false}
-              accept=".jpeg, .jpg, .png, .webp"
-              onChange={(e: SyntheticEvent) =>
-                manageUpdateImage(e.currentTarget as HTMLInputElement)
-              }
-            />
-          </div>
+          <input
+            type="file"
+            className="post-image"
+            multiple={false}
+            accept=".jpeg, .jpg, .png, .webp"
+            onChange={(e: SyntheticEvent) =>
+              manageUpdateImage(e.currentTarget as HTMLInputElement)
+            }
+          />
         </fieldset>
       </form>
-      <button onClick={() => handleUpdateSubmit(objectToUpdate, postId)}>
-        Valider
-      </button>
+      <div className="button-validation">
+        <button onClick={() => handleUpdateSubmit(objectToUpdate, postId)}>
+          Valider
+        </button>
+      </div>
+
       {successMessage && (
-        <div>
+        <div className="success-message">
           <p>Vos modifications ont bien été prises en compte.</p>
-          <button onClick={() => setSuccessMessage(false)}>Fermer</button>
+          <button
+            onClick={() => {
+              setSuccessMessage(false);
+              modalSetter(false);
+            }}
+          >
+            Fermer
+          </button>
         </div>
       )}
-    </div>
+    </PostUpdateComponent>
   );
 };
 

@@ -11,7 +11,6 @@ interface PostsListProps {
 }
 
 const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
   return (
@@ -23,7 +22,6 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
               key={post!.id}
               onClick={() => navigate(`/${post!.id}`, { state: post })}
             >
-              {/* <h1 onClick={() => console.log(post)}> Verif</h1> */}
               <div className="li-header">
                 {post.author?.profilePicture ? (
                   <img src={post.author!.profilePicture} alt="profil" />
@@ -43,10 +41,17 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
                   </p>
                 </div>
               </div>
-              <p>{post.text}</p>
-              {post.urlImage && (
-                <img className="post-picture" src={post.urlImage} alt="Post" />
-              )}
+              <div>
+                <p>{post.text}</p>
+                {post.urlImage && (
+                  <img
+                    className="post-picture"
+                    src={post.urlImage}
+                    alt="Post"
+                  />
+                )}
+              </div>
+
               <>
                 <p>Likes : {post.likers!.length}</p>
               </>
@@ -54,7 +59,6 @@ const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
           ))
           .reverse()}
       </PostUl>
-      {deleteModal && <DeleteModal />}
     </div>
   );
 };

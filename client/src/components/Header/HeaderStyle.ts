@@ -9,6 +9,14 @@ export const HeaderStyledComponent = styled.header`
   align-items: center;
   padding: 2%;
   background-color: ${colors.primary};
+
+  @media all and (max-width: 992px) {
+    flex-direction: column;
+  }
+
+  @media all and (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const HeaderNav = styled.nav`
@@ -49,6 +57,14 @@ export const HeaderNav = styled.nav`
     &:hover {
       border: 2px solid #ffffff;
     }
+  }
+
+  @media all and (max-width: 992px) {
+    width: 100%;
+  }
+
+  @media all and (max-width: 768px) {
+    width: 100%;
   }
 `;
 

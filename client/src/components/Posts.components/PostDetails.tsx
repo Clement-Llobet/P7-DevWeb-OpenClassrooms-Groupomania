@@ -90,9 +90,9 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
           </div>
 
           {user[0].moderation === 1 || post.author.id === user[0].id ? (
-            <div>
+            <div className="post-detail__action">
               {!modal ? (
-                <div>
+                <div className="post-detail__action__buttons">
                   <button onClick={showUpdatePostModal}>
                     Modifier le post
                   </button>
@@ -100,6 +100,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
                 </div>
               ) : updateModal ? (
                 <button
+                  className="close-modal"
                   onClick={() => {
                     setUpdateModal(false);
                     setModal(false);
@@ -109,6 +110,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
                 </button>
               ) : (
                 <button
+                  className="close-modal"
                   onClick={() => {
                     setDeleteModal(false);
                     setModal(false);
@@ -120,25 +122,32 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
             </div>
           ) : null}
         </div>
+        <hr />
 
-        {modal && updateModal ? (
-          <UpdatePostModal defaultValueText={post.text} postId={post.id} />
+        {modal ? (
+          updateModal ? (
+            <UpdatePostModal
+              defaultValueText={post.text}
+              postId={post.id}
+              modalSetter={setModal}
+            />
+          ) : (
+            deleteModal && <DeleteModal />
+          )
         ) : (
           <div>
             <div className="post-detail__content">
               <p>{post.text}</p>
               {post.urlImage && <img src={post.urlImage} alt="" />}
             </div>
-            <div>
+            <div className="post-detail__likes">
               <button onClick={() => manageLike(post!)}>
                 {like ? 'Like' : 'Unlike'}
               </button>
-              <>{likeCount}</>
+              <p>{likeCount}</p>
             </div>
           </div>
         )}
-
-        {modal && deleteModal && <DeleteModal />}
       </SinglePost>
     </SinglePostBody>
   );

@@ -6,6 +6,7 @@ export const EmployeeActionModal = styled.div`
     font-size: 1.1rem;
     margin-bottom: 2%;
     font-weight: bold;
+    color: ${colors.primary};
   }
 `;
 

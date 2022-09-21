@@ -27,6 +27,14 @@ export const PostContainer = styled.section`
     font-size: 1.4rem;
     margin-bottom: 2%;
   }
+
+  @media all and (max-width: 992px) {
+    width: 80%;
+  }
+
+  @media all and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 export const CreatePost = styled.div`
