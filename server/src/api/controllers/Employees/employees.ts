@@ -60,7 +60,7 @@ exports.postLogin = (req: Request, res: Response, next: NextFunction) => {
             bcrypt.compare(requestDatas.password, user.password)
                 .then((valid: boolean) => {
                     if(!valid) {
-                        return res.status(400).json({ error: "Mot de passe incorrect !"});
+                        return res.status(401).json({ error: "Mot de passe incorrect !"});
                     }
                     res.status(200).json({
                         userId: user.id,

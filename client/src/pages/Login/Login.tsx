@@ -61,15 +61,14 @@ const Login: FC = () => {
     if (email === '' || password === '') {
       return Error;
     } else {
-      const loggedUser = await api.apiEmployeesLogin(employee);
-      console.log(loggedUser);
+      const callApiLogin = await api.apiEmployeesLogin(employee);
 
-      if (loggedUser.status === 401 || loggedUser.status === 400) {
+      if (callApiLogin.status === 401 || callApiLogin.status === 400) {
         setDeletedEmployeeMessage(true);
         return;
       }
-      getLoginedUserDatas(loggedUser);
-      localStorage.setItem('token', loggedUser.token);
+      getLoginedUserDatas(callApiLogin);
+      localStorage.setItem('token', callApiLogin.token);
     }
   };
 
@@ -92,7 +91,7 @@ const Login: FC = () => {
         <h1>Connexion à Groupomania</h1>
         {deletedEmployeeMessage && (
           <div>
-            <p>Le compte auquel vous voulez vous connecter a été supprimé.</p>
+            <p>Identifiant ou mot de passe incorrect.</p>
             <button onClick={() => setDeletedEmployeeMessage(false)}>
               Fermer
             </button>
