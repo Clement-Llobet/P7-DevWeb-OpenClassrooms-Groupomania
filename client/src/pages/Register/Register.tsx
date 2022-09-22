@@ -20,6 +20,9 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [profilePicture, setProfilePicture] = useState<string | File>();
   const [tryToValid, setTryToValid] = useState<boolean | null>(null);
+  const [validateButton, setValidateButton] = useState<boolean>(true);
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -50,16 +53,20 @@ const Register: React.FC = () => {
   const checkAndSetEmail = (input: string) => {
     if (!regexEmail.exec(input)) {
       setEmail('');
+      setEmailError(true);
     } else {
       setEmail(input);
+      setEmailError(false);
     }
   };
 
   const checkAndSetPassword = (input: HTMLInputElement) => {
-    if (input.value.length < 3) {
+    if (input.value.length < 8) {
       setPassword('');
+      setPasswordError(true);
     } else {
       setPassword(input.value);
+      setPasswordError(false);
     }
   };
 
@@ -81,14 +88,17 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
 
+    if (name === '' || surname === '' || email === '' || password === '') {
+      setValidateButton(false);
+      return;
+    }
+
     employeeToCreate.append('name', `${name}`);
     employeeToCreate.append('surname', `${surname}`);
     employeeToCreate.append('email', `${email}`);
     employeeToCreate.append('password', `${password}`);
     employeeToCreate.append('moderation', `0`);
     employeeToCreate.append('picture', profilePicture!);
-
-    console.log(Array.from(employeeToCreate));
 
     const apiResponse = await api.apiEmployeesSignUp(employeeToCreate);
     delete apiResponse.token;
@@ -136,6 +146,9 @@ const Register: React.FC = () => {
             required
             onBlur={(e) => checkAndSetEmail(e.target.value)}
           />
+          {emailError && (
+            <p className="error">Le format d'email n'est pas correct.</p>
+          )}
 
           <label>Mot de passe</label>
           <input
@@ -147,6 +160,11 @@ const Register: React.FC = () => {
               checkAndSetPassword(e.currentTarget as HTMLInputElement)
             }
           />
+          {passwordError && (
+            <p className="error">
+              Le mot de passe doit comporter 8 caractères minimum.
+            </p>
+          )}
 
           <label>Avatar</label>
           <p>Type d'images acceptées : JPEG, JPG, PNG, WEBP</p>
@@ -159,9 +177,15 @@ const Register: React.FC = () => {
               manageProfilePicture(e.currentTarget as HTMLInputElement)
             }
           />
-          {/* <img src={profilePicture} alt="" /> */}
         </fieldset>
-        <button onClick={(e) => handleSubmit(e)}>Valider</button>
+        {validateButton ? (
+          <button onClick={(e) => handleSubmit(e)}>Valider</button>
+        ) : (
+          <div className="invalid-form">
+            <p>Veuillez compléter tous les champs.</p>
+            <button onClick={() => setValidateButton(true)}>Fermer</button>
+          </div>
+        )}
       </form>
 
       <p className="go-to-login">
