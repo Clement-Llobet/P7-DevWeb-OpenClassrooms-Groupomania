@@ -309,6 +309,69 @@ export const SinglePost = styled.article`
   }
 `;
 
+export const PostCreateComponent = styled.div`
+  width: 100%;
+  padding: 5%;
+  border: 5px solid ${colors.primary};
+
+  .create-post-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5%;
+
+    h2 {
+      font-size: 1.4em;
+    }
+
+    button {
+      font-size: 1.2em;
+      width: 30%;
+      background-color: ${colors.tertiary};
+      color: #ffffff;
+      border: 1px solid ${colors.tertiary};
+      border-radius: 10px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: ${colors.secondary};
+        color: ${colors.primary};
+        border: 1px solid ${colors.primary};
+      }
+    }
+  }
+
+  fieldset {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      width: 100%;
+      font-size: 1em;
+      margin-bottom: 5%;
+      height: 2em;
+    }
+  }
+
+  .validate-post-creation {
+    width: 100%;
+    font-size: 1.2em;
+    padding: 2%;
+    background-color: ${colors.tertiary};
+    color: #ffffff;
+    border: 1px solid ${colors.tertiary};
+    border-radius: 10px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: ${colors.secondary};
+      color: ${colors.primary};
+      border: 1px solid ${colors.primary};
+    }
+  }
+`;
+
 export const PostUpdateComponent = styled.div`
   border: 1px solid ${colors.secondary};
   border-radius: 5px;

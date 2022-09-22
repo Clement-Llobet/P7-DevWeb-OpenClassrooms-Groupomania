@@ -4,14 +4,19 @@ import { UserContextType } from '../../interfaces/types.userContext';
 import { ApiService } from '../../service/api.service';
 import { UserContext } from '../../utils/context/context';
 import { currentToken } from '../../service/getCurrentToken';
+import { PostCreateComponent } from './postStyle/PostComponentsStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
 interface ICreatePostModal {
-  postSetter: any;
+  postSetter: React.Dispatch<React.SetStateAction<PostsData[] | null>>;
+  createPostSetter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreatePostModal: React.FC<ICreatePostModal> = ({ postSetter }) => {
+const CreatePostModal: React.FC<ICreatePostModal> = ({
+  postSetter,
+  createPostSetter,
+}) => {
   const [text, setText] = useState('');
   const [image, setImage] = useState<string | File>();
   const [idUser, setIdUser] = useState<number | null>(null);
@@ -56,29 +61,36 @@ const CreatePostModal: React.FC<ICreatePostModal> = ({ postSetter }) => {
   };
 
   return (
-    <div>
-      <h2>Votre nouveau post</h2>
+    <PostCreateComponent>
+      <div className="create-post-header">
+        <h2>Votre nouveau post</h2>
+        <button onClick={() => createPostSetter(false)}>Annuler</button>
+      </div>
 
       <form>
-        <label>Qu'allez-vous partager aujourd'hui ?</label>
-        <input
-          type="texte"
-          placeholder="Qu'allez-vous partager ?"
-          className="post-text__create"
-          onBlur={(e) => setText(e.target.value)}
-        />
-        <input
-          type="file"
-          className="post-image"
-          multiple={false}
-          accept=".jpeg, .jpg, .png, .webp"
-          onChange={(e: SyntheticEvent) =>
-            managePicture(e.currentTarget as HTMLInputElement)
-          }
-        />
+        <fieldset>
+          <input
+            type="text"
+            placeholder="Qu'allez-vous partager aujourd'hui ?"
+            onBlur={(e) => setText(e.target.value)}
+          />
+          <input
+            type="file"
+            multiple={false}
+            accept=".jpeg, .jpg, .png, .webp"
+            onChange={(e: SyntheticEvent) =>
+              managePicture(e.currentTarget as HTMLInputElement)
+            }
+          />
+        </fieldset>
       </form>
-      <button onClick={(e) => handleCreateSubmit(e)}>Créer le post</button>
-    </div>
+      <button
+        className="validate-post-creation"
+        onClick={(e) => handleCreateSubmit(e)}
+      >
+        Créer le post
+      </button>
+    </PostCreateComponent>
   );
 };
 
