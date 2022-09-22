@@ -26,12 +26,14 @@ export const HeaderNav = styled.nav`
   align-items: center;
   list-style-type: none;
   width: 27%;
+  padding: 2%;
+  padding-right: 6%;
 
   li.user-actions,
   li.user-actions > a {
     font-size: 1.4rem;
     color: #ffffff;
-    padding: 1%;
+    padding: 3%;
     border-radius: 5px;
     cursor: pointer;
 
@@ -50,7 +52,6 @@ export const HeaderNav = styled.nav`
     height: 4.5rem;
     border-radius: 50%;
     border: 2px solid ${colors.primary};
-
     object-fit: cover;
     object-position: center;
 
