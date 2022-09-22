@@ -9,6 +9,8 @@ import { Main, ThisEmployeeProfile } from './EmployeeProfileStyle';
 import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
 import Header from '../../components/Header/Header';
+import DeleteEmployeeModal from '../../components/Employees.components/EmployeeActionModal/employee.deleteModal';
+import { DeleteProfile } from '../../components/Employees.components/EmployeeActionModal/employeeModalStyle';
 
 const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
 
@@ -24,6 +26,7 @@ const EmployeeProfile = () => {
     null
   );
   const [isModifying, setIsModifying] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [name, setName] = useState<string>(user[0].name);
   const [surname, setSurname] = useState<string>(user[0].surname);
   const [email, setEmail] = useState<string>(user[0].email);
@@ -124,6 +127,12 @@ const EmployeeProfile = () => {
     setIsModifying(false);
   };
 
+  const sendDeleteOrder = async (id: number) => {
+    await api.apiDeleteEmployees(currentToken(), id.toString());
+    localStorage.removeItem('token');
+    navigate('/');
+  };
+
   return (
     <Main>
       <Header moderationRight={user[0] && user[0].moderation} />
@@ -143,7 +152,7 @@ const EmployeeProfile = () => {
                 />
               </div>
 
-              <div>
+              <div className="employee-profile__modify__header__name-and-surname">
                 <label>Prénom</label>
                 <input
                   type="text"
@@ -165,7 +174,7 @@ const EmployeeProfile = () => {
                 />
               </div>
             </div>
-            <hr />
+            <hr className="modify" />
             <div>
               <label>Email</label>
               <input
@@ -174,7 +183,7 @@ const EmployeeProfile = () => {
                 onBlur={(e) => checkAndSetEmail(e.target.value)}
               />
             </div>
-            <hr />
+            <hr className="modify" />
             <div>
               <label>Mot de passe</label>
               <input
@@ -192,25 +201,40 @@ const EmployeeProfile = () => {
               <button onClick={() => setIsModifying(false)}>Annuler</button>
             </div>
           </div>
+        ) : isDeleting ? (
+          <DeleteProfile>
+            <p>
+              Voulez-vous vraiment supprimer votre compte ? Cette action est
+              définitive.
+            </p>
+            <div className="buttons">
+              <button onClick={() => sendDeleteOrder(singleEmployee?.id!)}>
+                Valider
+              </button>
+              <button onClick={() => setIsDeleting(false)}>Annuler</button>
+            </div>
+          </DeleteProfile>
         ) : (
-          <div>
+          <div className="employee-profile">
             <div className="employee-profile__header">
               <img src={`${singleEmployee?.profilePicture}`} alt="Avatar" />
-              <div>
+              <div className="employee-profile__header__name-and-surname">
                 <p>{singleEmployee?.surname}</p>
                 <p>{singleEmployee?.name}</p>
               </div>
               <div className="employee-profile__button-actions">
                 <button onClick={() => setIsModifying(true)}>Modifier</button>
-                <button>Supprimer</button>
+                <button onClick={() => setIsDeleting(true)}>Supprimer</button>
               </div>
             </div>
             <hr />
-            <div>
+            <div className="employee-profile__login">
               <p>Email : {singleEmployee?.email}</p>
             </div>
             <hr />
-            <div>Mot de passe : ************</div>
+            <div className="employee-profile__login">
+              <p>Mot de passe : ************</p>
+            </div>
           </div>
         )}
       </ThisEmployeeProfile>

@@ -89,12 +89,6 @@ export const EmployeesDetails = styled.div`
     }
   }
 
-  .button-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-  }
-
   @media all and (max-width: 992px) {
     ul {
       width: 100%;
@@ -196,6 +190,7 @@ export const EmployeesDetails = styled.div`
   @media all and (max-width: 768px) {
     li {
       max-width: 100% !important;
+      width: 100%;
     }
 
     .employee-row {
