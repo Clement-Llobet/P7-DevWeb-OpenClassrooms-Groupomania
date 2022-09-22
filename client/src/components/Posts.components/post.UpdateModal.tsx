@@ -4,7 +4,7 @@ import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
 import { PostUpdateComponent } from './postStyle/PostComponentsStyle';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 interface IUpdatePostModal {
   defaultValueText?: string;

@@ -12,7 +12,7 @@ import Header from '../../components/Header/Header';
 import UpdateEmployeeProfile from '../../components/Employees.components/EmployeeActionModal/employeeProfile.updateModal';
 import DeleteEmployeeProfile from '../../components/Employees.components/EmployeeActionModal/employeeProfile.deleteModal';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 const EmployeeProfile = () => {
   const { id } = useParams<EmployeeIdParams>();

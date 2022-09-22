@@ -6,7 +6,7 @@ import { UserContext } from '../../utils/context/context';
 import { currentToken } from '../../service/getCurrentToken';
 import { PostCreateComponent } from './postStyle/PostComponentsStyle';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 interface ICreatePostModal {
   postSetter: React.Dispatch<React.SetStateAction<PostsData[] | null>>;
@@ -58,6 +58,7 @@ const CreatePostModal: React.FC<ICreatePostModal> = ({
     await api.apiCreatePost(currentToken(), createPostObject);
     const result: PostsData[] = await api.apiGetAllPosts(currentToken());
     postSetter(result);
+    createPostSetter(false);
   };
 
   return (

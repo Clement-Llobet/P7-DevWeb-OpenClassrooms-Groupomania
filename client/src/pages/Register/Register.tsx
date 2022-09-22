@@ -8,7 +8,7 @@ import { LogoImg, Wrapper } from './RegisterStyle';
 import { currentToken } from '../../service/getCurrentToken';
 import { EmployeesData } from '../../interfaces';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 const regexEmail =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

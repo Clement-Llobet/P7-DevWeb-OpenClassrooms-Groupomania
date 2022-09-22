@@ -13,7 +13,7 @@ import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
 import { Employee } from './EmployeeStyle';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 const Employees = () => {
   const [allEmployees, setAllEmployees] = useState<EmployeesData[] | null>(

@@ -13,7 +13,7 @@ import UpdateEmployeeModal from '../EmployeeActionModal/employee.updateModal';
 import { EmployeesDetails } from './EmployeesListStyle';
 import EmptyAvatar from '../../../assets/EmptyAvatar.png';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 interface EmployeesListProps {
   allEmployees: EmployeesData[] | null;

@@ -7,7 +7,7 @@ import EmptyAvatar from '../../assets/EmptyAvatar.png';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 interface IModerationRight {
   moderationRight: number;

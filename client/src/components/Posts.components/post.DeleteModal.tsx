@@ -4,7 +4,7 @@ import { currentToken } from '../../service/getCurrentToken';
 import { PostIdParams } from '../../types/types';
 import { PostDeleteComponent } from './postStyle/PostComponentsStyle';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 const DeleteModal: React.FC = () => {
   const { id } = useParams<PostIdParams>();

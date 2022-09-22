@@ -11,7 +11,7 @@ import { UserContext } from '../../utils/context/context';
 import { UserContextType } from '../../interfaces/types.userContext';
 import { PostBody } from './PostStyle';
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 const Post = () => {
   const { id } = useParams<PostIdParams>();

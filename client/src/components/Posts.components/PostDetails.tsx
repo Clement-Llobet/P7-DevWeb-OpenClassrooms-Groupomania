@@ -14,7 +14,7 @@ interface PostDetailProps {
   post: PostsData;
 }
 
-const api = new ApiService(process.env.REACT_APP_REMOTE_SERVICE_BASE_URL);
+const api = new ApiService('http://localhost:8000/');
 
 const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
   const [modal, setModal] = useState(false);
