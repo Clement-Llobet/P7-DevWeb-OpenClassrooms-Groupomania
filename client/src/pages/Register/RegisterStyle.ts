@@ -75,6 +75,28 @@ export const Wrapper = styled.section`
       cursor: pointer;
     }
   }
+
+  .invalid-form {
+    p {
+      font-style: normal;
+      font-size: 1.2em;
+      text-align: center;
+      margin-bottom: 2%;
+    }
+  }
+
+  .error {
+    display: flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1em;
+    margin-bottom: 5%;
+    background-color: ${colors.primary};
+    color: #ffffff;
+    padding: 2%;
+    border-radius: 10px;
+  }
 `;
 
 export const LogoImg = styled.img.attrs({
