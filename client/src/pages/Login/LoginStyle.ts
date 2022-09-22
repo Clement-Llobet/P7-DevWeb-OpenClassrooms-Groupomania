@@ -17,10 +17,6 @@ export const Wrapper = styled.div`
     justify-content: space-around;
     align-items: center;
 
-    &.Groupomania-logo {
-      //   background-color: #ffffff;
-    }
-
     &.login-section {
       background-color: #ffffff;
       color: ${colors.tertiary};
@@ -77,6 +73,36 @@ export const Wrapper = styled.div`
 
         & a:hover {
           color: ${colors.primary};
+        }
+      }
+
+      & .invalid-message {
+        margin-bottom: 5%;
+
+        p {
+          margin-bottom: 5%;
+        }
+      }
+    }
+  }
+
+  @media all and (max-width: 768px) {
+    flex-direction: column;
+
+    & section {
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      margin: auto;
+
+      &.login-section {
+        padding-bottom: 5%;
+
+        & h1 {
+          margin-top: 5%;
+          margin-bottom: 5%;
+          padding: 2%;
+          text-align: center;
         }
       }
     }

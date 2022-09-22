@@ -90,7 +90,7 @@ const Login: FC = () => {
       <section className="login-section">
         <h1>Connexion à Groupomania</h1>
         {deletedEmployeeMessage && (
-          <div>
+          <div className="invalid-message">
             <p>Identifiant ou mot de passe incorrect.</p>
             <button onClick={() => setDeletedEmployeeMessage(false)}>
               Fermer
