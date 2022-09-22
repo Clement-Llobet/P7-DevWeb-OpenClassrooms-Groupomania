@@ -116,7 +116,6 @@ const EmployeesList: React.FC<EmployeesListProps> = ({
                       setWantsToDelete(false);
                       setShowUpdateAndDeleteButtons(false);
                       getEmployeeId(e.currentTarget as HTMLLIElement);
-                      // saveCurrentModeration(employee);
                     }}
                   >
                     Modifier
