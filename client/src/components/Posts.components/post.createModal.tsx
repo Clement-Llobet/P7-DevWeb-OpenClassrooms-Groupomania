@@ -41,7 +41,7 @@ const CreatePostModal: React.FC<ICreatePostModal> = ({ postSetter }) => {
   const handleCreateSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
 
-    createPostObject.append('text', `${text}`);
+    createPostObject.append('text', text);
     createPostObject.append('picture', image!);
 
     if (idUser) {
