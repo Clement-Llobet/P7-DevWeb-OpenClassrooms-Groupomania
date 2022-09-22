@@ -22,6 +22,9 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
   const [deleteModal, setDeleteModal] = useState(false);
   const [like, setLike] = useState<boolean | null>(null);
   const [likeCount, setLikeCount] = useState<number>(post.likers!.length);
+  const [successMessage, setSuccessMessage] = useState<boolean>(false);
+  const [text, setText] = useState<string>(post.text!);
+  const [image, setImage] = useState<string>(post.urlImage!);
 
   const { user } = React.useContext(UserContext) as UserContextType;
 
@@ -70,6 +73,8 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
       setLikeCount(likeCount - 1);
     }
   };
+
+  useEffect(() => {}, [text, image]);
 
   return (
     <SinglePostBody>
@@ -127,9 +132,13 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
         {modal ? (
           updateModal ? (
             <UpdatePostModal
-              defaultValueText={post.text}
               postId={post.id}
               modalSetter={setModal}
+              text={text}
+              textSetter={setText}
+              imageSetter={setImage}
+              successMessage={successMessage}
+              successMessageSetter={setSuccessMessage}
             />
           ) : (
             deleteModal && <DeleteModal />
@@ -137,8 +146,8 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
         ) : (
           <div>
             <div className="post-detail__content">
-              <p>{post.text}</p>
-              {post.urlImage && <img src={post.urlImage} alt="" />}
+              <p>{text}</p>
+              {post.urlImage && <img src={image} alt="" />}
             </div>
             <div className="post-detail__likes">
               <button onClick={() => manageLike(post!)}>
