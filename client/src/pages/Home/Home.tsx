@@ -20,7 +20,6 @@ const Home: React.FC = () => {
   const [createPost, setCreatePost] = useState<boolean>(false);
 
   const { user } = React.useContext(UserContext) as UserContextType;
-  console.log(user);
 
   const navigate = useNavigate();
 

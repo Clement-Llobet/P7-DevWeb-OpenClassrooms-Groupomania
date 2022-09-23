@@ -50,7 +50,7 @@ const CreatePostModal: React.FC<ICreatePostModal> = ({
     createPostObject.append('picture', image!);
 
     if (idUser) {
-      createPostObject.append('EmployeeId', currentToken()!);
+      createPostObject.append('EmployeeId', idUser.toString());
     } else {
       return Error;
     }

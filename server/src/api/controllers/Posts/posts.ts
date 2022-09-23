@@ -15,18 +15,11 @@ const sendNewPostToDatabase = async (payload: createPostsDto): Promise<Post> => 
 exports.createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const data = req.body;
-
-        if (data.text !== "") {
-
-            const decodedToken = jwt.verify(data.EmployeeId, process.env.TOKEN_SECRET);
-            const decodedEmployeeId = decodedToken.userId;    
-            data.EmployeeId = decodedEmployeeId;
-            
-            if (req.file !== undefined) {
-                data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
-            }
-        }        
-
+        
+        if (req.file !== undefined) {
+            data.urlImage = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+        }
+     
         await sendNewPostToDatabase(data);        
         return res.status(201).json({ message: "Nouveau post créé !"});
     }

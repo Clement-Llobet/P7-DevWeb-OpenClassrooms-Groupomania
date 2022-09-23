@@ -30,7 +30,7 @@ const UpdateEmployeeModal: React.FC<IUpdateEmployeeModal> = ({
             checkAndUpdateModeration(e.currentTarget as HTMLSelectElement)
           }
         >
-          <option value="choose-status">Votre statut</option>
+          <option value="choose-status">Statut</option>
           <option value="executive">Cadre</option>
           <option value="non-executive">Non-cadre</option>
         </select>

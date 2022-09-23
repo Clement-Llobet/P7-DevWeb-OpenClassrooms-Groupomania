@@ -45,7 +45,8 @@ export const ThisEmployeeProfile = styled.section`
 
         &__name-and-surname {
           margin-left: 2%;
-          font-size: 3em;
+          font-size: 2em;
+          word-break: break-word;
           width: 30%;
         }
       }

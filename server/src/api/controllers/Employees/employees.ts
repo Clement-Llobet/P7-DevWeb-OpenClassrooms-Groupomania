@@ -17,7 +17,9 @@ const sendUserToDatabase = async (payload: CreateEmployeeDTO): Promise<Employee>
 exports.postSignUp = async(req: Request, res: Response, next: NextFunction) => {
 
     const data = req.body;
-    data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+    if (req.file !== undefined) {
+        data.profilePicture = `${req.protocol}://${req.get('host')}/images/${req.file?.filename}`;
+    }
         
     try {
         const hash = await bcrypt.hash(req.body.password, 10);        

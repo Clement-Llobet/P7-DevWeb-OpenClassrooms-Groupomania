@@ -98,7 +98,10 @@ const Register: React.FC = () => {
     employeeToCreate.append('email', `${email}`);
     employeeToCreate.append('password', `${password}`);
     employeeToCreate.append('moderation', `0`);
-    employeeToCreate.append('picture', profilePicture!);
+
+    if (profilePicture !== undefined) {
+      employeeToCreate.append('picture', profilePicture!);
+    }
 
     const apiResponse = await api.apiEmployeesSignUp(employeeToCreate);
     delete apiResponse.token;
