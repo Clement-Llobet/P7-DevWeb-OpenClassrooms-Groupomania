@@ -12,6 +12,7 @@ interface IUpdatePostModal {
   modalSetter: React.Dispatch<React.SetStateAction<boolean>>;
   text: string;
   textSetter: React.Dispatch<React.SetStateAction<string>>;
+  image: string;
   imageSetter: React.Dispatch<React.SetStateAction<string>>;
   successMessage: boolean;
   successMessageSetter: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,6 +24,7 @@ const UpdatePostModal: React.FC<IUpdatePostModal> = ({
   modalSetter,
   text,
   textSetter,
+  image,
   imageSetter,
   successMessage,
   successMessageSetter,
@@ -68,6 +70,7 @@ const UpdatePostModal: React.FC<IUpdatePostModal> = ({
     );
     textSetter(callApi.text);
     imageSetter(callApi.urlImage);
+    console.log(typeof image);
   };
 
   return (

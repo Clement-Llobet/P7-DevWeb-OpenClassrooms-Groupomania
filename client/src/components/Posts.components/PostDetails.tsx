@@ -74,7 +74,12 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
     }
   };
 
-  useEffect(() => {}, [text, image]);
+  useEffect(() => {
+    const updateContent = async () => {
+      await api.apiGetPostById(currentToken(), post.id!.toString());
+    };
+    updateContent();
+  }, [text, image, post.id]);
 
   return (
     <SinglePostBody>
@@ -136,6 +141,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
               modalSetter={setModal}
               text={text}
               textSetter={setText}
+              image={image}
               imageSetter={setImage}
               successMessage={successMessage}
               successMessageSetter={setSuccessMessage}
@@ -147,7 +153,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
           <div>
             <div className="post-detail__content">
               <p>{text}</p>
-              {post.urlImage && <img src={image} alt="" />}
+              {image && <img src={image} alt="post img" />}
             </div>
             <div className="post-detail__likes">
               <button onClick={() => manageLike(post!)}>

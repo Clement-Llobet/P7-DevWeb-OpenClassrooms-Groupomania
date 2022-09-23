@@ -5,7 +5,6 @@ export const PostUl = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // width: 100%;
 `;
 
 export const PostLi = styled.li`
@@ -19,6 +18,7 @@ export const PostLi = styled.li`
 
   &:hover {
     background-color: #ede9e9;
+    cursor: pointer;
   }
 
   .li-header {
