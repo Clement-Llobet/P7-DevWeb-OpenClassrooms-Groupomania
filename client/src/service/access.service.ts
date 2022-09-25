@@ -1,6 +1,5 @@
 import { NavigateFunction } from 'react-router-dom';
 import { IUser } from '../interfaces/types.userContext';
-import { ApiService } from './api.service';
 import { currentToken } from './getCurrentToken';
 
 export const forbidAccessWithToken = (navigate: NavigateFunction) => {
@@ -21,9 +20,9 @@ export const forbidAccessWithoutToken = (navigate: NavigateFunction) => {
 
 export const forbidAccessWithoutModerationRight = (
   navigate: NavigateFunction,
-  user: IUser[]
+  user: IUser
 ) => {
-  if (user[0].moderation !== 1) {
+  if (user.moderation !== 1) {
     navigate('/Home');
   } else {
     return;

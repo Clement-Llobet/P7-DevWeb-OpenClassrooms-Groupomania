@@ -27,22 +27,19 @@ const UpdateEmployeeProfile: React.FC<IUpdateEmployeeProfile> = ({
 }) => {
   const { user } = React.useContext(UserContext) as UserContextType;
 
-  const [name, setName] = useState<string>(user[0].name);
-  const [surname, setSurname] = useState<string>(user[0].surname);
-  const [email, setEmail] = useState<string>(user[0].email);
+  const [name, setName] = useState<string>(user!.name);
+  const [surname, setSurname] = useState<string>(user!.surname);
+  const [email, setEmail] = useState<string>(user!.email);
   const [password, setPassword] = useState<string>();
-  const [moderation, setModeration] = useState<string>(
-    user[0].moderation.toString()
-  );
   const [profilePicture, setProfilePicture] = useState<string | File>(
-    user[0].profilePicture!
+    user!.profilePicture!
   );
 
   let employeeToCreate = new FormData();
 
   const checkAndSetName = (input: HTMLInputElement) => {
     if (input.value.length < 2) {
-      setName(user[0].name);
+      setName(user!.name);
       return;
     } else {
       setName(input.value);
@@ -51,7 +48,7 @@ const UpdateEmployeeProfile: React.FC<IUpdateEmployeeProfile> = ({
 
   const checkAndSetSurname = (input: HTMLInputElement) => {
     if (input.value.length < 2) {
-      setSurname(user[0].surname);
+      setSurname(user!.surname);
     } else {
       setSurname(input.value);
     }
@@ -59,7 +56,7 @@ const UpdateEmployeeProfile: React.FC<IUpdateEmployeeProfile> = ({
 
   const checkAndSetEmail = (input: string) => {
     if (!regexEmail.exec(input)) {
-      setEmail(user[0].email);
+      setEmail(user!.email);
     } else {
       setEmail(input);
     }
@@ -109,7 +106,7 @@ const UpdateEmployeeProfile: React.FC<IUpdateEmployeeProfile> = ({
       employeeId
     );
     singleEmployeeSetter(updatedSingleEmployee);
-    user[0].profilePicture = updatedSingleEmployee.profilePicture;
+    user!.profilePicture = updatedSingleEmployee.profilePicture;
     isModifyingSetter(false);
   };
 

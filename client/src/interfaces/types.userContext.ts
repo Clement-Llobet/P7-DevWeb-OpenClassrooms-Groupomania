@@ -9,9 +9,9 @@ export interface IUser {
 }
 
 export type UserContextType = {
-  user: IUser[];
-  saveUser: (user: IUser[]) => void;
-  setUser: React.Dispatch<React.SetStateAction<IUser[]>>;
+  user: IUser | undefined;
+  saveUser: (user: IUser) => void;
+  setUser: React.Dispatch<React.SetStateAction<IUser | undefined>>;
 };
 
 export interface IUserProvider {

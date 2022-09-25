@@ -24,7 +24,7 @@ const CreatePostModal: React.FC<ICreatePostModal> = ({
   const { user } = React.useContext(UserContext) as UserContextType;
 
   useEffect(() => {
-    idUser === null && setIdUser(user[0].id!);
+    idUser === null && setIdUser(user!.id!);
   }, [user, idUser]);
 
   let createPostObject = new FormData();

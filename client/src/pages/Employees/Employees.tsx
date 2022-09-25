@@ -25,7 +25,7 @@ const Employees = () => {
 
   useEffect(() => {
     forbidAccessWithoutToken(navigate);
-    forbidAccessWithoutModerationRight(navigate, user);
+    forbidAccessWithoutModerationRight(navigate, user!);
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Employees = () => {
 
   return (
     <main>
-      <Header moderationRight={user[0] && user[0].moderation} />
+      <Header moderationRight={user && user.moderation} />
       <Employee>
         <h1>Les employés de Groupomania :</h1>
         <EmployeesList

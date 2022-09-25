@@ -5,12 +5,11 @@ import { UserContext } from '../../utils/context/context';
 import { HeaderStyledComponent, HeaderNav, LogoImg } from './HeaderStyle';
 import EmptyAvatar from '../../assets/EmptyAvatar.png';
 import { ApiService } from '../../service/api.service';
-import { currentToken } from '../../service/getCurrentToken';
 
 const api = new ApiService('http://localhost:8000/');
 
 interface IModerationRight {
-  moderationRight: number;
+  moderationRight: number | undefined;
 }
 
 const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
@@ -41,14 +40,12 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
         <li className="user-actions" onClick={handleLogOut}>
           Déconnexion
         </li>
-        {user[0] && (
+        {user && (
           <li className="go-to-profile-page">
-            <Link to={`/employee/${user[0].id}`} state={user[0].moderation}>
+            <Link to={`/employee/${user.id}`} state={user.moderation}>
               <img
                 src={
-                  user[0].profilePicture
-                    ? `${user[0].profilePicture}`
-                    : EmptyAvatar
+                  user.profilePicture ? `${user.profilePicture}` : EmptyAvatar
                 }
                 alt="profil utilisateur"
               />

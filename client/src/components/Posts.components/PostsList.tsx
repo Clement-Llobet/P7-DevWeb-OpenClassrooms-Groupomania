@@ -7,10 +7,9 @@ import EmptyAvatar from '../../assets/EmptyAvatar.png';
 
 interface PostsListProps {
   allPosts: PostsData[] | null;
-  moderationRight: number | null;
 }
 
-const PostsList: React.FC<PostsListProps> = ({ allPosts, moderationRight }) => {
+const PostsList: React.FC<PostsListProps> = ({ allPosts }) => {
   const navigate = useNavigate();
 
   return (

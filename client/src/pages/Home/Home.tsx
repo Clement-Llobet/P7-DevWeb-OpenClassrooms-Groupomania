@@ -39,7 +39,7 @@ const Home: React.FC = () => {
 
   return (
     <HomeMain>
-      <Header moderationRight={user[0] && user[0].moderation} />
+      <Header moderationRight={user && user.moderation} />
       <PostContainer>
         <h1>Communiquez</h1>
 
@@ -57,10 +57,7 @@ const Home: React.FC = () => {
           )}
         </CreatePost>
 
-        <PostsList
-          allPosts={allPosts}
-          moderationRight={user[0] && user[0].moderation}
-        />
+        <PostsList allPosts={allPosts} />
       </PostContainer>
       <Footer />
     </HomeMain>

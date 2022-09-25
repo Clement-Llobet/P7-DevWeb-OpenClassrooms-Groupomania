@@ -46,7 +46,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
         setLike(true);
       } else {
         post!.likers?.forEach(async (liker) => {
-          if (user[0].id === liker.id) {
+          if (user!.id === liker.id) {
             setLike(false);
           } else {
             setLike(true);
@@ -59,7 +59,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
 
   const manageLike = async (singlePost: PostsData) => {
     let likeOrder: LikesData = {
-      EmployeeId: user[0].id,
+      EmployeeId: user!.id,
       PostId: singlePost.id!,
     };
 
@@ -99,7 +99,7 @@ const PostDetails: React.FC<PostDetailProps> = ({ post }) => {
             </div>
           </div>
 
-          {user[0].moderation === 1 || post.author.id === user[0].id ? (
+          {user!.moderation === 1 || post.author.id === user!.id ? (
             <div className="post-detail__action">
               {!modal ? (
                 <div className="post-detail__action__buttons">

@@ -77,7 +77,7 @@ const Login: FC = () => {
       thisUser.token,
       thisUser.userId.toString()
     );
-    const response = [callApi];
+    const response = callApi;
     saveUser(response);
   };
 

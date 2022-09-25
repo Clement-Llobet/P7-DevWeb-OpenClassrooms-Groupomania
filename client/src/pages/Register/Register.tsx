@@ -106,7 +106,7 @@ const Register: React.FC = () => {
     const apiResponse = await api.apiEmployeesSignUp(employeeToCreate);
     delete apiResponse.token;
 
-    const response = [apiResponse];
+    const response = apiResponse;
     saveUser(response);
 
     if (apiResponse) {

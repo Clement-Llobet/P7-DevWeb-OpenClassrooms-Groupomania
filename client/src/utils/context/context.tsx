@@ -8,18 +8,20 @@ import {
 export const UserContext = React.createContext<UserContextType | null>(null);
 
 const UserProvider: React.FC<IUserProvider> = ({ children }) => {
-  const [user, setUser] = React.useState<IUser[]>([]);
+  const [user, setUser] = React.useState<IUser>();
 
-  const saveUser = (user: IUser[]) => {
+  const saveUser = (user: IUser) => {
+    if (user === undefined) return;
+
     const newUser: IUser = {
-      id: user[0].id,
-      name: user[0].name,
-      surname: user[0].surname,
-      email: user[0].email,
-      moderation: user[0].moderation,
-      profilePicture: user[0].profilePicture,
+      id: user.id,
+      name: user.name,
+      surname: user.surname,
+      email: user.email,
+      moderation: user.moderation,
+      profilePicture: user.profilePicture,
     };
-    setUser([newUser]);
+    setUser(newUser);
   };
 
   return (

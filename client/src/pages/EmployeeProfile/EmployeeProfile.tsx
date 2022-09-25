@@ -40,7 +40,7 @@ const EmployeeProfile = () => {
 
   return (
     <Main>
-      <Header moderationRight={user[0] && user[0].moderation} />
+      <Header moderationRight={user && user.moderation} />
       <ThisEmployeeProfile>
         {isModifying ? (
           <UpdateEmployeeProfile

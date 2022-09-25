@@ -37,7 +37,7 @@ const Post = () => {
 
   return (
     <PostBody>
-      <Header moderationRight={user[0] && user[0].moderation} />
+      <Header moderationRight={user && user.moderation} />
       <PostDetails post={state as PostsData} />
     </PostBody>
   );
