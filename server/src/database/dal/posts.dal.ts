@@ -1,6 +1,5 @@
 import { Op } from "sequelize";
 import Employees from "../models/Employees.model";
-import Likes from "../models/Likes.model";
 import Posts, { PostsInput, PostsOutput } from "../models/Posts.model";
 import { GetAllPostsFilters } from "./types";
 

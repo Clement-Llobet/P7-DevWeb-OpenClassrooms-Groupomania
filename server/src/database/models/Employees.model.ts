@@ -1,6 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import sequelizeConnection from "../config";
-// import Likes from "./Likes.model";
 
 interface EmployeesAttributes {
     id: number;
