@@ -19,13 +19,28 @@ const Home: React.FC = () => {
   const [allPosts, setAllPosts] = useState<PostsData[] | null>(null);
   const [createPost, setCreatePost] = useState<boolean>(false);
 
-  const { user } = React.useContext(UserContext) as UserContextType;
+  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    forbidAccessWithoutToken(navigate);
-  }, [navigate]);
+    const getUser = async () => {
+      forbidAccessWithoutToken(navigate);
+      if (!user) {
+        const currentUser = await api.apiGetEmployeeByToken(currentToken()!);
+
+        if (currentUser.name === 'SequelizeDatabaseError') {
+          localStorage.clear();
+          navigate('/');
+        }
+
+        saveUser(currentUser);
+        return true;
+      }
+      return true;
+    };
+    getUser();
+  }, [navigate, user, saveUser]);
 
   useEffect(() => {
     const getAllPosts = async () => {

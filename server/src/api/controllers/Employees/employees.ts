@@ -127,9 +127,18 @@ const getSpecificEmployee = async (id: number): Promise<Employee> => {
 
 exports.getEmployeeById = async (req: Request, res: Response, next: NextFunction) => {
     const employeeId = parseInt(req.params.id);
-    console.log(req.body);
     
     try {
+        const specificEmployee = await getSpecificEmployee(employeeId);
+        return res.status(200).send(specificEmployee);
+    } catch (error) {
+        return res.status(500).json(error); 
+    }
+}
+
+exports.getEmployeeByToken = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const employeeId = parseInt(req.auth.id);
         const specificEmployee = await getSpecificEmployee(employeeId);
         return res.status(200).send(specificEmployee);
     } catch (error) {

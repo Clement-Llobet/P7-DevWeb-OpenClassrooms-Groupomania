@@ -9,6 +9,7 @@ router.post('/signup', multer, employeesController.postSignUp);
 router.post('/login', employeesController.postLogin);
 router.put('/:id', auth, multer, employeesController.updateEmployee);
 router.delete('/:id', auth, employeesController.deleteEmployee);
+router.get('/auth', auth, employeesController.getEmployeeByToken);
 router.get('/', auth, employeesController.getAllEmployees);
 router.get('/:id', auth, employeesController.getEmployeeById);
 

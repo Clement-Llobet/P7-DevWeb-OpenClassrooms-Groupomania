@@ -97,6 +97,21 @@ export class ApiService {
     return employeeByIdData;
   };
 
+  apiGetEmployeeByToken = async (token: string) => {
+    let url = this.urlBase + `api/employees/auth`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const employeeByIdData = response.json();
+    return employeeByIdData;
+  };
+
   apiCreatePost = async (token: string | null, data: FormData) => {
     let url = this.urlBase + 'api/posts/';
 
