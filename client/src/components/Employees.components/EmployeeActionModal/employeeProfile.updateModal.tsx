@@ -114,9 +114,11 @@ const UpdateEmployeeProfile: React.FC<IUpdateEmployeeProfile> = ({
     <div className="employee-profile__modify">
       <div className="employee-profile__modify__header">
         <div>
+          <label htmlFor="modify-profile-file">Avatar : </label>
           <img src={`${singleEmployee?.profilePicture}`} alt="Avatar" />
           <input
             type="file"
+            id="modify-profile-file"
             multiple={false}
             accept=".jpeg, .jpg, .png, .webp"
             onChange={(e: SyntheticEvent) =>
@@ -126,9 +128,10 @@ const UpdateEmployeeProfile: React.FC<IUpdateEmployeeProfile> = ({
         </div>
 
         <div className="employee-profile__modify__header__name-and-surname">
-          <label>Prénom</label>
+          <label htmlFor="modify-profile-surname">Prénom</label>
           <input
             type="text"
+            id="modify-profile-surname"
             name="surname"
             required
             onBlur={(e: SyntheticEvent) =>
@@ -136,9 +139,10 @@ const UpdateEmployeeProfile: React.FC<IUpdateEmployeeProfile> = ({
             }
           />
 
-          <label>Nom</label>
+          <label htmlFor="modify-profile-name">Nom</label>
           <input
             type="text"
+            id="modify-profile-name"
             name="name"
             required
             onBlur={(e: SyntheticEvent) =>
@@ -149,20 +153,21 @@ const UpdateEmployeeProfile: React.FC<IUpdateEmployeeProfile> = ({
       </div>
       <hr className="modify" />
       <div>
-        <label>Email</label>
+        <label htmlFor="modify-profile-email">Email</label>
         <input
           type="email"
+          id="modify-profile-email"
           required
           onBlur={(e) => checkAndSetEmail(e.target.value)}
         />
       </div>
       <hr className="modify" />
       <div>
-        <label>Mot de passe</label>
+        <label htmlFor="modify-profile-password">Mot de passe</label>
         <input
           type="password"
+          id="modify-profile-password"
           name="password"
-          id="registration_password"
           required
           onBlur={(e: SyntheticEvent) =>
             checkAndSetPassword(e.currentTarget as HTMLInputElement)

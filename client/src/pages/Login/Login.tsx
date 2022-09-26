@@ -99,7 +99,7 @@ const Login: FC = () => {
         )}
         <form action="">
           <fieldset>
-            <label>Email</label>
+            <label htmlFor="employee_email">Email</label>
             <input
               type="email"
               name="email"
@@ -109,7 +109,7 @@ const Login: FC = () => {
             />
             <p id="invalid-email-text"></p>
 
-            <label>Mot de passe</label>
+            <label htmlFor="employee_password">Mot de passe</label>
             <input
               type="password"
               name="password"

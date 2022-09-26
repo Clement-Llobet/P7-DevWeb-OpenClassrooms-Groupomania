@@ -94,8 +94,10 @@ const UpdatePostModal: React.FC<IUpdatePostModal> = ({
         <>
           <form>
             <fieldset>
+              <label htmlFor="modify-post-text">Texte : </label>
               <textarea
                 name="text"
+                id="modify-post-text"
                 defaultValue={text}
                 className="post-text__update"
                 onBlur={(e: SyntheticEvent) =>
@@ -103,8 +105,10 @@ const UpdatePostModal: React.FC<IUpdatePostModal> = ({
                 }
               ></textarea>
 
+              <label htmlFor="modify-post-image">Image : </label>
               <input
                 type="file"
+                id="modify-post-image"
                 className="post-image"
                 multiple={false}
                 accept=".jpeg, .jpg, .png, .webp"

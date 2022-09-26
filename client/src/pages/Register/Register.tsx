@@ -120,7 +120,7 @@ const Register: React.FC = () => {
       <h1>Inscrivez-vous</h1>
       <form>
         <fieldset>
-          <label>Nom</label>
+          <label htmlFor="registration_name">Nom</label>
           <input
             type="text"
             name="name"
@@ -131,7 +131,7 @@ const Register: React.FC = () => {
             }
           />
 
-          <label>Prénom</label>
+          <label htmlFor="registration_surname">Prénom</label>
           <input
             type="text"
             name="surname"
@@ -142,7 +142,7 @@ const Register: React.FC = () => {
             }
           />
 
-          <label>Email</label>
+          <label htmlFor="registration_email">Email</label>
           <input
             type="email"
             id="registration_email"
@@ -153,7 +153,7 @@ const Register: React.FC = () => {
             <p className="error">Le format d'email n'est pas correct.</p>
           )}
 
-          <label>Mot de passe</label>
+          <label htmlFor="registration_password">Mot de passe</label>
           <input
             type="password"
             name="password"
@@ -169,7 +169,7 @@ const Register: React.FC = () => {
             </p>
           )}
 
-          <label>Avatar</label>
+          <label htmlFor="registration_avatar">Avatar</label>
           <p>Type d'images acceptées : JPEG, JPG, PNG, WEBP</p>
           <input
             type="file"

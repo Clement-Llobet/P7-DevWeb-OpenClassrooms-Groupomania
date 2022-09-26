@@ -32,26 +32,28 @@ const Header: React.FC<IModerationRight> = ({ moderationRight }) => {
         </Link>
       </div>
       <HeaderNav>
-        {moderationRight === 1 ? (
-          <li className="user-actions">
-            <Link to="/allEmployees">Modération</Link>
+        <ul>
+          {moderationRight === 1 ? (
+            <li className="user-actions">
+              <Link to="/allEmployees">Modération</Link>
+            </li>
+          ) : null}
+          <li className="user-actions" onClick={handleLogOut}>
+            Déconnexion
           </li>
-        ) : null}
-        <li className="user-actions" onClick={handleLogOut}>
-          Déconnexion
-        </li>
-        {user && (
-          <li className="go-to-profile-page">
-            <Link to={`/employee/${user.id}`} state={user.moderation}>
-              <img
-                src={
-                  user.profilePicture ? `${user.profilePicture}` : EmptyAvatar
-                }
-                alt="profil utilisateur"
-              />
-            </Link>
-          </li>
-        )}
+          {user && (
+            <li className="go-to-profile-page">
+              <Link to={`/employee/${user.id}`} state={user.moderation}>
+                <img
+                  src={
+                    user.profilePicture ? `${user.profilePicture}` : EmptyAvatar
+                  }
+                  alt="profil utilisateur"
+                />
+              </Link>
+            </li>
+          )}
+        </ul>
       </HeaderNav>
     </HeaderStyledComponent>
   );
