@@ -4,9 +4,6 @@ import { UserContextType } from '../../interfaces/types.userContext';
 import { UserContext } from '../../utils/context/context';
 import { HeaderStyledComponent, HeaderNav, LogoImg } from './HeaderStyle';
 import EmptyAvatar from '../../assets/EmptyAvatar.png';
-import { ApiService } from '../../service/api.service';
-
-const api = new ApiService('http://localhost:8000/');
 
 interface IModerationRight {
   moderationRight: number | undefined;

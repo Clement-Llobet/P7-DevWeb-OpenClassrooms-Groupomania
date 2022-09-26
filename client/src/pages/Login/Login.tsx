@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { ApiService } from '../../service/api.service';
 import { EmployeesLoginData } from '../../interfaces';
 import { forbidAccessWithToken } from '../../service/access.service';
@@ -18,7 +18,7 @@ const Login: FC = () => {
   const [deletedEmployeeMessage, setDeletedEmployeeMessage] =
     useState<boolean>(false);
 
-  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
+  const { saveUser } = React.useContext(UserContext) as UserContextType;
 
   const navigate = useNavigate();
 

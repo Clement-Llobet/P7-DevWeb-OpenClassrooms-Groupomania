@@ -1,5 +1,4 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
-import { PostsData } from '../../interfaces';
+import React, { SyntheticEvent, useState } from 'react';
 import { ApiService } from '../../service/api.service';
 import { currentToken } from '../../service/getCurrentToken';
 import { PostUpdateComponent } from './postStyle/PostComponentsStyle';

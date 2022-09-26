@@ -2,11 +2,9 @@ import React, { SyntheticEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ApiService } from '../../service/api.service';
 import { UserContext } from '../../utils/context/context';
-import { IUser, UserContextType } from '../../interfaces/types.userContext';
+import { UserContextType } from '../../interfaces/types.userContext';
 import { forbidAccessWithToken } from '../../service/access.service';
 import { LogoImg, Wrapper } from './RegisterStyle';
-import { currentToken } from '../../service/getCurrentToken';
-import { EmployeesData } from '../../interfaces';
 
 const api = new ApiService('http://localhost:8000/');
 
@@ -26,7 +24,7 @@ const Register: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const { user, saveUser } = React.useContext(UserContext) as UserContextType;
+  const { saveUser } = React.useContext(UserContext) as UserContextType;
 
   useEffect(() => {
     forbidAccessWithToken(navigate);
