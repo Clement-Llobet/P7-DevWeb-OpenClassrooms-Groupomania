@@ -26,7 +26,7 @@ export const HeaderNav = styled.nav`
     justify-content: space-around;
     align-items: center;
     list-style-type: none;
-    width: 27%;
+    width: auto;
     padding: 2%;
     padding-right: 6%;
 

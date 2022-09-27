@@ -38,7 +38,7 @@ export const ThisEmployeeProfile = styled.section`
         align-items: center;
 
         img {
-          width: 30%;
+          max-width: 30%;
           padding; 2%;
           border-radius: 50%;
         }
