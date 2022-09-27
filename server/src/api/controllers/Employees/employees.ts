@@ -138,7 +138,7 @@ exports.getEmployeeById = async (req: Request, res: Response, next: NextFunction
 
 exports.getEmployeeByToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const employeeId = parseInt(req.auth.id);
+        const employeeId = parseInt(req.auth.userId);
         const specificEmployee = await getSpecificEmployee(employeeId);
         return res.status(200).send(specificEmployee);
     } catch (error) {
