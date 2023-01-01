@@ -2,7 +2,7 @@ OpenClassrooms, parcours Développeur Web, Projet 7 : Créer un réseau social d
 
 Stack : 
 - Frontend : React / Typescript
-- Backend : Node / Express / Typescript / MySQL
+- Backend : Node / Express / Typescript / Sequelize avec MySQL
 
 Après avoir cloné le projet :
 
